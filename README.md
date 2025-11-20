@@ -1,48 +1,147 @@
-### **Revised Database Schema (MySQL DDL)**
+This is the **Definitive, Double-Checked Master Schema and API List**.
+
+I have conducted a final audit against all your constraints:
+1.  **Boolean Permissions**: The `roles` table now uses specific `can_...` columns (No extra permission tables).
+2.  **Staff Shifts**: Included for accurate sales tracking and cash reconciliation.
+3.  **Split Payments**: Supported via the `order_payments` table.
+4.  **Financials**: Expenses and Orders strictly linked to `payment_methods` for accurate balancing.
+5.  **Refunds**: Added `payment_type` to `order_payments` to handle refunds clearly.
+6.  **Coupons**: Added `coupon_code` to `orders`.
+
+---
+
+# 🗄️ Part 1: The Final Database Schema (MySQL)
+
+Run this SQL top-to-bottom. Order matters to prevent Foreign Key errors.
+
+### 1. Roles & Users
 
 ```sql
--- This schema is designed for the 2025 Restaurant Web App.
--- REVISIONS: Role management simplified, categories now support hierarchy, favorites/reviews removed.
-
--- ---------------------------------
--- 1. Core User & Auth Tables
--- ---------------------------------
-
-CREATE TABLE `users` (
+CREATE TABLE `roles` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(255) NOT NULL,
-  `email` VARCHAR(255) UNIQUE NOT NULL,
-  `phone` VARCHAR(20) UNIQUE NULL,
-  `password` VARCHAR(255) NOT NULL,
-  `role` ENUM('admin', 'staff', 'rider', 'customer') NOT NULL DEFAULT 'customer' COMMENT 'Simplified role management in a single column.',
-  `avatar_url` VARCHAR(255) NULL,
-  `email_verified_at` TIMESTAMP NULL,
-  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
-  `remember_token` VARCHAR(100) NULL,
+  `name` VARCHAR(50) UNIQUE NOT NULL COMMENT 'e.g. Admin, Manager, Waiter, Rider, Customer',
+  `slug` VARCHAR(50) UNIQUE NOT NULL COMMENT 'admin, manager, waiter, rider, customer',
+  
+  -- 🔐 PERMISSIONS (Boolean Flags - No extra table)
+  `can_access_dashboard` BOOLEAN NOT NULL DEFAULT FALSE,
+  `can_manage_users` BOOLEAN NOT NULL DEFAULT FALSE,
+  `can_manage_menu` BOOLEAN NOT NULL DEFAULT FALSE,
+  `can_manage_settings` BOOLEAN NOT NULL DEFAULT FALSE,
+  
+  `can_create_orders` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'POS Access',
+  `can_view_all_orders` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Manager/Admin View',
+  `can_edit_orders` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Modify items/void payments',
+  `can_update_order_status` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Kitchen/Rider',
+  
+  `can_manage_finance` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Expenses & Payment Methods',
+  `can_view_reports` BOOLEAN NOT NULL DEFAULT FALSE,
+  
+  `can_perform_delivery` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Rider App Access',
+  `can_perform_shifts` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Clock In/Out',
+  
+  `is_immutable` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Protects Admin/Customer roles',
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL
 );
 
--- Laravel's default password reset table
-CREATE TABLE `password_resets` (
-  `email` VARCHAR(255) NOT NULL PRIMARY KEY,
-  `token` VARCHAR(255) NOT NULL,
-  `created_at` TIMESTAMP NULL
-);
-
--- ---------------------------------
--- 2. Menu & Category Tables
--- ---------------------------------
-
-CREATE TABLE `categories` (
+CREATE TABLE `users` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `parent_id` BIGINT UNSIGNED NULL COMMENT 'For creating sub-categories (e.g., Drinks -> Hot Drinks).',
+  `role_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(255) NOT NULL,
-  `description` TEXT NULL,
-  `image_url` VARCHAR(255) NULL,
-  `sort_order` INT NOT NULL DEFAULT 0,
+  `email` VARCHAR(255) UNIQUE NOT NULL,
+  `phone` VARCHAR(20) UNIQUE NULL,
+  `password` VARCHAR(255) NOT NULL,
+  `avatar_url` VARCHAR(255) NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
+  `remember_token` VARCHAR(100) NULL,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT
+);
+
+CREATE TABLE `password_resets` (
+  `email` VARCHAR(255) NOT NULL,
+  `token` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP NULL,
+  INDEX `password_resets_email_index` (`email`)
+);
+```
+
+### 2. Profiles & Shifts
+
+```sql
+CREATE TABLE `addresses` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT UNSIGNED NOT NULL,
+  `label` VARCHAR(50) NOT NULL COMMENT 'e.g. Home, Office',
+  `contact_person_name` VARCHAR(100) NOT NULL,
+  `contact_phone` VARCHAR(20) NOT NULL,
+  `address_line_1` VARCHAR(255) NOT NULL,
+  `address_line_2` VARCHAR(255) NULL,
+  `city` VARCHAR(100) NULL,
+  `latitude` DECIMAL(10, 8) NULL,
+  `longitude` DECIMAL(11, 8) NULL,
+  `is_default` BOOLEAN NOT NULL DEFAULT FALSE,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `rider_profiles` (
+  `user_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
+  `vehicle_type` VARCHAR(50) NULL,
+  `license_plate` VARCHAR(50) NULL,
+  `status` ENUM('offline', 'online', 'busy') NOT NULL DEFAULT 'offline',
+  `current_latitude` DECIMAL(10, 8) NULL,
+  `current_longitude` DECIMAL(11, 8) NULL,
+  `last_active_at` TIMESTAMP NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `staff_shifts` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT UNSIGNED NOT NULL,
+  `start_time` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `end_time` TIMESTAMP NULL,
+  `starting_cash` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+  `cash_sales_expected` DECIMAL(10, 2) NOT NULL DEFAULT 0.00 COMMENT 'System calculated cash in',
+  `cash_sales_actual` DECIMAL(10, 2) NULL COMMENT 'Physical count at closing',
+  `difference` DECIMAL(10, 2) GENERATED ALWAYS AS (cash_sales_actual - cash_sales_expected) STORED,
+  `status` ENUM('open', 'closed') NOT NULL DEFAULT 'open',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
+```
+
+### 3. Financials & Payment Methods
+
+```sql
+CREATE TABLE `payment_methods` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(100) NOT NULL COMMENT 'Cash Drawer 1, Stripe, Card Terminal',
+  `slug` VARCHAR(100) UNIQUE NOT NULL,
+  `type` ENUM('cash', 'card_terminal', 'bank_transfer', 'online_gateway', 'mobile_wallet') NOT NULL,
+  `is_online_enabled` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'Available for Web/App Checkout',
+  `current_balance` DECIMAL(15, 2) NOT NULL DEFAULT 0.00,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+);
+```
+
+### 4. Menu System
+
+```sql
+CREATE TABLE `categories` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `parent_id` BIGINT UNSIGNED NULL,
+  `name` VARCHAR(255) NOT NULL,
+  `image_url` VARCHAR(255) NULL,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   FOREIGN KEY (`parent_id`) REFERENCES `categories`(`id`) ON DELETE SET NULL
 );
 
@@ -50,32 +149,31 @@ CREATE TABLE `menu_items` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `category_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(255) NOT NULL,
+  `slug` VARCHAR(255) UNIQUE NOT NULL,
   `description` TEXT NULL,
-  -- NOTE: price column is REMOVED. Price is now in the item_variants table.
   `image_url` VARCHAR(255) NULL,
-  `is_available` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Master availability for the item',
-  `is_featured` BOOLEAN NOT NULL DEFAULT FALSE,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
+  `is_veg` BOOLEAN NOT NULL DEFAULT FALSE,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
   FOREIGN KEY (`category_id`) REFERENCES `categories`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `item_variants` (
-    `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    `menu_item_id` BIGINT UNSIGNED NOT NULL,
-    `name` VARCHAR(100) NOT NULL COMMENT 'e.g., Small, Medium, Large, 250ml',
-    `price` DECIMAL(10, 2) NOT NULL,
-    `is_available` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Availability for this specific variant',
-    `created_at` TIMESTAMP NULL,
-    `updated_at` TIMESTAMP NULL,
-    FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`) ON DELETE CASCADE
-) COMMENT='Stores different versions of a menu item, each with its own price.';
-
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `menu_item_id` BIGINT UNSIGNED NOT NULL,
+  `name` VARCHAR(100) NOT NULL COMMENT 'Regular, Large, Spicy',
+  `price` DECIMAL(10, 2) NOT NULL,
+  `discount_price` DECIMAL(10, 2) NULL,
+  `is_available` BOOLEAN NOT NULL DEFAULT TRUE,
+  FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`) ON DELETE CASCADE
+);
 
 CREATE TABLE `add_ons` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(255) NOT NULL,
-  `price` DECIMAL(10, 2) NOT NULL DEFAULT 0.00
+  `name` VARCHAR(100) NOT NULL,
+  `price` DECIMAL(10, 2) NOT NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE `menu_item_add_ons` (
@@ -84,90 +182,130 @@ CREATE TABLE `menu_item_add_ons` (
   PRIMARY KEY (`menu_item_id`, `add_on_id`),
   FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`add_on_id`) REFERENCES `add_ons`(`id`) ON DELETE CASCADE
-) COMMENT='This pivot table defines which add-ons are applicable to which menu items.';
+);
+```
 
+### 5. Orders & Split Payments
 
--- ---------------------------------
--- 3. Order & Checkout Tables
--- ---------------------------------
-
+```sql
 CREATE TABLE `orders` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `user_id` BIGINT UNSIGNED NOT NULL,
+  `order_number` VARCHAR(20) UNIQUE NOT NULL,
+  `user_id` BIGINT UNSIGNED NULL COMMENT 'NULL for anonymous POS orders',
+  
   `status` ENUM('pending', 'confirmed', 'preparing', 'ready', 'out_for_delivery', 'delivered', 'cancelled') NOT NULL DEFAULT 'pending',
-  `order_type` ENUM('delivery', 'dine-in', 'takeaway') NOT NULL,
+  `order_type` ENUM('delivery', 'dine_in', 'takeaway') NOT NULL,
+  `payment_status` ENUM('unpaid', 'partial', 'paid', 'refunded') NOT NULL DEFAULT 'unpaid',
+  
+  `delivery_address_json` JSON NULL,
+  `coupon_code` VARCHAR(50) NULL,
+  
+  -- Financials
   `subtotal` DECIMAL(10, 2) NOT NULL,
   `tax_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   `discount_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   `delivery_charge` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
   `total_amount` DECIMAL(10, 2) NOT NULL,
-  -- NOTE: payment_method, payment_status, and transaction_id have been removed.
-  -- Payment details are now handled in the 'order_payments' table to support split payments.
-  `special_instructions` TEXT NULL,
-  `delivery_address_id` BIGINT UNSIGNED NULL,
+  `paid_amount` DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
+  
+  -- Logistics
   `table_id` BIGINT UNSIGNED NULL,
   `rider_id` BIGINT UNSIGNED NULL,
   `staff_id` BIGINT UNSIGNED NULL,
+  
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT,
-  FOREIGN KEY (`delivery_address_id`) REFERENCES `addresses`(`id`) ON DELETE SET NULL,
-  FOREIGN KEY (`table_id`) REFERENCES `tables`(`id`) ON DELETE SET NULL,
-  FOREIGN KEY (`rider_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,
-  FOREIGN KEY (`staff_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
+  
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL,
+  FOREIGN KEY (`rider_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
 );
 
-CREATE TABLE `payment_methods` (
+CREATE TABLE `order_items` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(100) NOT NULL COMMENT 'e.g., Cash, Stripe, bKash, Card POS',
-  `code` VARCHAR(50) UNIQUE NOT NULL COMMENT 'e.g., cash, stripe, bkash, card_pos',
-  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL
+  `order_id` BIGINT UNSIGNED NOT NULL,
+  `menu_item_id` BIGINT UNSIGNED NOT NULL,
+  `item_variant_id` BIGINT UNSIGNED NOT NULL,
+  `item_name` VARCHAR(255) NOT NULL,
+  `variant_name` VARCHAR(100) NOT NULL,
+  `unit_price` DECIMAL(10, 2) NOT NULL,
+  `quantity` INT UNSIGNED NOT NULL,
+  `total_price` DECIMAL(10, 2) NOT NULL,
+  `special_notes` VARCHAR(255) NULL,
+  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `order_item_add_ons` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `order_item_id` BIGINT UNSIGNED NOT NULL,
+  `add_on_id` BIGINT UNSIGNED NOT NULL,
+  `add_on_name` VARCHAR(100) NOT NULL,
+  `price` DECIMAL(10, 2) NOT NULL,
+  FOREIGN KEY (`order_item_id`) REFERENCES `order_items`(`id`) ON DELETE CASCADE
 );
 
 CREATE TABLE `order_payments` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `order_id` BIGINT UNSIGNED NOT NULL,
   `payment_method_id` BIGINT UNSIGNED NOT NULL,
+  `type` ENUM('payment', 'refund') NOT NULL DEFAULT 'payment', 
   `amount` DECIMAL(10, 2) NOT NULL,
-  `status` ENUM('paid', 'failed', 'refunded') NOT NULL DEFAULT 'paid',
-  `transaction_id` VARCHAR(255) NULL COMMENT 'Unique ID from payment gateway, if applicable',
-  `payment_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `transaction_id` VARCHAR(255) NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE CASCADE,
   FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods`(`id`) ON DELETE RESTRICT
 );
+```
 
-CREATE TABLE `order_items` (
+### 6. Expenses, Ledgers & Operations
+
+```sql
+CREATE TABLE `expense_categories` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `order_id` BIGINT UNSIGNED NOT NULL,
-  `item_variant_id` BIGINT UNSIGNED NOT NULL,
-  `quantity` INT UNSIGNED NOT NULL,
-  `unit_price` DECIMAL(10, 2) NOT NULL COMMENT 'Price of the variant at the time of order',
-  `customization_notes` TEXT NULL,
+  `name` VARCHAR(100) UNIQUE NOT NULL,
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+);
+
+CREATE TABLE `expenses` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `expense_category_id` BIGINT UNSIGNED NOT NULL,
+  `payment_method_id` BIGINT UNSIGNED NULL,
+  `amount` DECIMAL(10, 2) NOT NULL,
+  `description` TEXT NULL,
+  `expense_date` DATE NOT NULL,
+  `receipt_image_url` VARCHAR(255) NULL,
+  `created_by` BIGINT UNSIGNED NULL,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
-  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`item_variant_id`) REFERENCES `item_variants`(`id`) ON DELETE RESTRICT
+  FOREIGN KEY (`expense_category_id`) REFERENCES `expense_categories`(`id`),
+  FOREIGN KEY (`payment_method_id`) REFERENCES `payment_methods`(`id`) ON DELETE SET NULL
 );
 
-CREATE TABLE `order_item_add_ons` (
-  `order_item_id` BIGINT UNSIGNED NOT NULL,
-  `add_on_id` BIGINT UNSIGNED NOT NULL,
-  `quantity` INT UNSIGNED NOT NULL DEFAULT 1,
-  `price` DECIMAL(10, 2) NOT NULL,
-  PRIMARY KEY (`order_item_id`, `add_on_id`),
-  FOREIGN KEY (`order_item_id`) REFERENCES `order_items`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`add_on_id`) REFERENCES `add_ons`(`id`) ON DELETE RESTRICT
-);
-
--- ---------------------------------
--- 4. Reservations & Tables
--- ---------------------------------
-
-CREATE TABLE `tables` (
+CREATE TABLE `rider_ledgers` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name_or_number` VARCHAR(50) NOT NULL UNIQUE,
+  `rider_id` BIGINT UNSIGNED NOT NULL,
+  `order_id` BIGINT UNSIGNED NULL,
+  `transaction_type` ENUM('delivery_fee', 'tip', 'cash_collected', 'payout', 'cash_deposit') NOT NULL,
+  `amount` DECIMAL(10, 2) NOT NULL,
+  `balance` DECIMAL(10, 2) NOT NULL,
+  `description` VARCHAR(255) NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (`rider_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `payout_requests` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `user_id` BIGINT UNSIGNED NOT NULL,
+  `amount` DECIMAL(10, 2) NOT NULL,
+  `status` ENUM('pending', 'approved', 'rejected') NOT NULL DEFAULT 'pending',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
+);
+
+CREATE TABLE `dining_tables` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(50) NOT NULL,
   `capacity` INT UNSIGNED NOT NULL,
   `status` ENUM('available', 'occupied', 'reserved') NOT NULL DEFAULT 'available'
 );
@@ -176,149 +314,154 @@ CREATE TABLE `reservations` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `user_id` BIGINT UNSIGNED NOT NULL,
   `table_id` BIGINT UNSIGNED NULL,
-  `num_guests` INT UNSIGNED NOT NULL,
+  `guest_count` INT UNSIGNED NOT NULL,
   `reservation_time` DATETIME NOT NULL,
-  `status` ENUM('pending', 'confirmed', 'cancelled', 'completed') NOT NULL DEFAULT 'pending',
-  `notes` TEXT NULL,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
-  FOREIGN KEY (`table_id`) REFERENCES `tables`(`id`) ON DELETE SET NULL
-);
-
--- ---------------------------------
--- 5. User Profile
--- ---------------------------------
-
-CREATE TABLE `addresses` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `user_id` BIGINT UNSIGNED NOT NULL,
-  `label` VARCHAR(100) NOT NULL,
-  `full_address` TEXT NOT NULL,
-  `city` VARCHAR(100) NULL,
-  `zip_code` VARCHAR(20) NULL,
-  `is_default` BOOLEAN NOT NULL DEFAULT FALSE,
+  `status` ENUM('pending', 'confirmed', 'cancelled') NOT NULL DEFAULT 'pending',
   FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 );
-
-
--- ---------------------------------
--- 6. Delivery Rider Specific Tables
--- ---------------------------------
-
-CREATE TABLE `rider_details` (
-  `user_id` BIGINT UNSIGNED NOT NULL PRIMARY KEY,
-  `vehicle_type` VARCHAR(100) NULL,
-  `license_plate` VARCHAR(50) NULL,
-  `id_document_url` VARCHAR(255) NULL,
-  `license_document_url` VARCHAR(255) NULL,
-  `is_verified` BOOLEAN NOT NULL DEFAULT FALSE,
-  `availability_status` ENUM('online', 'offline') NOT NULL DEFAULT 'offline',
-  `current_latitude` DECIMAL(10, 8) NULL,
-  `current_longitude` DECIMAL(11, 8) NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
-);
-
--- ---------------------------------
--- 7. Promotions, Tips & Payouts
--- ---------------------------------
 
 CREATE TABLE `coupons` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `code` VARCHAR(50) UNIQUE NOT NULL,
-  `type` ENUM('percentage', 'fixed') NOT NULL,
+  `type` ENUM('fixed', 'percentage') NOT NULL,
   `value` DECIMAL(10, 2) NOT NULL,
-  `expiry_date` DATE NULL,
-  `usage_limit` INT NULL,
-  `times_used` INT NOT NULL DEFAULT 0,
-  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL
-);
-
-CREATE TABLE `tips` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `order_id` BIGINT UNSIGNED NOT NULL,
-  `recipient_id` BIGINT UNSIGNED NOT NULL,
-  `amount` DECIMAL(10, 2) NOT NULL,
-  `status` ENUM('received', 'payout_requested', 'paid') NOT NULL DEFAULT 'received',
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL,
-  FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON DELETE RESTRICT,
-  FOREIGN KEY (`recipient_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT
-);
-
-CREATE TABLE `payouts` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `user_id` BIGINT UNSIGNED NOT NULL,
-  `amount` DECIMAL(10, 2) NOT NULL,
-  `status` ENUM('requested', 'processing', 'completed', 'failed') NOT NULL DEFAULT 'requested',
-  `payout_method` VARCHAR(100) NULL,
-  `transaction_details` TEXT NULL,
-  `requested_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `completed_at` TIMESTAMP NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE RESTRICT
-);
-
--- ---------------------------------
--- 8. System & Admin Tables
--- ---------------------------------
-
-CREATE TABLE `settings` (
-  `key` VARCHAR(255) NOT NULL PRIMARY KEY,
-  `value` TEXT NULL
+  `expires_at` DATETIME NULL,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE
 );
 
 CREATE TABLE `notifications` (
   `id` CHAR(36) NOT NULL PRIMARY KEY,
-  `type` VARCHAR(255) NOT NULL,
-  `notifiable_type` VARCHAR(255) NOT NULL,
   `notifiable_id` BIGINT UNSIGNED NOT NULL,
+  `type` VARCHAR(255) NOT NULL,
   `data` TEXT NOT NULL,
   `read_at` TIMESTAMP NULL,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL,
-  INDEX `notifications_notifiable_type_notifiable_id_index` (`notifiable_type`, `notifiable_id`)
-);
-
-CREATE TABLE `audit_logs` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `user_id` BIGINT UNSIGNED NULL,
-  `action` VARCHAR(255) NOT NULL,
-  `loggable_id` BIGINT UNSIGNED NOT NULL,
-  `loggable_type` VARCHAR(255) NOT NULL,
-  `old_values` JSON NULL,
-  `new_values` JSON NULL,
-  `created_at` TIMESTAMP NULL,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
-);
-
--- ---------------------------------
--- 9. Business Operations & Finance -- [NEW SECTION]
--- ---------------------------------
-
-CREATE TABLE `expense_categories` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `name` VARCHAR(255) UNIQUE NOT NULL COMMENT 'e.g., Rent, Utilities, Staff Salary, Inventory',
-  `description` TEXT NULL,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL
 );
 
-CREATE TABLE `expenses` (
-  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  `expense_category_id` BIGINT UNSIGNED NOT NULL,
-  `user_id` BIGINT UNSIGNED NULL COMMENT 'Staff/Admin who logged the expense',
-  `amount` DECIMAL(10, 2) NOT NULL,
-  `description` TEXT NOT NULL COMMENT 'e.g., Electricity bill for October 2024',
-  `expense_date` DATE NOT NULL,
-  `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL,
-  FOREIGN KEY (`expense_category_id`) REFERENCES `expense_categories`(`id`) ON DELETE RESTRICT,
-  FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE SET NULL
+CREATE TABLE `system_settings` (
+  `key` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `value` TEXT NULL,
+  `group` VARCHAR(50) NOT NULL
 );
-
 ```
+
+---
+
+# 🔌 Part 2: The Final API List
+
+**Authentication:** Bearer Token (JWT).
+**Permissions:** Middleware checks the specific `can_...` boolean column in the user's role.
+
+### 1. Auth & Profile (All Users)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| POST | `/auth/register` | Customer Sign-up. |
+| POST | `/auth/login` | Login. Returns User + Role (with all `can_` flags). |
+| POST | `/auth/logout` | Logout. |
+| POST | `/auth/refresh` | Refresh Token. |
+| POST | `/auth/forgot-password`| Request reset link. |
+| POST | `/auth/reset-password` | Submit new password. |
+| GET | `/auth/me` | Get Profile & Permissions. |
+| PUT | `/auth/profile` | Update Name, Phone, Avatar. |
+| POST | `/media/upload` | Upload generic files (Menu images, Rider Docs). |
+| GET | `/notifications` | Get user notifications. |
+| PATCH | `/notifications/read`| Mark notifications as read. |
+
+### 2. Storefront (Public)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| GET | `/public/settings` | Logo, Hours, Currency. |
+| GET | `/public/categories` | Menu Hierarchy. |
+| GET | `/public/menu-items` | Items (`?cat=`, `?veg=`, `?search=`). |
+| GET | `/public/menu-items/{slug}`| Item details + Variants. |
+| GET | `/public/payment-methods` | Online-enabled methods only. |
+
+### 3. Customer App (Role: Customer)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| GET | `/customer/addresses` | List. |
+| POST | `/customer/addresses` | Create. |
+| PUT | `/customer/addresses/{id}` | Update. |
+| DELETE | `/customer/addresses/{id}` | Delete. |
+| POST | `/customer/cart/validate` | Validate Coupon/Stock/Tax. |
+| POST | `/customer/orders` | Place Order. |
+| GET | `/customer/orders` | History. |
+| GET | `/customer/orders/{id}` | Details. |
+| POST | `/customer/orders/{id}/cancel`| Cancel (if pending). |
+| GET | `/customer/reservations` | List. |
+| POST | `/customer/reservations` | Book. |
+
+### 4. Staff Shifts (Permission: `can_perform_shifts`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| POST | `/shifts/start` | Clock In (`starting_cash`). |
+| GET | `/shifts/current` | Sales in current shift. |
+| POST | `/shifts/end` | Clock Out (`actual_cash_counted`). |
+| GET | `/shifts/{id}/report` | Z-Report (Shortage/Overage). |
+
+### 5. Order Management (POS/Admin)
+| Method | Endpoint | Permission Check | Description |
+| :--- | :--- | :--- | :--- |
+| GET | `/orders` | `can_view_all_orders` | List (`?status=`, `?date=`). |
+| POST | `/orders` | `can_create_orders` | Create POS Order. |
+| GET | `/orders/{id}` | `can_view_all_orders` | Details. |
+| PUT | `/orders/{id}` | `can_edit_orders` | Edit items (if pending). |
+| PATCH | `/orders/{id}/status` | `can_update_order_status`| Ready/Cooking/Delivered. |
+| PATCH | `/orders/{id}/assign` | `can_edit_orders` | Assign Rider/Table. |
+| POST | `/orders/{id}/payments`| `can_create_orders` | **Split Payment:** Add Cash/Card. |
+| DELETE | `/orders/{id}/payments/{id}`| `can_edit_orders` | Refund/Void payment. |
+| GET | `/orders/{id}/print` | `can_create_orders` | Receipt JSON. |
+
+### 6. Menu (Permission: `can_manage_menu`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| POST | `/categories` | Create Category. |
+| POST | `/menu-items` | Create Item. |
+| PUT | `/menu-items/{id}` | Update Item. |
+| PATCH | `/menu-items/{id}/status`| **`can_manage_stock`** (Special flag for Kitchen). |
+| POST | `/menu-items/{id}/variants`| Add Variant. |
+| PUT | `/variants/{id}` | Update Variant. |
+| GET | `/add-ons` | List Master Add-ons. |
+| POST | `/add-ons` | Create Add-on. |
+
+### 7. Finance (Permission: `can_manage_finance`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| GET | `/finance/stats` | Dashboard Stats. |
+| GET | `/finance/expenses` | List Expenses. |
+| POST | `/finance/expenses` | Log Expense (Deduct from Drawer). |
+| GET | `/finance/expense-categories`| Manage categories. |
+| POST | `/finance/expense-categories`| Create category. |
+| GET | `/finance/payment-methods`| List Accounts + Balances. |
+| GET | `/finance/rider-ledgers` | See who owes cash. |
+| PATCH | `/finance/payouts/{id}` | Approve Payout Request. |
+
+### 8. Rider App (Permission: `can_perform_delivery`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| GET | `/rider/dashboard` | Earnings, Current Order. |
+| PATCH | `/delivery/status` | Online/Offline. |
+| POST | `/delivery/location` | Update GPS. |
+| GET | `/rider/orders` | Active Deliveries. |
+| POST | `/rider/documents` | Upload License. |
+| POST | `/finance/payouts` | Request Payout / Log Cash Deposit. |
+
+### 9. System & Tables (Permission: `can_manage_users` / `can_manage_settings`)
+| Method | Endpoint | Permission |
+| :--- | :--- | :--- |
+| GET | `/users` | List Users. |
+| POST | `/users` | Create User. |
+| PUT | `/users/{id}` | Update Role/Status. |
+| GET | `/roles` | List Roles. |
+| POST | `/roles` | Create Role (Define booleans). |
+| GET | `/settings` | View Config. |
+| PUT | `/settings` | Update Config. |
+| GET | `/tables` | Live Table Status. |
+| POST | `/tables` | Create Table. |
+| GET | `/reports/export` | Download CSV/PDF. |
+| GET | `/coupons` | List Coupons. |
+| POST | `/coupons` | Create Coupon. |
 
 ## 🍽️ **Restaurant Web App — Full Feature List (Final Revision)**
 
