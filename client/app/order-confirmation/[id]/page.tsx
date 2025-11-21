@@ -96,7 +96,7 @@ const OrderConfirmationPage: React.FC = () => {
                                 {order.items?.map(item => (
                                     <div key={item.id} className="flex justify-between items-center text-sm">
                                         <div className="flex items-center gap-3">
-                                            <img src={item.menu_item?.image_url} alt={item.menu_item?.name} className="w-12 h-12 rounded-md object-cover" />
+                                            <img src={item.menu_item?.image_url || ''} alt={item.menu_item?.name} className="w-12 h-12 rounded-md object-cover" />
                                             <div>
                                                 <p className="font-medium text-gray-700 dark:text-gray-200">{item.menu_item?.name}</p>
                                                 <p className="text-gray-500 dark:text-gray-400">{item.quantity} x {settings.currencySymbol}{item.unit_price.toFixed(2)}</p>

@@ -30,7 +30,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; view: 'grid' | 'list', onAddToCar
         return (
             <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700/50 overflow-hidden flex flex-col sm:flex-row group transition-shadow duration-300 hover:shadow-lg">
                 <Link href={`/menu/${item.id}`} className="block flex-shrink-0">
-                    <img src={item.image_url} alt={item.name} className="w-full sm:w-48 aspect-square object-cover" />
+                    <img src={item.image_url || ''} alt={item.name} className="w-full sm:w-48 aspect-square object-cover" />
                 </Link>
                 <div className="p-5 flex flex-col flex-grow">
                     <Link href={`/menu/${item.id}`}>
@@ -56,7 +56,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; view: 'grid' | 'list', onAddToCar
     return (
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700/50 overflow-hidden flex flex-col group transition-shadow duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600">
             <Link href={`/menu/${item.id}`} className="overflow-hidden relative block">
-                <img src={item.image_url} alt={item.name} className="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-500" />
+                <img src={item.image_url || ''} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
             </Link>
             <div className="p-5 flex flex-col flex-grow">
                 <Link href={`/menu/${item.id}`}>
@@ -100,8 +100,8 @@ const CategoryListItem: React.FC<{
                     if (hasChildren) setIsOpen(!isOpen);
                 }}
                 className={`w-full text-left flex items-center justify-between p-3 rounded-lg font-semibold transition-colors cursor-pointer ${isSelected
-                        ? 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300'
-                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+                    ? 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                     }`}
                 style={{ paddingLeft: `${level * 16 + 12}px` }}
             >
@@ -115,10 +115,10 @@ const CategoryListItem: React.FC<{
             </div>
             {hasChildren && isOpen && (
                 <ul className="space-y-1 mt-1">
-                    {category.children.map(child => (
+                    {category.children?.map(subcat => (
                         <CategoryListItem
-                            key={child.id}
-                            category={child}
+                            key={subcat.id}
+                            category={subcat}
                             selectedCategory={selectedCategory}
                             onSelectCategory={onSelectCategory}
                             level={level + 1}
@@ -164,8 +164,8 @@ const Sidebar: React.FC<{
                         <div
                             onClick={() => onSelectCategory(null)}
                             className={`w-full text-left flex items-center justify-between p-3 rounded-lg font-semibold transition-colors cursor-pointer ${selectedCategory === null
-                                    ? 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300'
-                                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
+                                ? 'bg-orange-100 text-orange-700 dark:bg-orange-500/20 dark:text-orange-300'
+                                : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700/50'
                                 }`}
                         >
                             <span className="flex items-center gap-3">
@@ -397,7 +397,7 @@ const MenuPage: React.FC = () => {
                                     <div className="col-span-full text-center py-16">
                                         <Search size={48} className="mx-auto text-gray-400" />
                                         <h3 className="mt-4 text-xl font-semibold text-gray-800 dark:text-white">No Dishes Found</h3>
-                                        <p className="text-gray-500 dark:text-gray-400 mt-2">Try adjusting your filters to find what you're looking for.</p>
+                                        <p className="text-gray-500 dark:text-gray-400 mt-2">Try adjusting your filters to find what you&apos;re looking for.</p>
                                     </div>
                                 )}
                             </div>

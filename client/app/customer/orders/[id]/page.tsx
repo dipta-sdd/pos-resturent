@@ -180,7 +180,7 @@ const OrderDetailsPage: React.FC = () => {
                                 {order.items?.map(item => (
                                     <div key={item.id} className="grid grid-cols-10 gap-4 items-center">
                                         <div className="col-span-5 flex items-center gap-4">
-                                            <img src={item.menu_item?.image_url} alt={item.menu_item?.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
+                                            <img src={item.menu_item?.image_url || ''} alt={item.menu_item?.name} className="w-16 h-16 rounded-lg object-cover flex-shrink-0" />
                                             <div>
                                                 <p className="font-semibold text-gray-800 dark:text-white">{item.menu_item?.name}</p>
                                                 <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{item.variant?.name}</p>

@@ -84,7 +84,7 @@ const AdminReports: React.FC = () => {
                     <h2 className="text-xl font-semibold mb-4 dark:text-white">Order Types</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <PieChart>
-                            <Pie data={orderTypeData} cx="50%" cy="50%" labelLine={false} outerRadius={100} fill="#8884d8" dataKey="value" nameKey="name" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
+                            <Pie data={orderTypeData} cx="50%" cy="50%" labelLine={false} outerRadius={100} fill="#8884d8" dataKey="value" nameKey="name" label={({ name, percent }) => `${name} ${((percent || 0) * 100).toFixed(0)}%`}>
                                 {orderTypeData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                 ))}

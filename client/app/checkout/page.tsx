@@ -29,7 +29,7 @@ const OrderSummary: React.FC<{
             <div className="space-y-3 max-h-60 overflow-y-auto pr-2 -mr-2">
                 {cartItems.map(item => (
                     <div key={`${item.variant.id}-${item.customization_notes}`} className="flex items-center gap-4">
-                        <img src={item.menuItem.image_url} alt={item.menuItem.name} className="w-16 h-16 rounded-lg object-cover" />
+                        <img src={item.menuItem.image_url || ''} alt={item.menuItem.name} className="w-16 h-16 rounded-lg object-cover" />
                         <div className="flex-grow">
                             <p className="font-semibold text-gray-800 dark:text-gray-100">{item.menuItem.name}</p>
                             <p className="text-sm text-gray-500 dark:text-gray-400 capitalize">{item.variant.name}</p>
@@ -141,7 +141,7 @@ const EmptyCart: React.FC = () => (
     <div className="text-center py-20 container mx-auto">
         <ShoppingCart className="mx-auto h-20 w-20 text-gray-300 dark:text-gray-600" strokeWidth={1.5} />
         <h1 className="mt-6 text-3xl font-bold text-gray-800 dark:text-white">Your Cart is Empty</h1>
-        <p className="text-gray-500 dark:text-gray-400 mt-2">Looks like you haven't added anything to your cart yet.</p>
+        <p className="text-gray-500 dark:text-gray-400 mt-2">Looks like you haven&apos;t added anything to your cart yet.</p>
         <Link
             href="/menu"
             className="mt-8 inline-block bg-orange-500 text-white font-bold py-3 px-8 rounded-xl hover:bg-orange-600 transition-colors shadow-sm hover:shadow-md"
@@ -304,8 +304,7 @@ const CheckoutPage: React.FC = () => {
         const orderData = {
             user_id: user.id,
             user: user,
-            status: 'pending',
-            order_type: 'delivery',
+            order_type: 'delivery' as const,
             subtotal: cartTotal,
             tax_amount: taxes,
             discount_amount: 0,
@@ -315,14 +314,15 @@ const CheckoutPage: React.FC = () => {
             delivery_address_id: selectedAddressId,
             delivery_address: addresses.find(a => a.id === selectedAddressId),
             table_id: null, rider_id: null, staff_id: null,
-            created_at: new Date(), updated_at: new Date(),
             items: cartItems.map(item => ({
                 id: Math.random(),
                 order_id: 0,
                 item_variant_id: item.variant.id,
                 quantity: item.quantity,
                 unit_price: item.variant.price,
-                customization_notes: item.customization_notes,
+                customization_notes: item.customization_notes || null,
+                created_at: null,
+                updated_at: null,
                 menu_item: item.menuItem,
                 variant: item.variant
             })),

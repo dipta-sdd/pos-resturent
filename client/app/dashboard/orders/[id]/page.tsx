@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { Order, OrderStatus } from '../../../types';
-import { api } from '../../../services/api';
-import { mockUsers } from '../../../data/mockData';
+import { Order, OrderStatus } from '@/types';
+import { api } from '@/services/api';
+import { mockUsers } from '@/data/mockData';
 import { User, MapPin, Truck, Printer } from 'lucide-react';
 
 const AdminOrderDetailsPage: React.FC = () => {

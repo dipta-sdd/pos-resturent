@@ -23,7 +23,7 @@ const AboutPage: React.FC = () => {
                     <section className="max-w-4xl mx-auto text-center mb-16">
                         <h2 className="text-3xl font-bold mb-4 dark:text-white">Crafting Culinary Memories</h2>
                         <p className="text-lg text-gray-600 dark:text-gray-300">
-                            Founded in 2023, FlavorFleet started with a simple idea: to share the joy of authentic, handcrafted food with our community. We believe that a great meal is more than just food; it's an experience. It’s about bringing people together, celebrating moments, and creating memories that last a lifetime.
+                            Founded in 2023, FlavorFleet started with a simple idea: to share the joy of authentic, handcrafted food with our community. We believe that a great meal is more than just food; it&apos;s an experience. It’s about bringing people together, celebrating moments, and creating memories that last a lifetime.
                         </p>
                     </section>
 

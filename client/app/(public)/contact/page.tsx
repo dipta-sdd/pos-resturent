@@ -38,7 +38,7 @@ const ContactPage: React.FC = () => {
                     <div className="text-center mb-16">
                         <h1 className="text-5xl font-bold text-gray-800 dark:text-white tracking-tight">Get in Touch</h1>
                         <p className="mt-4 text-lg text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
-                            We'd love to hear from you. Whether you have a question, a suggestion, or just want to say hello, here's how you can reach us.
+                            We&apos;d love to hear from you. Whether you have a question, a suggestion, or just want to say hello, here&apos;s how you can reach us.
                         </p>
                     </div>
 

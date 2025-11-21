@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Clock, Utensils, Flag } from 'lucide-react';
-import { api } from '../../services/api';
-import { Order, Table } from '../../types';
+import { api } from '@/services/api';
+import { Order, Table } from '@/types';
 
 const getStatusColor = (status: string) => {
     switch (status) {
@@ -55,7 +55,7 @@ const POSDashboard: React.FC = () => {
                             </div>
                             <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">Customer: {order.user ? `${order.user.firstName} ${order.user.lastName}` : ''}</p>
                             <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300">
-                                <span className="flex items-center gap-1"><Clock size={14} /> {new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                <span className="flex items-center gap-1"><Clock size={14} /> {order.created_at ? new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
                                 <span className="font-bold text-base text-gray-800 dark:text-white">${order.total_amount.toFixed(2)}</span>
                             </div>
                         </Link>

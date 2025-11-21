@@ -90,7 +90,7 @@ const PrivacyPolicyPage: React.FC = () => {
                             <p>If you have questions or comments about this Privacy Policy, please contact us at: {settings.restaurantEmail}</p>
                         </AccordionItem>
                         <AccordionItem title="Changes to This Policy">
-                            <p>We reserve the right to make changes to this Privacy Policy at any time and for any reason. We will alert you about any changes by updating the "Last Updated" date of this Privacy Policy. You are encouraged to periodically review this Privacy Policy to stay informed of updates.</p>
+                            <p>We reserve the right to make changes to this Privacy Policy at any time and for any reason. We will alert you about any changes by updating the &quot;Last Updated&quot; date of this Privacy Policy. You are encouraged to periodically review this Privacy Policy to stay informed of updates.</p>
                         </AccordionItem>
                     </div>
                 </div>

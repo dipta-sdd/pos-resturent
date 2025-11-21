@@ -5,7 +5,7 @@
 
 // FIX: Corrected imports to match exported members from mockData.
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
-import { Promotion, PaymentMethod } from '../types';
+import { Promotion, PaymentMethod, Order, Reservation } from '../types';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -54,15 +54,16 @@ export const api = {
     const numericId = typeof orderId === 'string' ? parseInt(orderId, 10) : orderId;
     return mockOrders.find(order => order.id === numericId) || null;
   },
-  placeOrder: async (orderData: any) => {
+  placeOrder: async (orderData: Omit<Order, 'id' | 'status' | 'created_at' | 'updated_at'>) => {
     await delay(1000);
-    const newOrder = {
+    const newOrder: Order = {
         ...orderData,
         id: Math.floor(Math.random() * 10000) + 1000,
         status: 'confirmed',
         created_at: new Date(),
+        updated_at: new Date(),
     };
-    mockOrders.unshift(newOrder as any);
+    mockOrders.unshift(newOrder);
     return { success: true, order: newOrder };
   },
   getCustomerReservations: async (userId: number) => {
@@ -73,16 +74,17 @@ export const api = {
       await delay(300);
       return mockReservations.find(r => r.id === reservationId) || null;
   },
-  createReservation: async (reservationData: any) => {
+  createReservation: async (reservationData: Omit<Reservation, 'id' | 'status' | 'created_at' | 'updated_at' | 'reservation_time'> & { reservation_time: string | Date }) => {
       await delay(800);
-      const newReservation = {
+      const newReservation: Reservation = {
           ...reservationData,
           id: Math.floor(Math.random() * 100) + 10,
           status: 'pending',
           created_at: new Date(),
+          updated_at: new Date(),
           reservation_time: new Date(reservationData.reservation_time),
       };
-      mockReservations.push(newReservation as any);
+      mockReservations.push(newReservation);
       return { success: true, reservation: newReservation };
   },
   getCustomerAddresses: async (userId: number) => {

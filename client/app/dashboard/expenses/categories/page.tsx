@@ -82,7 +82,7 @@ const AdminExpenseCategoryManagement: React.FC = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                                <textarea defaultValue={currentCategory.description} rows={3} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                                <textarea defaultValue={currentCategory.description || ''} rows={3} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">

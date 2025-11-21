@@ -8,8 +8,25 @@ import { MenuItem, Category, AddOn } from '../../../types';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '../../../components/common/Pagination';
 
+interface DraggableCategoryItemProps {
+    category: Category;
+    level: number;
+    onEdit: (category: Category) => void;
+    onDelete: (id: number) => void;
+    draggedItemId: number | null;
+    dropTarget: { id: number | null; position: 'top' | 'bottom' | 'middle' | null };
+    handleDragStart: (e: React.DragEvent<HTMLDivElement>, id: number) => void;
+    handleDragEnd: () => void;
+    handleDragOver: (e: React.DragEvent<HTMLDivElement>, category: Category) => void;
+    handleDragLeave: () => void;
+    handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
+    handleTouchStart: (e: React.TouchEvent<HTMLDivElement>, id: number) => void;
+    handleTouchMove: (e: React.TouchEvent<HTMLDivElement>) => void;
+    handleTouchEnd: () => void;
+}
+
 // A recursive component to render draggable category items
-const DraggableCategoryItem: React.FC<any> = ({
+const DraggableCategoryItem: React.FC<DraggableCategoryItemProps> = ({
     category,
     level,
     onEdit,
@@ -68,7 +85,7 @@ const DraggableCategoryItem: React.FC<any> = ({
             </div>
             {category.children && category.children.length > 0 && (
                 <div className="border-l border-gray-200 dark:border-gray-700">
-                    {category.children.map((child: any) => (
+                    {category.children?.map((child: Category) => (
                         <DraggableCategoryItem
                             key={child.id}
                             category={child}
@@ -243,6 +260,7 @@ const AdminMenuManagement: React.FC = () => {
         let sortableItems = [...filteredItems];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 let aValue: any; let bValue: any;
                 if (sortConfig.key === 'price') { aValue = a.variants?.[0]?.price ?? 0; bValue = b.variants?.[0]?.price ?? 0; }
                 else { aValue = a[sortConfig.key as keyof MenuItem]; bValue = b[sortConfig.key as keyof MenuItem]; }
@@ -476,7 +494,7 @@ const AdminMenuManagement: React.FC = () => {
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                                <textarea defaultValue={currentCategory.description ?? ''} rows={3} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                                <textarea defaultValue={currentCategory.description || ''} rows={3} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Parent Category</label>

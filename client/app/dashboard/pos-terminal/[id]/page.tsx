@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { MenuItem, Category, OrderItem, ItemVariant, PaymentMethod } from '../../../types';
-import { api } from '../../../services/api';
+import { MenuItem, Category, OrderItem, ItemVariant, PaymentMethod } from '@/types';
+import { api } from '@/services/api';
 import { Trash2, CreditCard, DollarSign, ChevronLeft, Layers, Plus, Minus, Utensils, ShoppingBag, Receipt, Wallet, Globe, Landmark, X, Loader, MonitorSmartphone } from 'lucide-react';
-import VariantSelectionModal from '../../../components/common/VariantSelectionModal';
+import VariantSelectionModal from '@/components/common/VariantSelectionModal';
 
 interface LocalPayment {
     methodId: number;
@@ -351,9 +351,11 @@ const POSOrderManagement: React.FC = () => {
             items: activeTab.items,
             payments: activeTab.payments.map((p, idx) => ({
                 id: Date.now() + idx,
+                order_id: 0,
                 payment_method_id: p.methodId,
                 amount: p.amount,
-                status: 'paid',
+                status: 'paid' as const,
+                transaction_id: null,
                 payment_date: new Date()
             }))
         };
@@ -447,8 +449,8 @@ const POSOrderManagement: React.FC = () => {
                             key={tab.internalId}
                             onClick={() => { setActiveTabId(tab.internalId); setMobileTab('menu'); }}
                             className={`group flex items-center gap-2 px-4 py-2.5 rounded-t-lg cursor-pointer min-w-[140px] max-w-[200px] transition-colors select-none ${activeTabId === tab.internalId
-                                    ? 'bg-white dark:bg-gray-900 text-orange-600 dark:text-orange-400 font-bold shadow-sm'
-                                    : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
+                                ? 'bg-white dark:bg-gray-900 text-orange-600 dark:text-orange-400 font-bold shadow-sm'
+                                : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600'
                                 }`}
                         >
                             <span className="truncate flex-grow text-sm">{tab.label}</span>
@@ -493,7 +495,7 @@ const POSOrderManagement: React.FC = () => {
                                 {filteredMenu.map(item => (
                                     <div key={item.id} onClick={() => handleItemClick(item)} className="bg-white dark:bg-gray-800 rounded-xl p-3 text-center cursor-pointer hover:shadow-lg transition-all border border-transparent hover:border-orange-200 dark:hover:border-orange-900 group h-full flex flex-col">
                                         <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3">
-                                            <img src={item.image_url} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                            <img src={item.image_url || ''} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         </div>
                                         <h3 className="font-semibold text-sm dark:text-white leading-tight mb-1">{item.name}</h3>
                                         <p className="text-sm font-bold text-orange-600 dark:text-orange-400 mt-auto">

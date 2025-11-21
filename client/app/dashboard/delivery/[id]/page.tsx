@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { api } from '../../../services/api';
-import { Order } from '../../../types';
+import { api } from '@/services/api';
+import { Order } from '@/types';
 import { MapPin, Phone, CheckCircle, Package } from 'lucide-react';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const RiderDeliveryDetails: React.FC = () => {
     const params = useParams();

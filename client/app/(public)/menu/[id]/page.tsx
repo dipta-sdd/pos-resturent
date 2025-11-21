@@ -70,7 +70,7 @@ const MenuItemDetailPage: React.FC = () => {
             <div className="container mx-auto py-12 px-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
                     <div>
-                        <img src={item.image_url} alt={item.name} className="w-full h-auto rounded-lg shadow-lg object-cover aspect-square" />
+                        <img src={item.image_url || ''} alt={item.name} className="w-full h-auto rounded-lg shadow-lg object-cover aspect-square" />
                     </div>
                     <div className="dark:text-white">
                         <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-2">{item.name}</h1>

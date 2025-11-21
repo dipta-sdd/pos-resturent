@@ -69,6 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, isMobileOpen, setIsMobil
     if (!permissions) return [];
 
     // Filter all possible links based on the user's permissions.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const permittedLinks = allNavLinks.filter(link => (permissions as any)[link.permission]);
 
     // De-duplicate links by their 'to' path, ensuring the first one found (highest priority) is kept.

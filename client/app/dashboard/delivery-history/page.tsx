@@ -34,7 +34,7 @@ const RiderHistoryPage: React.FC = () => {
                         {history.map(order => (
                             <tr key={order.id}>
                                 <td className="px-6 py-4 font-medium text-gray-900 dark:text-white">#{order.id}</td>
-                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{new Date(order.created_at).toLocaleDateString()}</td>
+                                <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{new Date(order.created_at || new Date()).toLocaleDateString()}</td>
                                 <td className="px-6 py-4 text-gray-500 dark:text-gray-400">{order.delivery_address?.full_address}</td>
                                 <td className="px-6 py-4 text-right font-semibold text-green-600 dark:text-green-400">{settings.currencySymbol}{(order.delivery_charge || 5.00).toFixed(2)}</td>
                             </tr>

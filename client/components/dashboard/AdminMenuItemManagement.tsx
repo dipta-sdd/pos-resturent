@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { MenuItem, Category, AddOn, ItemVariant } from '../../../types';
-import { api } from '../../../services/api';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '../common/Breadcrumb';
 import { Plus, Trash2, UploadCloud, X, Search } from 'lucide-react';
+import { AddOn, Category, ItemVariant, MenuItem } from '@/types';
+import { api } from '@/services/api';
 
 const AdminMenuItemManagement: React.FC = () => {
     const params = useParams();

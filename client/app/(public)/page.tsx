@@ -35,7 +35,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; onAddToCartClick: (item: MenuItem
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden group transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
       <Link href={`/menu/${item.id}`} className="relative overflow-hidden block">
-        <img src={item.image_url} alt={item.name} className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" />
+        <img src={item.image_url || ''} alt={item.name} className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <span className="absolute bottom-4 left-4 text-xl font-serif font-bold text-white tracking-wider">{item.name}</span>
         <span className="absolute top-4 right-4 text-lg font-bold text-white bg-orange-500 rounded-full px-3 py-1">{settings.currencySymbol}{variant.price.toFixed(2)}</span>
@@ -65,7 +65,7 @@ const TestimonialCard: React.FC<{ quote: string; author: string; }> = ({ quote, 
     <div className="flex justify-center mb-4 text-yellow-400">
       {[...Array(5)].map((_, i) => <Star key={i} fill="currentColor" />)}
     </div>
-    <p className="text-gray-600 dark:text-gray-300 italic mb-6">"{quote}"</p>
+    <p className="text-gray-600 dark:text-gray-300 italic mb-6">&quot;{quote}&quot;</p>
     <p className="font-semibold text-gray-800 dark:text-white">- {author}</p>
   </div>
 );
@@ -250,7 +250,7 @@ const HomePage: React.FC = () => {
           <div>
             <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-6">A Story of Passion & Spice</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              {settings.restaurantName} is more than a restaurant; it's a celebration of India's rich culinary heritage. We are committed to providing an exceptional experience, combining traditional recipes with modern innovation.
+              {settings.restaurantName} is more than a restaurant; it&apos;s a celebration of India&apos;s rich culinary heritage. We are committed to providing an exceptional experience, combining traditional recipes with modern innovation.
             </p>
             <div className="grid grid-cols-2 gap-8 text-center">
               <div>
@@ -287,7 +287,7 @@ const HomePage: React.FC = () => {
         </div>
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">Chef's Specials</h2>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 dark:text-white mb-4">Chef&apos;s Specials</h2>
             <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Discover a selection of our most beloved creations, each telling a story of flavor and finesse.</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
