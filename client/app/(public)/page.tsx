@@ -3,11 +3,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { UtensilsCrossed, Truck, Users, Star, Quote, ChevronLeft, ChevronRight, MapPin, Phone, Clock, Plus } from 'lucide-react';
-import { MenuItem, ItemVariant } from '../types';
-import { api } from '../services/api';
-import { useSettings } from '../contexts/SettingsContext';
-import { useCart } from '../contexts/CartContext';
-import VariantSelectionModal from '../components/common/VariantSelectionModal';
+import { MenuItem, ItemVariant } from '../../types';
+import { api } from '../../services/api';
+import { useSettings } from '../../contexts/SettingsContext';
+import { useCart } from '../../contexts/CartContext';
+import VariantSelectionModal from '../../components/common/VariantSelectionModal';
 
 const slides = [
   {
