@@ -99,6 +99,7 @@ export interface User {
   created_at: Date | null;
   updated_at: Date | null;
   role_id: number | null;
+  role?: Role;
   avatar_url?: string;
 }
 

@@ -111,7 +111,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, isMobileOpen, setIsMobil
         </button>
       </div>
 
-      <nav className="flex-grow p-4 space-y-2 overflow-y-auto">
+      <nav className="flex-grow p-4 space-y-2 overflow-y-auto scrollbar-thin ">
         {links.map((link) => {
           const isActive = pathname.startsWith(link.to) && (link.to !== '/dashboard' || pathname === '/dashboard' || pathname === '/dashboard/pos');
           return (

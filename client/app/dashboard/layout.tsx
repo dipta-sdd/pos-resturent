@@ -110,7 +110,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, isMobileOpen, setIsMobil
                 </button>
             </div>
 
-            <nav className="flex-grow p-4 space-y-2 overflow-y-auto">
+            <nav className="flex-grow p-4 space-y-2 overflow-y-auto scrollbar-thin">
                 {links.map((link) => {
                     const isActive = pathname.startsWith(link.to) && (link.to !== '/dashboard' || pathname === '/dashboard' || pathname === '/dashboard/pos');
                     return (
@@ -150,7 +150,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     React.useEffect(() => {
         if (!isAuthenticated) {
             router.push('/login');
-        } else if (user?.role === 'customer') {
+        } else if (user?.role?.name === 'customer') {
             router.push('/customer/dashboard');
         }
     }, [isAuthenticated, user, router]);
@@ -166,7 +166,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     const userName = user ? `${user.firstName} ${user.lastName}` : '';
 
-    if (!isAuthenticated || user?.role === 'customer') return null; // Or loading spinner
+    if (!isAuthenticated || user?.role?.name === 'customer') return null; // Or loading spinner
 
     return (
         <div className="flex h-screen bg-gray-100 dark:bg-gray-950">
