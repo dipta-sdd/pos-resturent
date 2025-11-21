@@ -1,5 +1,7 @@
 
 
+'use client';
+
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
 import { CartItem, MenuItem, AddOn, ItemVariant } from '../types';
 // FIX: Import 'mockItemVariants' which was missing.
@@ -19,24 +21,24 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Pre-populate cart for demo purposes
 const initialCartItems: CartItem[] = [
-    {
-        menuItem: mockMenuItems.find(i => i.id === 4)!, // Butter Chicken
-        variant: mockItemVariants.find(v => v.menu_item_id === 4)!,
-        quantity: 1,
-        selected_add_ons: [],
-    },
-    {
-        menuItem: mockMenuItems.find(i => i.id === 19)!, // Garlic Naan
-        variant: mockItemVariants.find(v => v.menu_item_id === 19)!,
-        quantity: 2,
-        selected_add_ons: [],
-    },
-    {
-        menuItem: mockMenuItems.find(i => i.id === 8)!, // Mango Lassi
-        variant: mockItemVariants.find(v => v.menu_item_id === 8)!,
-        quantity: 1,
-        selected_add_ons: [],
-    }
+  {
+    menuItem: mockMenuItems.find(i => i.id === 4)!, // Butter Chicken
+    variant: mockItemVariants.find(v => v.menu_item_id === 4)!,
+    quantity: 1,
+    selected_add_ons: [],
+  },
+  {
+    menuItem: mockMenuItems.find(i => i.id === 19)!, // Garlic Naan
+    variant: mockItemVariants.find(v => v.menu_item_id === 19)!,
+    quantity: 2,
+    selected_add_ons: [],
+  },
+  {
+    menuItem: mockMenuItems.find(i => i.id === 8)!, // Mango Lassi
+    variant: mockItemVariants.find(v => v.menu_item_id === 8)!,
+    quantity: 1,
+    selected_add_ons: [],
+  }
 ].filter(item => item.menuItem && item.variant); // Filter out undefined items
 
 
@@ -73,8 +75,8 @@ export const CartProvider = ({ children }: { children?: ReactNode }) => {
 
   const cartCount = cartItems.reduce((count, item) => count + item.quantity, 0);
   const cartTotal = cartItems.reduce((total, item) => {
-      const addOnsTotal = item.selected_add_ons.reduce((sum, addon) => sum + addon.price, 0);
-      return total + (item.variant.price + addOnsTotal) * item.quantity;
+    const addOnsTotal = item.selected_add_ons.reduce((sum, addon) => sum + addon.price, 0);
+    return total + (item.variant.price + addOnsTotal) * item.quantity;
   }, 0);
 
   return (

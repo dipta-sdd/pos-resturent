@@ -1,11 +1,134 @@
-// FIX: Added missing types to import.
-import { User, MenuItem, Category, Order, OrderStatus, OrderType, AddOn, Table, Reservation, Address, PaymentMethod, Notification, ExpenseCategory, Payout, Role, ItemVariant, CustomerPaymentMethod, Expense, OrderItem, OrderItemAddOn, Settings } from '../types';
+import { User, MenuItem, Category, Order, OrderStatus, OrderType, AddOn, Table, Reservation, Address, PaymentMethod, Notification, ExpenseCategory, Payout, Role, ItemVariant, CustomerPaymentMethod, Expense, OrderItem, OrderItemAddOn, Settings, Promotion } from '../types';
 
 export const mockRoles: Role[] = [
-  { id: 1, name: 'admin', can_manage_shop_settings: true, can_manage_billing_and_plan: true, can_manage_branches_and_counters: true, can_manage_payment_methods: true, can_configure_taxes: true, can_customize_receipts: true, can_manage_staff: true, can_manage_roles_and_permissions: true, can_view_user_activity_log: true, can_view_products: true, can_manage_products: true, can_manage_categories: true, can_manage_units_of_measure: true, can_import_products: true, can_export_products: true, can_view_inventory_levels: true, can_perform_stock_adjustments: true, can_manage_stock_transfers: true, can_manage_purchase_orders: true, can_receive_purchase_orders: true, can_manage_suppliers: true, can_use_pos: true, can_view_sales_history: true, can_override_prices: true, can_apply_manual_discounts: true, can_void_sales: true, can_process_returns: true, can_issue_cash_refunds: true, can_issue_store_credit: true, can_view_customers: true, can_manage_customers: true, can_open_close_cash_register: true, can_perform_cash_transactions: true, can_manage_expenses: true, can_view_dashboard: true, can_view_reports: true, can_view_profit_loss_data: true, can_export_data: true, created_at: new Date(), updated_at: new Date(), created_by: null, updated_by: null },
-  { id: 2, name: 'staff', can_manage_shop_settings: false, can_manage_billing_and_plan: false, can_manage_branches_and_counters: false, can_manage_payment_methods: false, can_configure_taxes: false, can_customize_receipts: false, can_manage_staff: false, can_manage_roles_and_permissions: false, can_view_user_activity_log: false, can_view_products: true, can_manage_products: false, can_manage_categories: false, can_manage_units_of_measure: false, can_import_products: false, can_export_products: false, can_view_inventory_levels: true, can_perform_stock_adjustments: false, can_manage_stock_transfers: false, can_manage_purchase_orders: false, can_receive_purchase_orders: false, can_manage_suppliers: false, can_use_pos: true, can_view_sales_history: true, can_override_prices: false, can_apply_manual_discounts: true, can_void_sales: false, can_process_returns: true, can_issue_cash_refunds: false, can_issue_store_credit: true, can_view_customers: true, can_manage_customers: false, can_open_close_cash_register: true, can_perform_cash_transactions: true, can_manage_expenses: false, can_view_dashboard: true, can_view_reports: false, can_view_profit_loss_data: false, can_export_data: false, created_at: new Date(), updated_at: new Date(), created_by: 1, updated_by: 1 },
-  { id: 3, name: 'rider', can_manage_shop_settings: false, can_manage_billing_and_plan: false, can_manage_branches_and_counters: false, can_manage_payment_methods: false, can_configure_taxes: false, can_customize_receipts: false, can_manage_staff: false, can_manage_roles_and_permissions: false, can_view_user_activity_log: false, can_view_products: false, can_manage_products: false, can_manage_categories: false, can_manage_units_of_measure: false, can_import_products: false, can_export_products: false, can_view_inventory_levels: false, can_perform_stock_adjustments: false, can_manage_stock_transfers: false, can_manage_purchase_orders: false, can_receive_purchase_orders: false, can_manage_suppliers: false, can_use_pos: false, can_view_sales_history: false, can_override_prices: false, can_apply_manual_discounts: false, can_void_sales: false, can_process_returns: false, can_issue_cash_refunds: false, can_issue_store_credit: false, can_view_customers: false, can_manage_customers: false, can_open_close_cash_register: false, can_perform_cash_transactions: false, can_manage_expenses: false, can_view_dashboard: true, can_view_reports: false, can_view_profit_loss_data: false, can_export_data: false, created_at: new Date(), updated_at: new Date(), created_by: 1, updated_by: 1 },
-  { id: 4, name: 'customer', can_manage_shop_settings: false, can_manage_billing_and_plan: false, can_manage_branches_and_counters: false, can_manage_payment_methods: false, can_configure_taxes: false, can_customize_receipts: false, can_manage_staff: false, can_manage_roles_and_permissions: false, can_view_user_activity_log: false, can_view_products: true, can_manage_products: false, can_manage_categories: false, can_manage_units_of_measure: false, can_import_products: false, can_export_products: false, can_view_inventory_levels: false, can_perform_stock_adjustments: false, can_manage_stock_transfers: false, can_manage_purchase_orders: false, can_receive_purchase_orders: false, can_manage_suppliers: false, can_use_pos: false, can_view_sales_history: true, can_override_prices: false, can_apply_manual_discounts: false, can_void_sales: false, can_process_returns: false, can_issue_cash_refunds: false, can_issue_store_credit: false, can_view_customers: true, can_manage_customers: false, can_open_close_cash_register: false, can_perform_cash_transactions: false, can_manage_expenses: false, can_view_dashboard: true, can_view_reports: false, can_view_profit_loss_data: false, can_export_data: false, created_at: new Date(), updated_at: new Date(), created_by: 1, updated_by: 1 },
+  { 
+    id: 1, 
+    name: 'admin', 
+    can_manage_shop_settings: true,
+    can_manage_payment_methods: true,
+    can_manage_staff: true,
+    can_manage_roles_and_permissions: true,
+    can_view_user_activity_log: true,
+    can_view_products: true,
+    can_manage_products: true,
+    can_manage_categories: true,
+    can_import_products: true,
+    can_export_products: true,
+    can_use_pos: true,
+    can_view_sales_history: true,
+    can_view_customers: true,
+    can_manage_customers: true,
+    can_manage_expenses: true,
+    can_view_dashboard: true,
+    can_view_reports: true,
+    can_view_profit_loss_data: true,
+    can_export_data: true,
+    can_manage_reservations: true,
+    can_manage_payouts: true,
+    can_send_communications: true,
+    can_view_rider_profile: true,
+    can_manage_promotions: true,
+    created_at: new Date(), 
+    updated_at: new Date(), 
+    created_by: null, 
+    updated_by: null 
+  },
+  { 
+    id: 2, 
+    name: 'staff', 
+    can_manage_shop_settings: true,
+    can_manage_payment_methods: true,
+    can_manage_staff: true,
+    can_manage_roles_and_permissions: true,
+    can_view_user_activity_log: true,
+    can_view_products: true,
+    can_manage_products: true,
+    can_manage_categories: true,
+    can_import_products: true,
+    can_export_products: true,
+    can_use_pos: true,
+    can_view_sales_history: true,
+    can_view_customers: true,
+    can_manage_customers: true,
+    can_manage_expenses: true,
+    can_view_dashboard: true,
+    can_view_reports: true,
+    can_view_profit_loss_data: true,
+    can_export_data: true,
+    can_manage_reservations: true,
+    can_manage_payouts: true,
+    can_send_communications: true,
+    can_view_rider_profile: true,
+    can_manage_promotions: false,
+    created_at: new Date(), 
+    updated_at: new Date(), 
+    created_by: 1, 
+    updated_by: 1 
+  },
+  { 
+    id: 3, 
+    name: 'rider', 
+    can_manage_shop_settings: false,
+    can_manage_payment_methods: false,
+    can_manage_staff: false,
+    can_manage_roles_and_permissions: false,
+    can_view_user_activity_log: false,
+    can_view_products: false,
+    can_manage_products: false,
+    can_manage_categories: false,
+    can_import_products: false,
+    can_export_products: false,
+    can_use_pos: false,
+    can_view_sales_history: false,
+    can_view_customers: false,
+    can_manage_customers: false,
+    can_manage_expenses: false,
+    can_view_dashboard: true,
+    can_view_reports: false,
+    can_view_profit_loss_data: false,
+    can_export_data: false,
+    can_manage_reservations: false,
+    can_manage_payouts: false,
+    can_send_communications: false,
+    can_view_rider_profile: true,
+    can_manage_promotions: false,
+    created_at: new Date(), 
+    updated_at: new Date(), 
+    created_by: 1, 
+    updated_by: 1 
+  },
+  { 
+    id: 4, 
+    name: 'customer', 
+    can_manage_shop_settings: false,
+    can_manage_payment_methods: false,
+    can_manage_staff: false,
+    can_manage_roles_and_permissions: false,
+    can_view_user_activity_log: false,
+    can_view_products: true,
+    can_manage_products: false,
+    can_manage_categories: false,
+    can_import_products: false,
+    can_export_products: false,
+    can_use_pos: false,
+    can_view_sales_history: true,
+    can_view_customers: false,
+    can_manage_customers: false,
+    can_manage_expenses: false,
+    can_view_dashboard: false,
+    can_view_reports: false,
+    can_view_profit_loss_data: false,
+    can_export_data: false,
+    can_manage_reservations: false,
+    can_manage_payouts: false,
+    can_send_communications: false,
+    can_view_rider_profile: false,
+    can_manage_promotions: false,
+    created_at: new Date(), 
+    updated_at: new Date(), 
+    created_by: 1, 
+    updated_by: 1 
+  },
 ];
 
 export const mockUsers: User[] = [
@@ -15,7 +138,6 @@ export const mockUsers: User[] = [
   { id: 4, firstName: 'Customer', lastName: 'User', email: 'customer@example.com', mobile: '444-555-6666', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 4, avatar_url: 'https://i.imgur.com/CR1N22g.png' },
 ];
 
-// FIX: Added missing properties to conform to the Category type.
 export const mockCategories: Category[] = [
   { id: 1, name: 'Appetizers', description: 'Start your meal with a tasty bite.', parent_id: null, image_url: null, sort_order: 1, created_at: new Date(), updated_at: new Date() },
   { id: 2, name: 'Soups & Salads', description: 'Fresh and hearty options.', parent_id: null, image_url: null, sort_order: 2, created_at: new Date(), updated_at: new Date() },
@@ -23,7 +145,6 @@ export const mockCategories: Category[] = [
   { id: 4, name: 'Breads & Rice', description: 'Classic Indian breads and rice dishes.', parent_id: null, image_url: null, sort_order: 4, created_at: new Date(), updated_at: new Date()},
   { id: 5, name: 'Desserts', description: 'Sweet treats to end your meal.', parent_id: null, image_url: null, sort_order: 5, created_at: new Date(), updated_at: new Date() },
   { id: 6, name: 'Beverages', description: 'Refreshing beverages.', parent_id: null, image_url: null, sort_order: 6, created_at: new Date(), updated_at: new Date() },
-  // Sub-categories
   { id: 7, name: 'Vegetarian Mains', description: 'Delicious plant-based main courses.', parent_id: 3, image_url: null, sort_order: 1, created_at: new Date(), updated_at: new Date() },
   { id: 8, name: 'Non-Vegetarian Mains', description: 'Flavorful meat and poultry main courses.', parent_id: 3, image_url: null, sort_order: 2, created_at: new Date(), updated_at: new Date() },
   { id: 9, name: 'Lassi & Shakes', description: 'Yogurt-based drinks and milkshakes.', parent_id: 6, image_url: null, sort_order: 1, created_at: new Date(), updated_at: new Date() },
@@ -37,7 +158,6 @@ export const mockAddOns: AddOn[] = [
     { id: 4, name: 'Spicy Sauce', price: 0.75 },
 ];
 
-// FIX: Added mockItemVariants to be used in mockMenuItems and throughout the app.
 export const mockItemVariants: ItemVariant[] = [
   { id: 1, menu_item_id: 1, name: 'Regular', price: 6.99, is_available: true, created_at: new Date(), updated_at: new Date() },
   { id: 2, menu_item_id: 2, name: 'Regular', price: 10.50, is_available: true, created_at: new Date(), updated_at: new Date() },
@@ -62,7 +182,6 @@ export const mockItemVariants: ItemVariant[] = [
   { id: 14, menu_item_id: 14, name: 'Regular', price: 34.00, is_available: false, created_at: new Date(), updated_at: new Date() },
 ];
 
-// FIX: Removed 'price' property and added 'variants' to conform to the MenuItem type.
 export const mockMenuItems: MenuItem[] = [
   // Appetizers (category_id: 1)
   { id: 1, category_id: 1, name: 'Vegetable Samosas', description: 'Crispy pastry filled with spiced potatoes and peas.', image_url: 'https://picsum.photos/seed/samosa/400/300', is_available: true, is_featured: false, add_ons: [mockAddOns[3]], variants: mockItemVariants.filter(v => v.menu_item_id === 1), created_at: new Date(), updated_at: new Date() },
@@ -168,77 +287,75 @@ export const mockOrders: Order[] = [
     ], 
     payments: [{id: 3, order_id: 103, payment_method_id: 1, amount: order103_total/2, status: 'paid', transaction_id: 'ch_456', payment_date: new Date()}, {id: 4, order_id: 103, payment_method_id: 2, amount: order103_total/2, status: 'paid', transaction_id: null, payment_date: new Date()}], special_instructions: 'Allergy to nuts', delivery_address_id: null, table_id: 2, table: table2, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
   { id: 104, user_id: 4, user: customerUser, status: 'delivered', order_type: 'delivery', subtotal: 40, tax_amount: 5.5, discount_amount: 0, delivery_charge: 0, total_amount: 45.50, created_at: new Date('2023-10-26T10:00:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: 1, delivery_address: address1, table_id: null, rider_id: 3, rider: riderUser, staff_id: null, updated_at: new Date() },
-  { id: 105, user_id: 4, user: customerUser, status: 'preparing', order_type: 'takeaway', subtotal: 20, tax_amount: 2.75, discount_amount: 0, delivery_charge: 0, total_amount: 22.75, created_at: new Date('2023-10-22T12:30:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: null, table_id: null, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
-  { id: 106, user_id: 4, user: customerUser, status: 'cancelled', order_type: 'dine-in', subtotal: 80, tax_amount: 9.1, discount_amount: 0, delivery_charge: 0, total_amount: 89.10, created_at: new Date('2023-09-15T19:00:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: null, table_id: 4, table: table4, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
-  { id: 107, user_id: 4, user: customerUser, status: 'delivered', order_type: 'delivery', subtotal: 28, tax_amount: 3, discount_amount: 0, delivery_charge: 0, total_amount: 31.00, created_at: new Date('2023-08-30T11:00:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: 2, delivery_address: address2, table_id: null, rider_id: 3, rider: riderUser, staff_id: null, updated_at: new Date() },
-  { id: 108, user_id: 4, user: customerUser, status: 'delivered', order_type: 'delivery', subtotal: 50, tax_amount: 5.2, discount_amount: 0, delivery_charge: 0, total_amount: 55.20, created_at: new Date('2023-08-25T14:20:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: 1, delivery_address: address1, table_id: null, rider_id: 3, rider: riderUser, staff_id: null, updated_at: new Date() },
-  { id: 109, user_id: 4, user: customerUser, status: 'preparing', order_type: 'takeaway', subtotal: 16, tax_amount: 2, discount_amount: 0, delivery_charge: 0, total_amount: 18.00, created_at: new Date('2023-08-21T09:45:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: null, table_id: null, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
-  { id: 110, user_id: 4, user: customerUser, status: 'cancelled', order_type: 'delivery', subtotal: 40, tax_amount: 2, discount_amount: 0, delivery_charge: 0, total_amount: 42.00, created_at: new Date('2023-08-15T18:00:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: 1, delivery_address: address1, table_id: null, rider_id: null, staff_id: null, updated_at: new Date() },
-  { id: 111, user_id: 4, user: customerUser, status: 'delivered', order_type: 'dine-in', subtotal: 100, tax_amount: 12.5, discount_amount: 0, delivery_charge: 0, total_amount: 112.50, created_at: new Date('2023-08-10T20:10:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: null, table_id: 1, table: table1, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
-  { id: 112, user_id: 4, user: customerUser, status: 'delivered', order_type: 'takeaway', subtotal: 22, tax_amount: 3, discount_amount: 0, delivery_charge: 0, total_amount: 25.00, created_at: new Date('2023-08-05T13:00:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: null, table_id: null, rider_id: null, staff_id: 2, staff: staffUser, updated_at: new Date() },
-  { id: 113, user_id: 4, user: customerUser, status: 'preparing', order_type: 'delivery', subtotal: 70, tax_amount: 8.3, discount_amount: 0, delivery_charge: 0, total_amount: 78.30, created_at: new Date('2023-08-01T19:55:00Z'), items: [], payments: [], special_instructions: null, delivery_address_id: 2, delivery_address: address2, table_id: null, rider_id: 3, rider: riderUser, staff_id: null, updated_at: new Date() },
 ];
 
 export const mockReservations: Reservation[] = [
-    { id: 1, user_id: 4, table_id: 3, user: customerUser, table: table3, num_guests: 4, reservation_time: new Date('2023-11-15T19:30:00Z'), status: 'confirmed', notes: 'Window seat if possible.', created_at: new Date(), updated_at: new Date() },
-    { id: 2, user_id: 4, table_id: 4, user: customerUser, table: table4, num_guests: 2, reservation_time: new Date('2024-12-24T20:00:00Z'), status: 'pending', notes: null, created_at: new Date(), updated_at: new Date() },
-    { id: 3, user_id: 4, table_id: 1, user: customerUser, table: table1, num_guests: 2, reservation_time: new Date('2023-10-25T19:30:00Z'), status: 'completed', notes: null, created_at: new Date(), updated_at: new Date() },
-    { id: 4, user_id: 4, table_id: 2, user: customerUser, table: table2, num_guests: 3, reservation_time: new Date('2023-09-10T18:00:00Z'), status: 'cancelled', notes: 'User cancelled due to schedule conflict.', created_at: new Date(), updated_at: new Date() },
-    { id: 5, user_id: 4, table_id: null, user: customerUser, table: undefined, num_guests: 1, reservation_time: new Date('2023-11-20T20:30:00Z'), status: 'confirmed', notes: null, created_at: new Date(), updated_at: new Date()},
-    { id: 6, user_id: 2, table_id: 4, user: staffUser, table: table4, num_guests: 5, reservation_time: new Date('2023-10-30T18:30:00Z'), status: 'pending', notes: null, created_at: new Date(), updated_at: new Date() },
+    { id: 1, user_id: 4, user: customerUser, table_id: 3, table: table3, num_guests: 4, reservation_time: new Date('2023-11-15T19:30:00Z'), status: 'confirmed', notes: 'Birthday celebration', created_at: new Date(), updated_at: new Date() },
+    { id: 2, user_id: 4, user: customerUser, table_id: 1, table: table1, num_guests: 2, reservation_time: new Date('2023-10-20T18:00:00Z'), status: 'completed', notes: null, created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockCustomerPaymentMethods: CustomerPaymentMethod[] = [
-    { id: 1, user_id: 4, type: 'Card', card_brand: 'Visa', last4: '4242', expiry_date: '12/25', is_default: true },
-    { id: 2, user_id: 4, type: 'Card', card_brand: 'Mastercard', last4: '5555', expiry_date: '08/26', is_default: false },
+    { id: 1, user_id: 4, type: 'Card', card_brand: 'Visa', last4: '1234', expiry_date: '12/25', is_default: true },
+    { id: 2, user_id: 4, type: 'Card', card_brand: 'Mastercard', last4: '5678', expiry_date: '10/26', is_default: false },
 ];
 
 export const mockNotifications: Notification[] = [
-    { id: '1', user_id: 4, title: 'Order Delivered!', message: 'Your order #101 has been successfully delivered.', created_at: new Date('2023-10-27T10:35:00Z'), is_read: true },
-    { id: '2', user_id: 4, title: 'Order Update', message: 'Your order #102 is now being prepared.', created_at: new Date('2023-10-28T12:32:00Z'), is_read: false },
+    { id: '1', user_id: 4, title: 'Your order is on the way!', message: 'Order #101 has been picked up by the rider.', created_at: new Date('2023-10-27T10:30:00Z'), is_read: true },
+    { id: '2', user_id: 4, title: 'Special Offer: 20% off!', message: 'Enjoy 20% off on all main courses this weekend.', created_at: new Date('2023-10-26T09:00:00Z'), is_read: false },
 ];
 
 export const mockExpenseCategories: ExpenseCategory[] = [
-    { id: 1, name: 'Ingredients', description: 'Raw food materials and supplies.', created_at: new Date(), updated_at: new Date() },
-    { id: 2, name: 'Payroll', description: 'Staff salaries and wages.', created_at: new Date(), updated_at: new Date() },
-    { id: 3, name: 'Utilities', description: 'Electricity, water, gas, internet.', created_at: new Date(), updated_at: new Date() },
-    { id: 4, name: 'Marketing', description: 'Advertising and promotional costs.', created_at: new Date(), updated_at: new Date() },
+    { id: 1, name: 'Ingredients', description: 'Raw materials for cooking', created_at: new Date(), updated_at: new Date() },
+    { id: 2, name: 'Utilities', description: 'Electricity, water, gas bills', created_at: new Date(), updated_at: new Date() },
+    { id: 3, name: 'Payroll', description: 'Staff salaries', created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockExpenses: Expense[] = [
-    { id: 1, expense_category_id: 1, user_id: 1, amount: 1200.50, description: 'Weekly vegetable supply', expense_date: '2023-10-25', created_at: new Date(), updated_at: new Date(), expense_category: mockExpenseCategories[0] },
-    { id: 2, expense_category_id: 3, user_id: 1, amount: 350.00, description: 'October electricity bill', expense_date: '2023-10-28', created_at: new Date(), updated_at: new Date(), expense_category: mockExpenseCategories[2] },
+    { id: 1, expense_category_id: 1, user_id: 1, amount: 350.75, description: 'Weekly vegetable purchase', expense_date: '2023-10-25', expense_category: mockExpenseCategories[0], created_at: new Date(), updated_at: new Date() },
+    { id: 2, expense_category_id: 3, user_id: 1, amount: 2400.00, description: 'October salaries', expense_date: '2023-10-28', expense_category: mockExpenseCategories[2], created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockPayouts: Payout[] = [
-    { id: 1, user_id: 3, amount: 250.75, requested_at: new Date('2023-10-25'), status: 'approved', completed_at: new Date('2023-10-26') },
-    { id: 2, user_id: 3, amount: 180.50, requested_at: new Date('2023-10-28'), status: 'pending', completed_at: null },
-    { id: 3, user_id: 3, amount: 50.00, requested_at: new Date('2023-10-22'), status: 'rejected', completed_at: null },
+    { id: 1, user_id: 3, amount: 150.25, requested_at: new Date('2023-10-27T14:00:00Z'), status: 'pending' },
+    { id: 2, user_id: 3, amount: 125.50, requested_at: new Date('2023-10-20T11:00:00Z'), status: 'approved', completed_at: new Date('2023-10-21T10:00:00Z') },
+];
+
+export const mockPromotions: Promotion[] = [
+  { id: 1, code: 'WELCOME20', description: '20% off for new users', discount_type: 'percentage', discount_value: 20, start_date: new Date('2023-01-01'), end_date: new Date('2023-12-31'), is_active: true, usage_limit: 100, used_count: 45 },
+  { id: 2, code: 'SAVE5', description: '$5 off orders over $30', discount_type: 'fixed', discount_value: 5, start_date: new Date('2023-10-01'), end_date: new Date('2023-11-30'), is_active: true, usage_limit: null, used_count: 120 },
+];
+
+export const mockPaymentMethods: PaymentMethod[] = [
+    { id: 1, name: 'Cash', type: 'cash', is_active: true, created_at: new Date(), updated_at: new Date() },
+    { id: 2, name: 'Visa', type: 'card', is_active: true, created_at: new Date(), updated_at: new Date() },
+    { id: 6, name: 'MasterCard', type: 'card', is_active: true, created_at: new Date(), updated_at: new Date() },
+    { id: 7, name: 'Amex', type: 'card', is_active: true, created_at: new Date(), updated_at: new Date() },
+    { id: 4, name: 'Gift Card', type: 'others', is_active: true, created_at: new Date(), updated_at: new Date() },
+    { id: 5, name: 'Mobile Pay', type: 'online', is_active: true, created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockSettings: Settings = {
-  restaurantName: "Jaipur Palace",
-  restaurantAddress: "123 Spice Street, Downtown, City 12345",
-  restaurantPhone: "(555) 123-4567",
-  restaurantEmail: "contact@jaipurpalace.com",
-  // FIX: Added 'Mon-Fri' and 'Sat-Sun' to satisfy the WorkingHours type.
+  restaurantName: 'FlavorFusion',
+  restaurantAddress: '123 Spice Lane, Flavor Town, USA 12345',
+  restaurantPhone: '(555) 123-4567',
+  restaurantEmail: 'contact@flavorfusion.com',
   workingHours: {
-    'Mon-Fri': '11am - 10pm',
-    'Sat-Sun': '11am - 11pm',
-    'Mon - Thu': '11am - 10pm',
-    'Fri - Sat': '11am - 11pm',
-    'Sunday': '12pm - 9pm',
+    'Mon-Fri': '11:00 AM - 10:00 PM',
+    'Sat-Sun': '10:00 AM - 11:00 PM',
+    'Mon - Thu': '11:00 AM - 9:00 PM',
+    'Fri - Sat': '11:00 AM - 10:00 PM',
+    'Sunday': '12:00 PM - 8:00 PM'
   },
   socials: {
-    facebook: "#",
-    twitter: "#",
-    instagram: "#",
+    facebook: 'https://facebook.com',
+    twitter: 'https://twitter.com',
+    instagram: 'https://instagram.com',
   },
-  taxRatePercent: 15,
-  currencySymbol: "$",
-  currencyCode: "USD",
-  deliveryChargeFlat: 5.00,
-  deliveryRadiusKm: 10,
-  minOrderAmountDelivery: 20.00,
-  freeDeliveryAt: 50
+  taxRatePercent: 8,
+  currencySymbol: '$',
+  currencyCode: 'USD',
+  deliveryChargeFlat: 3.00,
+  deliveryRadiusKm: 5,
+  minOrderAmountDelivery: 15,
+  freeDeliveryAt: 50,
 };

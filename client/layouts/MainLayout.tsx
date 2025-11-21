@@ -1,11 +1,14 @@
+
+'use client';
+
 import React, { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+// FIX: Split react-router-dom imports to resolve "no exported member" errors.
 import Header from '../components/common/Header';
 import Footer from '../components/common/Footer';
 import FloatingCart from '../components/common/FloatingCart';
 import { useSettings } from '../contexts/SettingsContext';
 
-const MainLayout: React.FC = () => {
+const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();
 
   useEffect(() => {
@@ -13,10 +16,10 @@ const MainLayout: React.FC = () => {
   }, [settings.restaurantName]);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FAF9F6] dark:bg-gray-950">
+    <div className="flex flex-col min-h-screen bg-[#FAF9F6] dark:bg-gray-900">
       <Header />
       <main className="flex-grow">
-        <Outlet />
+        {children}
       </main>
       <Footer />
       <FloatingCart />

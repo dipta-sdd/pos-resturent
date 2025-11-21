@@ -1,7 +1,11 @@
 
 
+
+
+
 // FIX: Corrected imports to match exported members from mockData.
-import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants } from '../data/mockData';
+import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
+import { Promotion, PaymentMethod } from '../types';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
@@ -127,6 +131,10 @@ export const api = {
       await delay(600);
       return mockReservations;
   },
+  getAllExpenses: async () => {
+    await delay(500);
+    return mockExpenses;
+  },
   getExpenseCategories: async () => {
     await delay(200);
     return mockExpenseCategories;
@@ -135,4 +143,62 @@ export const api = {
     await delay(500);
     return mockPayouts;
   },
+  // Payment Methods
+  getAllPaymentMethods: async () => {
+      await delay(300);
+      return mockPaymentMethods;
+  },
+  savePaymentMethod: async (method: Partial<PaymentMethod>) => {
+      await delay(300);
+      if (method.id) {
+          const index = mockPaymentMethods.findIndex(m => m.id === method.id);
+          if (index !== -1) {
+              mockPaymentMethods[index] = { ...mockPaymentMethods[index], ...method, updated_at: new Date() } as PaymentMethod;
+              return mockPaymentMethods[index];
+          }
+      } else {
+          const newMethod = { ...method, id: Date.now(), created_at: new Date(), updated_at: new Date() } as PaymentMethod;
+          mockPaymentMethods.push(newMethod);
+          return newMethod;
+      }
+      throw new Error("Method not found");
+  },
+  deletePaymentMethod: async (id: number) => {
+      await delay(300);
+      const index = mockPaymentMethods.findIndex(m => m.id === id);
+      if (index !== -1) {
+          mockPaymentMethods.splice(index, 1);
+          return true;
+      }
+      return false;
+  },
+  // Promotions
+  getAllPromotions: async () => {
+    await delay(400);
+    return mockPromotions;
+  },
+  createPromotion: async (promo: Partial<Promotion>) => {
+    await delay(400);
+    const newPromo = { ...promo, id: Date.now() } as Promotion;
+    mockPromotions.push(newPromo);
+    return newPromo;
+  },
+  updatePromotion: async (id: number, updates: Partial<Promotion>) => {
+      await delay(300);
+      const index = mockPromotions.findIndex(p => p.id === id);
+      if (index !== -1) {
+          mockPromotions[index] = { ...mockPromotions[index], ...updates };
+          return mockPromotions[index];
+      }
+      throw new Error('Promotion not found');
+  },
+  deletePromotion: async (id: number) => {
+      await delay(300);
+      const index = mockPromotions.findIndex(p => p.id === id);
+      if (index !== -1) {
+          mockPromotions.splice(index, 1);
+          return true;
+      }
+      return false;
+  }
 };
