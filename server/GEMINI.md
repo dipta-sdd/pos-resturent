@@ -8,19 +8,45 @@
 -- 1. Core User & Auth Tables
 -- ---------------------------------
 
+CREATE TABLE `roles` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(50) UNIQUE NOT NULL COMMENT 'e.g., Admin, Staff, Rider, Customer',
+  `description` TEXT NULL,
+  `is_system` BOOLEAN NOT NULL DEFAULT FALSE COMMENT 'System roles cannot be deleted (e.g. Admin, Customer)',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+);
+
+CREATE TABLE `permissions` (
+  `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `name` VARCHAR(100) UNIQUE NOT NULL COMMENT 'e.g., menu.view, order.create',
+  `group_name` VARCHAR(50) NOT NULL COMMENT 'For UI grouping e.g. Menu, Orders',
+  `created_at` TIMESTAMP NULL,
+  `updated_at` TIMESTAMP NULL
+);
+
+CREATE TABLE `role_permissions` (
+  `role_id` BIGINT UNSIGNED NOT NULL,
+  `permission_id` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`role_id`, `permission_id`),
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`permission_id`) REFERENCES `permissions`(`id`) ON DELETE CASCADE
+);
+
 CREATE TABLE `users` (
   `id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  `role_id` BIGINT UNSIGNED NOT NULL,
   `name` VARCHAR(255) NOT NULL,
   `email` VARCHAR(255) UNIQUE NOT NULL,
   `phone` VARCHAR(20) UNIQUE NULL,
   `password` VARCHAR(255) NOT NULL,
-  `role` ENUM('admin', 'staff', 'rider', 'customer') NOT NULL DEFAULT 'customer' COMMENT 'Simplified role management in a single column.',
   `avatar_url` VARCHAR(255) NULL,
   `email_verified_at` TIMESTAMP NULL,
   `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   `remember_token` VARCHAR(100) NULL,
   `created_at` TIMESTAMP NULL,
-  `updated_at` TIMESTAMP NULL
+  `updated_at` TIMESTAMP NULL,
+  FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE RESTRICT
 );
 
 -- Laravel's default password reset table
@@ -493,11 +519,16 @@ CREATE TABLE `expenses` (
 - Modify table allocations
 - Block time slots for special events or maintenance
 
-#### 🧑‍🤝‍🧑 User Management
+#### 🧑‍🤝‍🧑 User & Role Management
 
-- Manage customers, staff, and riders
-- Assign roles and permissions
-- Activate, suspend, or delete accounts
+- **Role Management**
+  - Create, edit, delete roles (except system roles)
+  - Assign permissions to roles (checkbox style UI)
+
+- **User Management**
+  - Manage customers, staff, and riders
+  - Assign roles to users
+  - Activate, suspend, or delete accounts
 
 #### 💸 Tip Management
 
@@ -577,9 +608,11 @@ CREATE TABLE `expenses` (
 
 **Base URL:** `/api`
 
+> **Note:** All endpoints (except Auth and Public) are protected by a unified `auth:api` middleware. Access control is handled via **permissions** assigned to the user's role, not by URL prefixes.
+
 ---
 
-## **1. Authentication & User Access (/api/auth)**
+## **1. Authentication (/api/auth)**
 
 | Method | URI                | Description                                            | Auth     |
 | ------ | ------------------ | ------------------------------------------------------ | -------- |
@@ -588,12 +621,13 @@ CREATE TABLE `expenses` (
 | POST   | `/logout`          | Log out and invalidate token.                          | [Auth]   |
 | POST   | `/forgot-password` | Send password reset link.                              | [Public] |
 | POST   | `/reset-password`  | Reset password with token.                             | [Public] |
-| GET    | `/me`              | Get current authenticated user info.                   | [Auth]   |
-| PUT    | `/me`              | Update basic info (name, phone, role-specific fields). | [Auth]   |
+| GET    | `/me`              | Get current authenticated user info & permissions.     | [Auth]   |
+| PUT    | `/me`              | Update basic profile info.                             | [Auth]   |
+| POST   | `/me/avatar`       | Upload profile avatar.                                 | [Auth]   |
 
 ---
 
-## **2. Public Endpoints (/api/public)**
+## **2. Public Resources (/api/public)**
 
 | Method | URI                | Description                                                              | Auth     |
 | ------ | ------------------ | ------------------------------------------------------------------------ | -------- |
@@ -604,103 +638,118 @@ CREATE TABLE `expenses` (
 
 ---
 
-## **3. Customer Endpoints (/api/customer)**
+## **3. Core Resources**
 
-| Method | URI                  | Description                                                        | Auth       |
-| ------ | -------------------- | ------------------------------------------------------------------ | ---------- |
-| GET    | `/profile`           | View customer profile.                                             | [Customer] |
-| PUT    | `/profile`           | Update name, phone, preferences.                                   | [Customer] |
-| POST   | `/profile/avatar`    | Upload/change profile photo.                                       | [Customer] |
-| GET    | `/addresses`         | List saved delivery addresses.                                     | [Customer] |
-| POST   | `/addresses`         | Add new address.                                                   | [Customer] |
-| PUT    | `/addresses/{id}`    | Edit existing address.                                             | [Customer] |
-| DELETE | `/addresses/{id}`    | Remove address.                                                    | [Customer] |
-| GET    | `/orders`            | Get customer’s order history.                                      | [Customer] |
-| POST   | `/orders`            | Place new order (supports multiple payment entries, tips, coupon). | [Customer] |
-| GET    | `/orders/{id}`       | Get single order details.                                          | [Customer] |
-| GET    | `/reservations`      | View table reservations.                                           | [Customer] |
-| POST   | `/reservations`      | Create new reservation.                                            | [Customer] |
-| PUT    | `/reservations/{id}` | Update or cancel reservation.                                      | [Customer] |
+### 🍔 **Menu Management**
+*Requires permissions like `menu.view`, `menu.create`, `menu.update`, `menu.delete`*
 
----
+| Method | URI                                   | Description                      |
+| ------ | ------------------------------------- | -------------------------------- |
+| POST   | `/menu-items`                         | Create new menu item.            |
+| PUT    | `/menu-items/{id}`                    | Update menu item.                |
+| DELETE | `/menu-items/{id}`                    | Delete menu item.                |
+| POST   | `/categories`                         | Create category.                 |
+| PUT    | `/categories/{id}`                    | Update category.                 |
+| DELETE | `/categories/{id}`                    | Delete category.                 |
+| GET    | `/add-ons`                            | List add-ons (Admin view).       |
+| POST   | `/add-ons`                            | Create add-on.                   |
+| PUT    | `/add-ons/{id}`                       | Update add-on.                   |
+| DELETE | `/add-ons/{id}`                       | Delete add-on.                   |
 
-## **4. POS / Staff Endpoints (/api/pos)**
+### 🛒 **Orders**
+*Requires permissions like `order.view_own`, `order.view_all`, `order.create`, `order.update_status`*
 
-| Method | URI                         | Description                                         | Auth    |
-| ------ | --------------------------- | --------------------------------------------------- | ------- |
-| GET    | `/orders`                   | List current/active orders for POS dashboard.       | [Staff] |
-| POST   | `/orders`                   | Create offline order (dine-in/takeaway).            | [Staff] |
-| GET    | `/orders/{id}`              | View complete order with items, payments, and tips. | [Staff] |
-| PATCH  | `/orders/{id}/status`       | Update order status (e.g., preparing → served).     | [Staff] |
-| POST   | `/orders/{id}/assign-rider` | Assign delivery order to rider.                     | [Staff] |
-| POST   | `/orders/{id}/payments`     | Add new payment record (split payments supported).  | [Staff] |
-| GET    | `/tables`                   | Get all tables with current occupancy status.       | [Staff] |
-| PATCH  | `/tables/{id}/status`       | Mark table as available/occupied/cleaning.          | [Staff] |
-| GET    | `/shifts/summary`           | View sales, payments, and tip summary for shift.    | [Staff] |
+| Method | URI                         | Description                                                        |
+| ------ | --------------------------- | ------------------------------------------------------------------ |
+| GET    | `/orders`                   | List orders. (Customers see own, Staff/Admin see all/filtered).    |
+| POST   | `/orders`                   | Place new order.                                                   |
+| GET    | `/orders/{id}`              | Get order details.                                                 |
+| PATCH  | `/orders/{id}/status`       | Update order status (e.g., preparing, ready).                      |
+| POST   | `/orders/{id}/assign-rider` | Assign order to a rider.                                           |
+| POST   | `/orders/{id}/payments`     | Add payment to an order (split payments).                          |
 
----
+### 🍽️ **Reservations**
+*Requires permissions like `reservation.view_own`, `reservation.view_all`, `reservation.create`, `reservation.update`*
 
-## **5. Rider Endpoints (/api/rider)**
+| Method | URI                  | Description                   |
+| ------ | -------------------- | ----------------------------- |
+| GET    | `/reservations`      | List reservations.            |
+| POST   | `/reservations`      | Create new reservation.       |
+| PUT    | `/reservations/{id}` | Update or cancel reservation. |
 
-| Method | URI                       | Description                                         | Auth    |
-| ------ | ------------------------- | --------------------------------------------------- | ------- |
-| GET    | `/profile`                | Get rider profile.                                  | [Rider] |
-| PUT    | `/profile`                | Update profile info.                                | [Rider] |
-| POST   | `/profile/documents`      | Upload ID/license docs.                             | [Rider] |
-| PATCH  | `/status`                 | Toggle availability (online/offline).               | [Rider] |
-| GET    | `/deliveries`             | Get active/assigned deliveries.                     | [Rider] |
-| GET    | `/deliveries/history`     | Delivery history with filters (date range, status). | [Rider] |
-| PATCH  | `/deliveries/{id}/status` | Update delivery progress (accepted → delivered).    | [Rider] |
-| GET    | `/earnings`               | Total earnings and tips summary.                    | [Rider] |
-| GET    | `/payouts`                | List previous payout requests.                      | [Rider] |
-| POST   | `/payouts`                | Request payout for balance and tips.                | [Rider] |
+### 📍 **Addresses**
+*Requires permissions like `address.manage_own`*
+
+| Method | URI               | Description              |
+| ------ | ----------------- | ------------------------ |
+| GET    | `/addresses`      | List saved addresses.    |
+| POST   | `/addresses`      | Add new address.         |
+| PUT    | `/addresses/{id}` | Edit existing address.   |
+| DELETE | `/addresses/{id}` | Remove address.          |
 
 ---
 
-## **6. Admin / Owner Endpoints (/api/admin)**
+## **4. Operational Resources**
 
-### 📊 **Dashboard & Reports**
+### 🚴‍♂️ **Delivery Management**
+*Requires permissions like `delivery.view_assigned`, `delivery.update_status`*
 
-| Method | URI                 | Description                                 | Auth    |
-| ------ | ------------------- | ------------------------------------------- | ------- |
-| GET    | `/dashboard/stats`  | Overview (sales, orders, expenses, profit). | [Admin] |
-| GET    | `/reports/sales`    | Filterable sales report.                    | [Admin] |
-| GET    | `/reports/expenses` | Expense summary and breakdown.              | [Admin] |
-| GET    | `/reports/payments` | Payment method usage and totals.            | [Admin] |
+| Method | URI                       | Description                                         |
+| ------ | ------------------------- | --------------------------------------------------- |
+| GET    | `/deliveries`             | Get assigned deliveries.                            |
+| PATCH  | `/deliveries/{id}/status` | Update delivery status (accepted, picked_up, etc.). |
+| GET    | `/deliveries/history`     | View delivery history.                              |
+
+### 🧾 **POS & Tables**
+*Requires permissions like `pos.access`, `table.manage`*
+
+| Method | URI                   | Description                                      |
+| ------ | --------------------- | ------------------------------------------------ |
+| GET    | `/tables`             | Get all tables with status.                      |
+| PATCH  | `/tables/{id}/status` | Update table status (available/occupied).        |
+| GET    | `/shifts/summary`     | View current shift summary (sales, tips).        |
+
+### 💰 **Finance & Payouts**
+*Requires permissions like `finance.view_earnings`, `finance.manage_payouts`*
+
+| Method | URI        | Description                          |
+| ------ | ---------- | ------------------------------------ |
+| GET    | `/earnings`| View own earnings (Riders/Waiters).  |
+| GET    | `/payouts` | View payout history or requests.     |
+| POST   | `/payouts` | Request a payout.                    |
 
 ---
 
-### ⚙️ **CRUD Management**
+## **5. Administration**
 
-| Resource          | URI                                   | Methods     | Auth    | Description                      |
-| ----------------- | ------------------------------------- | ----------- | ------- | -------------------------------- |
-| **Menu Items**    | `/menu-items`                         | GET, POST   | [Admin] | Manage food items.               |
-| **Item Variants** | `/menu-items/{menu_item_id}/variants` | GET, POST   | [Admin] | Manage variants for a menu item. |
-|                   | `/variants/{id}`                      | PUT, DELETE | [Admin] | Edit/remove single variant.      |
-|                   |                                       |             |         |                                  |
+### 👥 **User & Role Management**
+*Requires permissions like `user.manage`, `role.manage`*
 
-| | `/menu-items/{id}` | GET, PUT, DELETE | [Admin] | Edit/remove single item. |
-| **Categories** | `/categories` | GET, POST | [Admin] | Manage food categories. |
-| | `/categories/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Add-ons** | `/add-ons` | GET, POST | [Admin] | Manage extra add-ons. |
-| | `/add-ons/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Orders** | `/orders` | GET | [Admin] | View all orders. |
-| | `/orders/{id}` | GET, PUT, DELETE | [Admin] | Modify order info. |
-| **Payment Methods** | `/payment-methods` | GET, POST | [Admin] | Create/manage payment types (Cash, Card, BKash). |
-| | `/payment-methods/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Reservations** | `/reservations` | GET | [Admin] | View all reservations. |
-| | `/reservations/{id}` | GET, PUT | [Admin] | Approve/reject/edit. |
-| **Users** | `/users` | GET, POST | [Admin] | Create or list users. |
-| | `/users/{id}` | GET, PUT | [Admin] | Update role/status. |
-| **Coupons** | `/coupons` | GET, POST | [Admin] | Manage discount codes. |
-| | `/coupons/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Expenses** | `/expenses` | GET, POST | [Admin] | Log expenses by category. |
-| | `/expenses/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Expense Categories** | `/expense-categories` | GET, POST | [Admin] | Manage categories (e.g., utilities, supplies). |
-| | `/expense-categories/{id}` | GET, PUT, DELETE | [Admin] | |
-| **Tips & Payouts** | `/payouts` | GET | [Admin] | View all payout requests. |
-| | `/payouts/{id}` | PATCH | [Admin] | Approve/reject payout. |
-| **Settings** | `/settings` | GET, PUT | [Admin] | Update restaurant details (hours, contact info). |
+| Method | URI             | Description                                      |
+| ------ | --------------- | ------------------------------------------------ |
+| GET    | `/users`        | List all users.                                  |
+| POST   | `/users`        | Create new user (Staff/Rider).                   |
+| PUT    | `/users/{id}`   | Update user details (assign role).               |
+| GET    | `/roles`        | List all roles.                                  |
+| POST   | `/roles`        | Create new role.                                 |
+| PUT    | `/roles/{id}`   | Update role permissions.                         |
+| DELETE | `/roles/{id}`   | Delete role.                                     |
+| GET    | `/permissions`  | List all available permissions.                  |
+
+### 📊 **Reports & Settings**
+*Requires permissions like `report.view`, `settings.manage`*
+
+| Method | URI                 | Description                                 |
+| ------ | ------------------- | ------------------------------------------- |
+| GET    | `/reports/stats`    | Dashboard statistics.                       |
+| GET    | `/reports/sales`    | Sales reports.                              |
+| GET    | `/reports/expenses` | Expense reports.                            |
+| GET    | `/settings`         | Manage system settings.                     |
+| PUT    | `/settings`         | Update settings.                            |
+| GET    | `/payment-methods`  | List payment methods.                       |
+| POST   | `/payment-methods`  | Add payment method.                         |
+| PUT    | `/payment-methods/{id}`| Update payment method.                   |
+| DELETE | `/payment-methods/{id}`| Delete payment method.                   |
 
 ---
 
