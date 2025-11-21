@@ -15,11 +15,14 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
             $table->string('name');
+            $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->string('image_url')->nullable();
-            $table->boolean('is_available')->default(true);
-            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_veg')->default(false);
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 

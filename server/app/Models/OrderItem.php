@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrderItem extends Model
 {
@@ -11,24 +13,50 @@ class OrderItem extends Model
 
     protected $fillable = [
         'order_id',
+        'menu_item_id',
         'item_variant_id',
-        'quantity',
+        'item_name',
+        'variant_name',
         'unit_price',
-        'customization_notes',
+        'quantity',
+        'total_price',
+        'special_notes',
+        'created_by',
+        'updated_by',
     ];
 
-    public function order()
+    protected $casts = [
+        'unit_price' => 'decimal:2',
+        'total_price' => 'decimal:2',
+    ];
+
+    public function order(): BelongsTo
     {
         return $this->belongsTo(Order::class);
     }
 
-    public function itemVariant()
+    public function menuItem(): BelongsTo
+    {
+        return $this->belongsTo(MenuItem::class);
+    }
+
+    public function itemVariant(): BelongsTo
     {
         return $this->belongsTo(ItemVariant::class);
     }
 
-    public function addOns()
+    public function addOns(): HasMany
     {
-        return $this->belongsToMany(AddOn::class, 'order_item_add_ons')->withPivot('quantity', 'price');
+        return $this->hasMany(OrderItemAddOn::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
     }
 }

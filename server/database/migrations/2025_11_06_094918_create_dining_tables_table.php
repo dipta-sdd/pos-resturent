@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tables', function (Blueprint $table) {
+        Schema::create('dining_tables', function (Blueprint $table) {
             $table->id();
-            $table->string('name_or_number', 50)->unique();
+            $table->string('name', 50);
             $table->unsignedInteger('capacity');
             $table->enum('status', ['available', 'occupied', 'reserved'])->default('available');
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tables');
+        Schema::dropIfExists('dining_tables');
     }
 };

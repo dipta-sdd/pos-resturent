@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rider_details', function (Blueprint $table) {
+        Schema::create('rider_profiles', function (Blueprint $table) {
             $table->foreignId('user_id')->primary()->constrained('users')->onDelete('cascade');
-            $table->string('vehicle_type', 100)->nullable();
+            $table->string('vehicle_type', 50)->nullable();
             $table->string('license_plate', 50)->nullable();
-            $table->string('id_document_url')->nullable();
-            $table->string('license_document_url')->nullable();
-            $table->boolean('is_verified')->default(false);
-            $table->enum('availability_status', ['online', 'offline'])->default('offline');
+            $table->enum('status', ['offline', 'online', 'busy'])->default('offline');
             $table->decimal('current_latitude', 10, 8)->nullable();
             $table->decimal('current_longitude', 11, 8)->nullable();
+            $table->timestamp('last_active_at')->nullable();
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rider_details');
+        Schema::dropIfExists('rider_profiles');
     }
 };
