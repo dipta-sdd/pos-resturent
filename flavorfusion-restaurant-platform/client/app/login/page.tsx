@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
 
         setErrors({});
         login(formData.email, 'customer');
-        router.push('/customer/dashboard');
+        router.push('/customer');
     };
 
     const handleQuickLogin = (demoRole: UserRole) => {
@@ -68,7 +68,7 @@ const LoginPage: React.FC = () => {
         login(demoEmail, demoRole);
 
         if (demoRole === 'customer') {
-            router.push('/customer/dashboard');
+            router.push('/customer');
         } else {
             router.push('/dashboard');
         }
