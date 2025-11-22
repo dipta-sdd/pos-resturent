@@ -28,8 +28,8 @@ return new class extends Migration {
             $table->boolean('can_perform_shifts')->default(false);
             $table->boolean('is_immutable')->default(false);
             $table->timestamps();
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 
