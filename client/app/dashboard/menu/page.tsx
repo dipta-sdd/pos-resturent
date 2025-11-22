@@ -3,10 +3,11 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { mockMenuItems, mockCategories, mockAddOns } from '../../../data/mockData';
 import { MenuItem, Category, AddOn } from '../../../types';
+import { api } from '../../../services/api';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '../../../components/common/Pagination';
+import { mockMenuItems } from '@/data/mockData';
 
 interface DraggableCategoryItemProps {
     category: Category;
@@ -117,7 +118,7 @@ const AdminMenuManagement: React.FC = () => {
     // Data state
     const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
     const [categories, setCategories] = useState<Category[]>([]);
-    const [addOns, setAddOns] = useState<AddOn[]>(mockAddOns);
+    const [addOns, setAddOns] = useState<AddOn[]>([]);
 
     // Modals state
     const [showCategoryModal, setShowCategoryModal] = useState(false);
@@ -144,12 +145,15 @@ const AdminMenuManagement: React.FC = () => {
     const ADDONS_PER_PAGE = 10;
 
     useEffect(() => {
-        setLoadingItems(true);
-        setTimeout(() => {
+        const fetchData = async () => {
+            setLoadingItems(true);
             setMenuItems(mockMenuItems);
-            setCategories(mockCategories);
+            const categories = await api.getCategories();
+            setCategories(categories);
             setLoadingItems(false);
-        }, 500);
+        };
+
+        fetchData();
     }, []);
 
     // Modal handlers
@@ -233,6 +237,7 @@ const AdminMenuManagement: React.FC = () => {
     const handleTouchEnd = () => { if (draggedItemId && dropTarget.id) performDrop(draggedItemId, dropTarget.id, dropTarget.position); handleDragEnd(); };
 
     const categoryTree = useMemo(() => {
+        console.log('cat : ', categories);
         const categoriesById: Map<number, Category> = new Map(categories.map(cat => [cat.id, { ...cat, children: [] }]));
         const rootCategories: Category[] = [];
         for (const category of categoriesById.values()) {

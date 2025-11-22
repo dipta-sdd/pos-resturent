@@ -22,7 +22,7 @@ class Role extends Model
         'can_view_all_orders',
         'can_edit_orders',
         'can_update_order_status',
-        'can_manage_finance',
+        'can_manage_finance', 
         'can_view_reports',
         'can_perform_delivery',
         'can_perform_shifts',

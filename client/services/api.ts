@@ -4,7 +4,7 @@
 
 
 import axiosInstance from './axiosConfig';
-import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User } from '../types';
+import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, LaravelPaginatedResponse } from '../types';
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -61,12 +61,12 @@ export const api = {
     return item;
   },
   getCategories: async () => {
-    await delay(200);
-    return mockCategories;
+    const response = await axiosInstance.get<LaravelPaginatedResponse<Category>>('/menu/categories');
+    return response.data.data;
   },
   getAddOns: async () => {
-    await delay(100);
-    return mockAddOns;
+    const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons');
+    return response.data.data;
   },
 
   // Customer

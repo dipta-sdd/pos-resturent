@@ -1,4 +1,56 @@
 
+// ===================================
+// Laravel Pagination Types
+// ===================================
+
+/**
+ * Link object in Laravel pagination response
+ */
+export interface PaginationLink {
+  url: string | null;
+  label: string;
+  active: boolean;
+}
+
+/**
+ * Base Laravel pagination metadata (without data field)
+ */
+export interface LaravelPaginationMeta {
+  current_page: number;
+  first_page_url: string;
+  from: number | null;
+  last_page: number;
+  last_page_url: string;
+  links: PaginationLink[];
+  next_page_url: string | null;
+  path: string;
+  per_page: number;
+  prev_page_url: string | null;
+  to: number | null;
+  total: number;
+}
+
+/**
+ * Generic Laravel paginated response with data
+ */
+export interface LaravelPaginatedResponse<T> extends LaravelPaginationMeta {
+  data: T[];
+}
+
+/**
+ * Specific paginated response types
+ */
+export type PaginatedCategories = LaravelPaginatedResponse<Category>;
+export type PaginatedMenuItems = LaravelPaginatedResponse<MenuItem>;
+export type PaginatedAddOns = LaravelPaginatedResponse<AddOn>;
+export type PaginatedUsers = LaravelPaginatedResponse<User>;
+export type PaginatedOrders = LaravelPaginatedResponse<Order>;
+export type PaginatedReservations = LaravelPaginatedResponse<Reservation>;
+
+// ===================================
+// Application Types
+// ===================================
+
 /**
  * Defines the structure for the restaurant's daily working hours.
  */

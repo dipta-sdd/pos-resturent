@@ -87,7 +87,7 @@ Route::middleware(['log.api'])->group(function () {
         Route::delete('orders/{id}/payments/{paymentId}', [OrderController::class, 'refundPayment'])->middleware('permission:can_edit_orders');
         Route::get('orders/{id}/print', [OrderController::class, 'printReceipt'])->middleware('permission:can_create_orders');
 
-        Route::prefix('menu')->middleware('permission:can_manage_menu')->group(function () {
+        Route::prefix('menu')->middleware('permission:can_manage_products')->group(function () {
             Route::apiResource('categories', CategoryController::class);
             Route::apiResource('menu-items', MenuItemController::class);
             Route::patch('menu-items/{id}/status', [MenuItemController::class, 'updateStatus']);

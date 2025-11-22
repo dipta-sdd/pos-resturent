@@ -24,7 +24,7 @@ class CheckPermission
         // Check if the role has the specific permission column set to true
         // We assume the permission argument matches the column name in roles table
         if (!$user->role->{$permission}) {
-            return response()->json(['message' => 'Forbidden'], 403);
+            return response()->json(['message' => 'Forbidden', 'user' => $user], 403);
         }
 
         return $next($request);
