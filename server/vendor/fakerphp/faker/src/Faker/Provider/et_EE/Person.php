@@ -60,7 +60,7 @@ class Person extends \Faker\Provider\Person
      * @see https://en.wikipedia.org/wiki/Category:Estonian-language_surnames
      * @see https://www.stat.ee/public/apps/nimed/pere/TOP
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Aleksejev', 'Andrejev', 'Allik', 'Aas', 'Aleksandrov', 'Aare', 'Aarma', 'Aas', 'Aasmäe', 'Aav', 'Aavik', 'Allik', 'Alver', 'Andrejeva', 'Aleksejeva', 'Aleksandrova', 'Allik', 'Aas',
         'Bogdanova', 'Bogdanov',
         'Eenpalu', 'Eskola',

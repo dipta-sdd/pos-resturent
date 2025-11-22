@@ -5,11 +5,11 @@ namespace Faker\Provider\ka_GE;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
     ];
 
     protected static $firstNameMale = [
@@ -33,7 +33,7 @@ class Person extends \Faker\Provider\Person
         'ტატიანა', 'მარია', 'მაგული', 'თამთა', 'ნაზიკო', 'ხატია', 'მარიკა', 'ელზა', 'ანნა', 'გვანცა', 'გალინა', 'ჯულიეტა',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'აბაშიძე', 'აბესაძე', 'აბრამიშვილი', 'აბულაძე', 'ალიევა', 'ალიევი', 'ასათიანი', 'აფციაური', 'ახალაია', 'ახვლედიანი',
         'ახმედოვა', 'ახმედოვი', 'ბაირამოვა', 'ბაირამოვი', 'ბარამიძე', 'ბარბაქაძე', 'ბაქრაძე', 'ბახტაძე', 'ბერაძე', 'ბერიშვილი',
         'ბერიძე', 'ბერუაშვილი', 'ბექაური', 'ბიწაძე', 'ბლიაძე', 'ბოლქვაძე', 'ბოჭორიშვილი', 'ბრეგვაძე', 'გაბუნია', 'გაგნიძე',

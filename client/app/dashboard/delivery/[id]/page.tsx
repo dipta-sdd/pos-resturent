@@ -56,7 +56,7 @@ const RiderDeliveryDetails: React.FC = () => {
                     {/* Delivery Details */}
                     <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md">
                         <h2 className="font-bold text-lg mb-2 dark:text-white">Deliver To</h2>
-                        <p className="font-semibold text-gray-700 dark:text-gray-200">{order.user ? `${order.user.firstName} ${order.user.lastName}` : ''}</p>
+                        <p className="font-semibold text-gray-700 dark:text-gray-200">{order.user ? `${order.user.first_name} ${order.user.last_name}` : ''}</p>
                         <p className="text-sm text-gray-500 dark:text-gray-400">{order.delivery_address?.full_address}</p>
                         <button className="mt-2 w-full text-sm text-orange-500 font-semibold flex items-center justify-center gap-1"><Phone size={14} /> Call Customer</button>
                     </div>

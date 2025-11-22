@@ -39,12 +39,12 @@ class Name
         switch (str_replace('_', '', $name)) {
             case 'firstname':
                 return static function () use ($generator) {
-                    return $generator->firstName();
+                    return $generator->first_name();
                 };
 
             case 'lastname':
                 return static function () use ($generator) {
-                    return $generator->lastName();
+                    return $generator->last_name();
                 };
 
             case 'username':

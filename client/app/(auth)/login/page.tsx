@@ -3,9 +3,9 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../contexts/AuthContext';
-import { useSettings } from '../../contexts/SettingsContext';
-import { UserRole } from '../../types';
+import { useAuth } from '../../../contexts/AuthContext';
+import { useSettings } from '../../../contexts/SettingsContext';
+import { UserRole } from '../../../types';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 
@@ -31,7 +31,8 @@ const LoginPage: React.FC = () => {
     const [formData, setFormData] = useState<FormData>({ email: '', password: '' });
     const [errors, setErrors] = useState<FormErrors>({});
     const [showPassword, setShowPassword] = useState(false);
-    const { login } = useAuth();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { login, user } = useAuth();
     const { settings } = useSettings();
     const router = useRouter();
 
@@ -45,7 +46,7 @@ const LoginPage: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const result = loginSchema.safeParse(formData);
 
@@ -59,18 +60,20 @@ const LoginPage: React.FC = () => {
         }
 
         setErrors({});
-        login(formData.email, 'customer');
-        router.push('/customer');
-    };
+        setIsSubmitting(true);
 
-    const handleQuickLogin = (demoRole: UserRole) => {
-        const demoEmail = `${demoRole}@example.com`;
-        login(demoEmail, demoRole);
+        try {
+            await login(formData.email, formData.password);
 
-        if (demoRole === 'customer') {
-            router.push('/customer');
-        } else {
-            router.push('/dashboard');
+        } catch (error: any) {
+            console.error('Login error:', error);
+            if (error.response?.status === 401) {
+                setErrors({ email: 'Invalid email or password' });
+            } else {
+                setErrors({ email: error.response?.data?.message || 'Login failed. Please try again.' });
+            }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -140,30 +143,14 @@ const LoginPage: React.FC = () => {
                         <div>
                             <button
                                 type="submit"
-                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors"
+                                disabled={isSubmitting}
+                                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                             >
-                                Login
+                                {isSubmitting ? 'Logging in...' : 'Login'}
                             </button>
                         </div>
                     </form>
 
-                    <div className="mt-6">
-                        <div className="relative">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full border-t border-gray-300 dark:border-gray-600" />
-                            </div>
-                            <div className="relative flex justify-center text-sm">
-                                <span className="px-2 bg-white dark:bg-gray-800 text-gray-500 dark:text-gray-400">Quick Demo Logins</span>
-                            </div>
-                        </div>
-
-                        <div className="mt-6 grid grid-cols-2 gap-3">
-                            <button onClick={() => handleQuickLogin('customer')} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">Customer</button>
-                            <button onClick={() => handleQuickLogin('staff')} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">Staff</button>
-                            <button onClick={() => handleQuickLogin('rider')} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">Rider</button>
-                            <button onClick={() => handleQuickLogin('admin')} className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm bg-white dark:bg-gray-700 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600">Admin</button>
-                        </div>
-                    </div>
 
                     <p className="mt-8 text-center text-sm text-gray-500 dark:text-gray-400">
                         Don't have an account?{' '}

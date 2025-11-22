@@ -12,8 +12,8 @@ class Company extends \Faker\Provider\Company
     ];
 
     protected static $companyFormats = [
-        '{{lastName}} {{firstName}} {{companySuffix}}',
-        '{{lastName}}-{{firstName}}',
+        '{{last_name}} {{first_name}} {{companySuffix}}',
+        '{{last_name}}-{{first_name}}',
     ];
 
     protected static $grafm = ['#########'];

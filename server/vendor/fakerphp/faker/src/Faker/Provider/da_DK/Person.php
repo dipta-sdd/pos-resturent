@@ -13,23 +13,23 @@ class Person extends \Faker\Provider\Person
      * @var array Danish person name formats.
      */
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{middleName}} {{lastName}}',
-        '{{firstNameMale}} {{middleName}} {{lastName}}',
-        '{{firstNameMale}} {{middleName}}-{{middleName}} {{lastName}}',
-        '{{firstNameMale}} {{middleName}} {{middleName}}-{{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{middleName}} {{last_name}}',
+        '{{firstNameMale}} {{middleName}} {{last_name}}',
+        '{{firstNameMale}} {{middleName}}-{{middleName}} {{last_name}}',
+        '{{firstNameMale}} {{middleName}} {{middleName}}-{{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{middleName}} {{lastName}}',
-        '{{firstNameFemale}} {{middleName}} {{lastName}}',
-        '{{firstNameFemale}} {{middleName}}-{{middleName}} {{lastName}}',
-        '{{firstNameFemale}} {{middleName}} {{middleName}}-{{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{middleName}} {{last_name}}',
+        '{{firstNameFemale}} {{middleName}} {{last_name}}',
+        '{{firstNameFemale}} {{middleName}}-{{middleName}} {{last_name}}',
+        '{{firstNameFemale}} {{middleName}} {{middleName}}-{{last_name}}',
     ];
 
     /**
@@ -125,7 +125,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @var array Danish last names.
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Jensen', 'Nielsen', 'Hansen', 'Pedersen', 'Andersen', 'Christensen', 'Larsen', 'Sørensen', 'Rasmussen', 'Petersen',
         'Jørgensen', 'Madsen', 'Kristensen', 'Olsen', 'Christiansen', 'Thomsen', 'Poulsen', 'Johansen', 'Knudsen', 'Mortensen',
         'Møller', 'Jacobsen', 'Jakobsen', 'Olesen', 'Frederiksen', 'Mikkelsen', 'Henriksen', 'Laursen', 'Lund', 'Schmidt',

@@ -5,14 +5,14 @@ namespace Faker\Provider\pl_PL;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}}',
-        '{{lastName}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}}',
-        '{{lastName}}-{{lastName}}',
+        '{{last_name}}',
+        '{{last_name}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}}',
+        '{{last_name}}-{{last_name}}',
     ];
 
     protected static $companySuffix = ['S.A.', 'i syn', 'sp. z o.o.', 'sp. j.', 'sp. p.', 'sp. k.', 'S.K.A', 's. c.', 'P.P.O.F'];

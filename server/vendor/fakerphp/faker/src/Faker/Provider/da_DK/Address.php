@@ -190,9 +190,9 @@ class Address extends \Faker\Provider\Address
      * @var array Danish street's name formats.
      */
     protected static $streetNameFormats = [
-        '{{lastName}}{{streetSuffix}}',
+        '{{last_name}}{{streetSuffix}}',
         '{{middleName}}{{streetSuffix}}',
-        '{{lastName}} {{streetSuffixWord}}',
+        '{{last_name}} {{streetSuffixWord}}',
         '{{middleName}} {{streetSuffixWord}}',
     ];
 

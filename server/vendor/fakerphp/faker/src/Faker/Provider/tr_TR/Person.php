@@ -8,17 +8,17 @@ class Person extends \Faker\Provider\Person
      * @var array Turkish person name formats.
      */
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -47,7 +47,7 @@ class Person extends \Faker\Provider\Person
      *
      * @var array Turkish last names.
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Abacı', 'Abadan', 'Aclan', 'Adal', 'Adan', 'Adıvar', 'Akal', 'Akan', 'Akar', 'Akay',
         'Akaydın', 'Akbulut', 'Akgül', 'Akışık', 'Akman', 'Akyürek', 'Akyüz', 'Akşit', 'Alnıaçık',
         'Alpuğan', 'Alyanak', 'Arıcan', 'Arslanoğlu', 'Atakol', 'Atan', 'Avan', 'Ayaydın', 'Aybar',

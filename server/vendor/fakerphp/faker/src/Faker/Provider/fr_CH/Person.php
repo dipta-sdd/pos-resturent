@@ -64,7 +64,7 @@ class Person extends \Faker\Provider\fr_FR\Person
     /**
      * @see http://blog.tagesanzeiger.ch/datenblog/index.php/6859
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Aebischer', 'Aeby', 'Andrey', 'Aubert', 'Aubry',
         'Bachmann', 'Baechler', 'Baeriswyl', 'Barbey', 'Barras', 'Baumann', 'Baumgartner', 'Berger', 'Bernard', 'Berset', 'Bersier', 'Berthoud', 'Besson', 'Blanc', 'Blaser', 'Boillat', 'Bonvin', 'Bourquin', 'Bruchez', 'Brunner', 'Brügger', 'Buchs', 'Bugnon', 'Burri', 'Bühler',
         'Castella', 'Cattin', 'Chappuis', 'Chapuis', 'Chassot', 'Chatelain', 'Chevalley', 'Chollet', 'Christen', 'Clerc', 'Clément', 'Constantin', 'Crausaz',

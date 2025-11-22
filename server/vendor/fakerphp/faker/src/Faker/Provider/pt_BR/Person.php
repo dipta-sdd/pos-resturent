@@ -7,33 +7,33 @@ require_once 'check_digit.php';
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{firstNameMale}} {{lastName}} {{lastName}} {{suffix}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{titleMale}} {{firstNameMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{lastName}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}} {{last_name}} {{suffix}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{titleMale}} {{firstNameMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{last_name}} {{suffix}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{firstNameFemale}} {{lastName}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{lastName}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{last_name}} {{suffix}}',
     ];
 
     protected static $firstNameMale = [
@@ -87,7 +87,7 @@ class Person extends \Faker\Provider\Person
         'Viviane', 'Yasmin', 'Yohanna',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Abreu', 'Aguiar', 'Alcantara', 'Alves', 'Amaral', 'Aragão', 'Aranda', 'Arruda', 'Ávila', 'Assunção', 'Azevedo',
         'Balestero', 'Barreto', 'Barros', 'Batista', 'Beltrão', 'Benez', 'Benites', 'Bezerra', 'Bittencourt', 'Bonilha',
         'Branco', 'Brito', 'Burgos', 'Caldeira', 'Camacho', 'Campos', 'Carmona', 'Carrara', 'Carvalho', 'Casanova',

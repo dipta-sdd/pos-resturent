@@ -32,7 +32,7 @@ const CustomerDashboard: React.FC = () => {
     //     imageUrl: 'https://i.imgur.com/G5zG9N0.png',
     // };
 
-    const customerName = user?.firstName || 'there';
+    const customerName = user?.first_name || 'there';
     const breadcrumbs = [{ name: 'Dashboard', path: '/customer' }];
 
     return (

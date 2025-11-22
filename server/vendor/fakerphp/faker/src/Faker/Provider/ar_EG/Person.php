@@ -5,15 +5,15 @@ namespace Faker\Provider\ar_EG;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{prefix}} {{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{prefix}} {{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{prefix}} {{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{prefix}} {{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -55,7 +55,7 @@ class Person extends \Faker\Provider\Person
         'هيفاء', 'هيلين', 'وئام', 'وجدان', 'وداد', 'ورود', 'وسام', 'وسيم', 'وعد', 'وفاء', 'ولاء', 'يارا', 'ياسمين', 'يسرى',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'عبد الرحيم', 'عبد الرحمن', 'عبد الرؤوف', 'عبد الحميد', 'عبد الله', 'عبد الباسط', 'عبد الحليم', 'عبد الجواد', 'عبد الجليل',
         'عبد المجيد', 'عبد المطلب', 'عبد المهيمن', 'عبد القادر', 'عبد الفتاح', 'عبد العزيز', 'عبد السلام', 'عبد الرزاق',
         'طلال', 'هارون', 'شافع', 'عبد الكريم', 'عبد اللطيف', 'عبد الوهاب', 'عبد الهادي', 'عبد الناصر', 'عبد المعطي',

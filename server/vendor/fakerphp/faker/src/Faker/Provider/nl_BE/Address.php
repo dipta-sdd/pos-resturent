@@ -23,7 +23,7 @@ class Address extends \Faker\Provider\Address
         '{{streetName}} {{buildingNumber}}',
     ];
 
-    protected static $streetNameFormats = ['{{lastName}}{{streetSuffix}}'];
+    protected static $streetNameFormats = ['{{last_name}}{{streetSuffix}}'];
 
     protected static $cityFormats = ['{{cityName}}'];
 

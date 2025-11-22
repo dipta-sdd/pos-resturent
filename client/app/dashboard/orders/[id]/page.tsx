@@ -70,7 +70,7 @@ const AdminOrderDetailsPage: React.FC = () => {
 
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold mb-4 dark:text-white flex items-center gap-2"><User /> Customer Details</h2>
-                        <p className="font-medium dark:text-gray-200">{order.user ? `${order.user.firstName} ${order.user.lastName}` : ''}</p>
+                        <p className="font-medium dark:text-gray-200">{order.user ? `${order.user.first_name} ${order.user.last_name}` : ''}</p>
                         {order.delivery_address && <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-1"><MapPin size={14} />{order.delivery_address.full_address}</p>}
                     </div>
 
@@ -79,7 +79,7 @@ const AdminOrderDetailsPage: React.FC = () => {
                             <h2 className="text-xl font-semibold mb-4 dark:text-white flex items-center gap-2"><Truck /> Rider Assignment</h2>
                             <select defaultValue={order.rider_id || ""} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                 <option value="">Unassigned</option>
-                                {riders.map(r => <option key={r.id} value={r.id}>{`${r.firstName} ${r.lastName}`}</option>)}
+                                {riders.map(r => <option key={r.id} value={r.id}>{`${r.first_name} ${r.last_name}`}</option>)}
                             </select>
                             <button className="w-full mt-3 bg-blue-500 text-white font-bold py-2 rounded-lg">Assign Rider</button>
                         </div>

@@ -7,11 +7,11 @@ require_once 'check_digit.php';
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}}',
-        '{{lastName}} e {{lastName}}',
-        '{{lastName}} e {{lastName}} {{companySuffix}}',
-        '{{lastName}} Comercial Ltda.',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}}',
+        '{{last_name}} e {{last_name}}',
+        '{{last_name}} e {{last_name}} {{companySuffix}}',
+        '{{last_name}} Comercial Ltda.',
     ];
 
     protected static $companySuffix = ['e Filhos', 'e Associados', 'Ltda.', 'S.A.'];

@@ -13,10 +13,10 @@ class Address extends \Faker\Provider\Address
         '{{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{lastName}}',
-        '{{streetPrefix}} {{lastName}} {{lastName}}',
-        '{{streetPrefix}} Αγίου {{lastName}}',
-        '{{streetPrefix}} Βασιλέως {{lastName}}',
+        '{{streetPrefix}} {{last_name}}',
+        '{{streetPrefix}} {{last_name}} {{last_name}}',
+        '{{streetPrefix}} Αγίου {{last_name}}',
+        '{{streetPrefix}} Βασιλέως {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}}, {{buildingNumber}}',

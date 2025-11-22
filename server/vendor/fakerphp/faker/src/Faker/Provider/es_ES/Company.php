@@ -5,16 +5,16 @@ namespace Faker\Provider\es_ES;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{companyPrefix}} {{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}}',
-        '{{companyPrefix}} {{lastName}}-{{lastName}}',
-        '{{lastName}}-{{lastName}} {{companySuffix}}',
-        '{{lastName}} y {{lastName}} {{companySuffix}}',
-        '{{lastName}} de {{lastName}} {{companySuffix}}',
-        '{{lastName}}, {{lastName}} y {{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}}',
-        '{{lastName}} y {{lastName}}',
-        '{{lastName}} de {{lastName}}',
+        '{{companyPrefix}} {{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}}',
+        '{{companyPrefix}} {{last_name}}-{{last_name}}',
+        '{{last_name}}-{{last_name}} {{companySuffix}}',
+        '{{last_name}} y {{last_name}} {{companySuffix}}',
+        '{{last_name}} de {{last_name}} {{companySuffix}}',
+        '{{last_name}}, {{last_name}} y {{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}}',
+        '{{last_name}} y {{last_name}}',
+        '{{last_name}} de {{last_name}}',
     ];
 
     protected static $catchPhraseWords = [

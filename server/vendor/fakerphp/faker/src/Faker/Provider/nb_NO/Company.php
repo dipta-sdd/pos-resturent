@@ -5,14 +5,14 @@ namespace Faker\Provider\nb_NO;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{firstName}} {{lastName}} {{companySuffix}}',
-        '{{lastName}} & {{lastName}} {{companySuffix}}',
-        '{{lastName}} & {{lastName}}',
-        '{{lastName}} og {{lastName}}',
-        '{{lastName}} og {{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{first_name}} {{last_name}} {{companySuffix}}',
+        '{{last_name}} & {{last_name}} {{companySuffix}}',
+        '{{last_name}} & {{last_name}}',
+        '{{last_name}} og {{last_name}}',
+        '{{last_name}} og {{last_name}} {{companySuffix}}',
     ];
 
     /**

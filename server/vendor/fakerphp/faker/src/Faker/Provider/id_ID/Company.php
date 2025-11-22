@@ -5,10 +5,10 @@ namespace Faker\Provider\id_ID;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{companyPrefix}} {{lastName}}',
-        '{{companyPrefix}} {{lastName}} {{lastName}}',
-        '{{companyPrefix}} {{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}} {{lastName}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}}',
+        '{{companyPrefix}} {{last_name}} {{last_name}}',
+        '{{companyPrefix}} {{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}} {{last_name}} {{companySuffix}}',
     ];
 
     /**

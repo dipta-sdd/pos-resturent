@@ -72,7 +72,7 @@ class Person extends \Faker\Provider\Person
      *
      * @see http://www.mof.gov.cy/mof/cystat/statistics.nsf/populationcondition_22main_gr/populationcondition_22main_gr?OpenForm&sub=2&sel=2
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Άκη', 'Αγαθοκλέους', 'Αθανάσιου', 'Αλέκου', 'Αλεξάνδρου', 'Αλκιβιάδη', 'Αναστασίου', 'Ανδρέου', 'Ανδρονίκου', 'Αντωνίου', 'Αργύρη', 'Αριστείδη', 'Αριστοδήμου', 'Αυγουστή', 'Αυξεντίου', 'Αχιλλέα',
         'Βίκτωρα', 'Βαλεντίνου', 'Βαρνάβα', 'Βασίλη',
         'Γαβριήλ', 'Γεράσιμου', 'Γεωργίου', 'Γιάγκου', 'Γλαύκου', 'Γρηγορίου',

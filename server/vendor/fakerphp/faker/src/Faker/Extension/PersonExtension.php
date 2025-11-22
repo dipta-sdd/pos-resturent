@@ -22,7 +22,7 @@ interface PersonExtension extends Extension
      *
      * @example 'John'
      */
-    public function firstName(?string $gender = null): string;
+    public function first_name(?string $gender = null): string;
 
     public function firstNameMale(): string;
 
@@ -31,7 +31,7 @@ interface PersonExtension extends Extension
     /**
      * @example 'Doe'
      */
-    public function lastName(): string;
+    public function last_name(): string;
 
     /**
      * @example 'Mrs.'

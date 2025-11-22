@@ -155,7 +155,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     return '/dashboard'; // General fallback
   }
 
-  const userName = user ? `${user.firstName} ${user.lastName}` : '';
+  const userName = user ? `${user.first_name} ${user.last_name}` : '';
 
   return (
     <div className="flex h-screen bg-gray-100 dark:bg-gray-950">

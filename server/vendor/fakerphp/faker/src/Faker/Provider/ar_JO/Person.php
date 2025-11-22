@@ -5,19 +5,19 @@ namespace Faker\Provider\ar_JO;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -82,7 +82,7 @@ class Person extends \Faker\Provider\Person
         'ىمنة', 'يارا', 'ياسمين', 'يافا', 'يسرى', 'ينان', 'ﻟﻮﺗﺸﻴﺎ',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'آلهامي', 'أبو الرب', 'ابو رحمة', 'ابو سعده', 'ابو يوسف', 'ابوالحاج', 'الامام', 'البتراء', 'البلبيسي', 'الترابين', 'التلهوني', 'الجبارات', 'الجرَّاح', 'الجوابره', 'الجوالدة', 'الحجايا', 'الحوراني', 'الدعجة', 'الردايدة', 'الرشدان', 'الرفاعي', 'الروابدة', 'الروسان', 'الريماوي', 'الزعبية', 'الزوربا', 'السحاقات', 'السحيمات', 'السراج', 'السعد', 'السلطية', 'السيوف', 'الشامي', 'الشريدة', 'الشريف', 'الشطناوي', 'الشمالي', 'الصرايرة', 'الصمادي', 'الصنات', 'الضمور', 'الطباع', 'الطراونة', 'الطويسات', 'الطويل', 'العدوان', 'العضيبات', 'العلامي', 'العمري', 'العمرية', 'العناسوة', 'العنانبه', 'الغريب', 'الفاخوري', 'الفاعوري', 'الفناطسة', 'القطيشات', 'الكردي', 'الكركي', 'المبيضين', 'المجالي', 'المحاميد', 'المساعيد', 'المشاهره', 'المصري', 'المعشر', 'المواجدة', 'المومنى', 'المومنية', 'النسور', 'النشاشيبي', 'النعيمات', 'الهلسة', 'الوشاح',
         'بني حسن', 'بني صقر',
         'سحاب',

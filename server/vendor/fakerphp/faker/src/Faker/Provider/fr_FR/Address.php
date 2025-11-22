@@ -7,19 +7,19 @@ class Address extends \Faker\Provider\Address
     protected static $citySuffix = ['Ville', 'Bourg', '-les-Bains', '-sur-Mer', '-la-Forêt', 'boeuf', 'nec', 'dan'];
     protected static $streetPrefix = ['rue', 'rue', 'chemin', 'avenue', 'boulevard', 'place', 'impasse'];
     protected static $cityFormats = [
-        '{{lastName}}',
-        '{{lastName}}',
-        '{{lastName}}',
-        '{{lastName}}',
-        '{{lastName}}{{citySuffix}}',
-        '{{lastName}}{{citySuffix}}',
-        '{{lastName}}{{citySuffix}}',
-        '{{lastName}}-sur-{{lastName}}',
+        '{{last_name}}',
+        '{{last_name}}',
+        '{{last_name}}',
+        '{{last_name}}',
+        '{{last_name}}{{citySuffix}}',
+        '{{last_name}}{{citySuffix}}',
+        '{{last_name}}{{citySuffix}}',
+        '{{last_name}}-sur-{{last_name}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{lastName}}',
-        '{{streetPrefix}} {{firstName}} {{lastName}}',
-        '{{streetPrefix}} de {{lastName}}',
+        '{{streetPrefix}} {{last_name}}',
+        '{{streetPrefix}} {{first_name}} {{last_name}}',
+        '{{streetPrefix}} de {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}}',

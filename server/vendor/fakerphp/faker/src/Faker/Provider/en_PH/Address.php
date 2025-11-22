@@ -5,7 +5,7 @@ namespace Faker\Provider\en_PH;
 class Address extends \Faker\Provider\en_US\Address
 {
     protected static $streetNameFormats = [
-        '{{lastName}} {{streetSuffix}}',
+        '{{last_name}} {{streetSuffix}}',
     ];
 
     //http://en.wikipedia.org/wiki/Postal_addresses_in_the_Philippines

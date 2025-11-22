@@ -21,7 +21,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://surnames.behindthename.com/names/usage/croatian
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Abramović', 'Adamić', 'Antić', 'Babić', 'Blažević', 'Bogdanić', 'Bogdanović', 'Božić', 'Brož', 'Dragić', 'Dragović', 'Filipović', 'Franić', 'Franjić', 'Grgić', 'Horvat', 'Horvatinčić', 'Ivanović', 'Janković', 'Jurić', 'Juriša', 'Kasun', 'Knežević', 'Kovač', 'Kovačević', 'Kovačić', 'Košar', 'Kranjčar', 'Lovren', 'Mandžukić', 'Maras', 'Marić', 'Marković', 'Marušić', 'Matić', 'Milić', 'Mlakar', 'Modrić', 'Neretljak', 'Nikolić', 'Novak', 'Novaković', 'Pavić', 'Pavletić', 'Perić', 'Perković', 'Petrović', 'Radić', 'Raić-Sudar', 'Ratković', 'Srna', 'Stanković', 'Tomić', 'Tomčić', 'Vincetić', 'Vinković', 'Vlahović', 'Vlašić', 'Vuka', 'Vuković', 'Zorić', 'Ćorluka', 'Čupić', 'Župan',
     ];
 }

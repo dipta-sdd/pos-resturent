@@ -5,23 +5,23 @@ namespace Faker\Provider\fr_CA;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}-{{lastName}}',
-        '{{firstNameMale}}-{{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}-{{last_name}}',
+        '{{firstNameMale}}-{{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}-{{lastName}}',
-        '{{firstNameFemale}}-{{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}-{{last_name}}',
+        '{{firstNameFemale}}-{{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -55,7 +55,7 @@ class Person extends \Faker\Provider\Person
      * These last names come from this list of most common family names in Québec (1 to 130)
      * http://fr.wikipedia.org/wiki/Liste_des_noms_de_famille_les_plus_courants_au_Québec
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Allard', 'Arsenault', 'Audet',
         'Beaudoin', 'Beaulieu', 'Bédard', 'Bélanger', 'Benoît', 'Bergeron', 'Bernard', 'Bernier', 'Bertrand', 'Bérubé',
         'Bilodeau', 'Blais', 'Blanchette', 'Boisvert', 'Boivin', 'Bolduc', 'Bouchard', 'Boucher', 'Boudreau',

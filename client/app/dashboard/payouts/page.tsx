@@ -23,7 +23,7 @@ const AdminPayoutManagement: React.FC = () => {
 
     const getUserName = (userId: number) => {
         const user = mockUsers.find(u => u.id === userId);
-        return user ? `${user.firstName} ${user.lastName}` : 'Unknown Rider';
+        return user ? `${user.first_name} ${user.last_name}` : 'Unknown Rider';
     };
 
 

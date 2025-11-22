@@ -5,7 +5,7 @@ namespace Faker\Provider;
 class Company extends Base
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
     ];
 
     protected static $companySuffix = ['Ltd'];

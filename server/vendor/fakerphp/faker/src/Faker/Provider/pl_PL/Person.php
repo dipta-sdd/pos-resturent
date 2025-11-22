@@ -92,7 +92,7 @@ class Person extends \Faker\Provider\Person
      *
      * @example 'Adamczyk'
      */
-    public function lastName($gender = null)
+    public function last_name($gender = null)
     {
         if ($gender === static::GENDER_MALE) {
             return static::lastNameMale();

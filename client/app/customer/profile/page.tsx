@@ -83,8 +83,8 @@ const ProfileSettingsPage: React.FC = () => {
 
     useEffect(() => {
         if (user) {
-            // FIX: Use firstName and lastName to construct the full name.
-            setName(`${user.firstName} ${user.lastName}`);
+            // FIX: Use first_name and last_name to construct the full name.
+            setName(`${user.first_name} ${user.last_name}`);
             // FIX: Use the 'mobile' property from the User object, not 'phone'.
             setPhone(user.mobile || '(123) 456-7890'); // Placeholder for demo
             setAvatarPreview(user.avatar_url || null);
@@ -143,8 +143,8 @@ const ProfileSettingsPage: React.FC = () => {
         );
     }
 
-    // FIX: Use firstName and lastName to construct the full name for the avatar API.
-    const userNameForAvatar = `${user.firstName} ${user.lastName}`;
+    // FIX: Use first_name and last_name to construct the full name for the avatar API.
+    const userNameForAvatar = `${user.first_name} ${user.last_name}`;
 
     return (
         <>

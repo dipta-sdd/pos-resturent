@@ -16,14 +16,14 @@ class Address extends \Faker\Provider\es_ES\Address
         'AR-B', 'AR-K', 'AR-H', 'AR-U', 'AR-X', 'AR-W', 'AR-E', 'AR-P', 'AR-Y', 'AR-L', 'AR-F', 'AR-M', 'AR-N', 'AR-Q', 'AR-R', 'AR-A', 'AR-J', 'AR-D', 'AR-Z', 'AR-S', 'AR-G', 'AR-V', 'AR-T',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}} {{firstName}} {{citySuffix}}',
-        '{{cityPrefix}} {{firstName}}',
-        '{{firstName}} {{citySuffix}}',
-        '{{lastName}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}',
+        '{{first_name}} {{citySuffix}}',
+        '{{last_name}} {{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{firstName}} {{streetSuffix}}',
-        '{{lastName}} {{streetSuffix}}',
+        '{{first_name}} {{streetSuffix}}',
+        '{{last_name}} {{streetSuffix}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}} {{buildingNumber}}',

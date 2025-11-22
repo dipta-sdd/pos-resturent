@@ -3,17 +3,42 @@
 
 
 
-// FIX: Corrected imports to match exported members from mockData.
+import axiosInstance from './axiosConfig';
+import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User } from '../types';
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
-import { Promotion, PaymentMethod, Order, Reservation } from '../types';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
 
-// Mock API functions
+// API functions
 export const api = {
+  // Auth
+  login: async (credentials: { email: string; password: string }) => {
+    const response = await axiosInstance.post<LoginResponse>('/auth/login', credentials);
+    return response.data;
+  },
+  register: async (data: any) => {
+    const response = await axiosInstance.post<RegisterResponse>('/auth/register', {
+      first_name: data.firstName,
+      last_name: data.last_name,
+      email: data.email,
+      mobile: data.mobile,
+      password: data.password,
+      password_confirmation: data.password_confirmation,
+    });
+    return response.data;
+  },
+  logout: async () => {
+    const response = await axiosInstance.post('/auth/logout');
+    return response.data;
+  },
+  getMe: async () => {
+    const response = await axiosInstance.get<User>('/auth/me');
+    return response.data;
+  },
+
   // Public
   getFeaturedMenuItems: async () => {
-    await delay(300);
+    // await delay(300);
     return mockMenuItems.filter(item => item.is_featured);
   },
   getMenuItems: async (categoryId?: number) => {

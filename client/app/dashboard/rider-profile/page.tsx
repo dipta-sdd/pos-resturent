@@ -6,7 +6,7 @@ import { Upload } from 'lucide-react';
 
 const RiderProfilePage: React.FC = () => {
     const { user } = useAuth();
-    const userName = user ? `${user.firstName} ${user.lastName}` : '';
+    const userName = user ? `${user.first_name} ${user.last_name}` : '';
 
     return (
         <div>

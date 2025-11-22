@@ -53,7 +53,7 @@ const POSDashboard: React.FC = () => {
                                 <h3 className="font-bold text-lg dark:text-white">Order #{order.id}</h3>
                                 <span className="text-sm font-semibold capitalize text-gray-600 dark:text-gray-300">{order.order_type}</span>
                             </div>
-                            <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">Customer: {order.user ? `${order.user.firstName} ${order.user.lastName}` : ''}</p>
+                            <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">Customer: {order.user ? `${order.user.first_name} ${order.user.last_name}` : ''}</p>
                             <div className="flex justify-between items-center text-sm text-gray-600 dark:text-gray-300">
                                 <span className="flex items-center gap-1"><Clock size={14} /> {order.created_at ? new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}</span>
                                 <span className="font-bold text-base text-gray-800 dark:text-white">${order.total_amount.toFixed(2)}</span>

@@ -10,7 +10,6 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useSettings } from '../../contexts/SettingsContext';
 
 const Header: React.FC = () => {
-  console.log("Header");
   const { cartCount } = useCart();
   const { isAuthenticated, user, logout, permissions } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -52,8 +51,7 @@ const Header: React.FC = () => {
 
   const dropdownLinkClass = "flex items-center gap-3 px-4 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors";
 
-  const userName = user ? `${user.firstName} ${user.lastName}` : '';
-  console.log('header end');
+  const userName = user ? `${user.first_name} ${user.last_name}` : '';
 
   return (
     <>

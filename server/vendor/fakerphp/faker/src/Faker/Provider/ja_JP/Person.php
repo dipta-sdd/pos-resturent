@@ -5,11 +5,11 @@ namespace Faker\Provider\ja_JP;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{lastName}} {{firstNameMale}}',
+        '{{last_name}} {{firstNameMale}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}} {{firstNameFemale}}',
+        '{{last_name}} {{firstNameFemale}}',
     ];
 
     /**
@@ -33,7 +33,7 @@ class Person extends \Faker\Provider\Person
     /**
      * {@link} http://dic.nicovideo.jp/a/%E6%97%A5%E6%9C%AC%E3%81%AE%E8%8B%97%E5%AD%97%28%E5%90%8D%E5%AD%97%29%E3%81%AE%E4%B8%80%E8%A6%A7
      */
-    protected static $lastName = [
+    protected static $last_name = [
         '青田', '青山', '石田', '井高', '伊藤', '井上', '宇野', '江古田', '大垣',
         '加藤', '加納', '喜嶋', '木村', '桐山', '工藤', '小泉', '小林', '近藤',
         '斉藤', '坂本', '佐々木', '佐藤', '笹田', '鈴木', '杉山',

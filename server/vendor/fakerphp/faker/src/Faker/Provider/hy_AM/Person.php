@@ -5,15 +5,15 @@ namespace Faker\Provider\hy_AM;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -86,7 +86,7 @@ class Person extends \Faker\Provider\Person
         'Փերուզ', 'Փիւնիկ', 'Քաղրուհի', 'Քնար', 'Քնքուշ', 'Քրիստինէ',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Կարապետյան', 'Ասատրյան', 'Հովսեփյան', 'Մուրադյան', 'Հովհաննիսյան',
         'Աբգարյան', 'Գրիգորյան', 'Կարապետյան', 'Հայրապետյան', 'Ավագյան',
         'Պետրոսյան', 'Պողոսյան', 'Աբդալյան', 'Բադալյան', 'Մելիքյան', 'Մկրտչյան',

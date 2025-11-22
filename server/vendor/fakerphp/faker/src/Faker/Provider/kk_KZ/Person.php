@@ -53,7 +53,7 @@ class Person extends \Faker\Provider\Person
      * @var array
      */
     protected static $maleNameFormats = [
-        '{{lastName}}ұлы {{firstNameMale}}',
+        '{{last_name}}ұлы {{firstNameMale}}',
     ];
 
     /**
@@ -62,7 +62,7 @@ class Person extends \Faker\Provider\Person
      * @var array
      */
     protected static $femaleNameFormats = [
-        '{{lastName}}қызы {{firstNameFemale}}',
+        '{{last_name}}қызы {{firstNameFemale}}',
     ];
 
     /**
@@ -144,7 +144,7 @@ class Person extends \Faker\Provider\Person
      *
      * @var array
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Адырбай',
         'Әжібай',
         'Байбөрі',

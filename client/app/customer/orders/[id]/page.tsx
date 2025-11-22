@@ -230,7 +230,7 @@ const OrderDetailsPage: React.FC = () => {
                                 <div className="flex items-start gap-3">
                                     <Home size={20} className="text-gray-500 dark:text-gray-400 mt-1" />
                                     <div>
-                                        <p className="font-semibold text-gray-800 dark:text-white">{order.user?.firstName} {order.user?.lastName}</p>
+                                        <p className="font-semibold text-gray-800 dark:text-white">{order.user?.first_name} {order.user?.last_name}</p>
                                         <p className="text-sm text-gray-500 dark:text-gray-400">{order.delivery_address.full_address}</p>
                                     </div>
                                 </div>

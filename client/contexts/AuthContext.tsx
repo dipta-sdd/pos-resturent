@@ -3,17 +3,18 @@
 
 'use client';
 
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 import { User, UserRole, Role } from '../types';
-import { mockUsers, mockRoles } from '../data/mockData';
+import { api } from '../services/api';
 
 interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
   role: UserRole | null;
   permissions: Role | null;
-  login: (email: string, role: UserRole) => void;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -22,49 +23,62 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children?: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [permissions, setPermissions] = useState<Role | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = (email: string, role: UserRole) => {
-    // In a real app, you'd call an API. Here we find a mock user.
-    const targetRole = mockRoles.find(r => r.name === role);
-    if (!targetRole) {
-      console.error("Role not found");
-      return;
-    }
+  // Fetch user on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const userData = await api.getMe();
+          setUser(userData);
+          if (userData.role) {
+            setPermissions(userData.role);
+          }
+        } catch (error) {
+          console.error('Failed to fetch user:', error);
+          localStorage.removeItem('token');
+        }
+      }
+      setLoading(false);
+    };
 
-    const mockUser = mockUsers.find(u => u.email === email && u.role_id === targetRole.id);
-    if (mockUser) {
-      setUser(mockUser);
-      setPermissions(targetRole);
-    } else {
-      // Create a dummy user for demo purposes if not found
-      const newUser: User = {
-        id: Date.now(),
-        email,
-        firstName: 'Demo',
-        lastName: 'User',
-        role_id: targetRole.id,
-        mobile: null,
-        email_verified_at: new Date(),
-        mobile_verified_at: null,
-        remember_token: null,
-        created_at: new Date(),
-        updated_at: new Date(),
-      };
-      setUser(newUser);
-      setPermissions(targetRole);
+    fetchUser();
+  }, []);
+
+  const login = async (email: string, password: string): Promise<void> => {
+    try {
+      const response = await api.login({ email, password });
+      localStorage.setItem('token', response.access_token);
+      setUser(response.user);
+      console.log(response.user);
+      if (response.user.role) {
+        setPermissions(response.user.role);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+      throw error;
     }
   };
 
-  const logout = () => {
-    setUser(null);
-    setPermissions(null);
+  const logout = async () => {
+    try {
+      await api.logout();
+    } catch (error) {
+      console.error('Logout failed:', error);
+    } finally {
+      localStorage.removeItem('token');
+      setUser(null);
+      setPermissions(null);
+    }
   };
 
   const isAuthenticated = !!user;
   const role = permissions ? permissions.name as UserRole : null;
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, role, permissions, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, role, permissions, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

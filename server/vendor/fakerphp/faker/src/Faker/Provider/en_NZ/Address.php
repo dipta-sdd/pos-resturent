@@ -32,7 +32,7 @@ class Address extends \Faker\Provider\en_US\Address
      *
      * @var array
      */
-    protected static $cityFormats = ['{{firstName}}{{citySuffix}}'];
+    protected static $cityFormats = ['{{first_name}}{{citySuffix}}'];
 
     /**
      * An array of en_NZ (New Zealand) regions

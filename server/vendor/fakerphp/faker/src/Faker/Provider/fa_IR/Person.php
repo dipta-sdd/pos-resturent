@@ -5,19 +5,19 @@ namespace Faker\Provider\fa_IR;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -97,7 +97,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://fa.wikipedia.org/wiki/%D8%B1%D8%AF%D9%87:%D9%86%D8%A7%D9%85%E2%80%8C%D9%87%D8%A7%DB%8C_%D8%AE%D8%A7%D9%86%D9%88%D8%A7%D8%AF%DA%AF%DB%8C_%D8%B2%D8%A8%D8%A7%D9%86%E2%80%8C%D9%87%D8%A7%DB%8C_%D8%A7%DB%8C%D8%B1%D8%A7%D9%86%DB%8C
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'آختاچی', 'آدینه', 'آریان‌پور', 'آشتیانی', 'آشنا', 'آشوری', 'آقاجری', 'آهنگر', 'آهنگری', 'آهی', 'آژند', 'آیتی', 'آیت‌اللهی',
         'ابتکار', 'ابریشمی', 'ابطحی', 'ابوذر', 'ادب', 'ادیانی', 'ارسباران', 'استادی', 'اشتری', 'اشراقی', 'اشکوری', 'اصفهانی', 'اصلانی', 'اعتبار', 'اعتماد', 'اعلم', 'افخم', 'افخمی', 'اقلیما', 'اللهیاری', 'الهام', 'امانت', 'امانی', 'امیری', 'امین‌زاده', 'انتظامی', 'انوار', 'انوری', 'انوشه', 'اوستا', 'ایمانی',
         'باستانی', 'باطنی', 'باغچه‌بان', 'باهنر', 'بحرینی', 'بخاری', 'بختیار', 'بختیاری', 'بدخشانی', 'برزویی', 'بزرگی', 'بزرگیان', 'بزرگ‌نیا', 'بهاور', 'بهبهانی', 'بهشتی', 'بیگی',

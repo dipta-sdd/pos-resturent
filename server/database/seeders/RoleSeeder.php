@@ -1,0 +1,135 @@
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use App\Models\Role;
+
+class RoleSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $roles = [
+            [
+                'name' => 'Customer',
+                'slug' => 'customer',
+                'can_manage_shop_settings' => false,
+                'can_manage_payment_methods' => false,
+                'can_manage_staff' => false,
+                'can_manage_roles_and_permissions' => false,
+                'can_view_user_activity_log' => false,
+                'can_view_products' => true,
+                'can_manage_products' => false,
+                'can_manage_categories' => false,
+                'can_import_products' => false,
+                'can_export_products' => false,
+                'can_use_pos' => false,
+                'can_view_sales_history' => false,
+                'can_view_customers' => false,
+                'can_manage_customers' => false,
+                'can_manage_expenses' => false,
+                'can_access_dashboard' => false,
+                'can_view_reports' => false,
+                'can_view_profit_loss_data' => false,
+                'can_export_data' => false,
+                'can_manage_reservations' => false,
+                'can_manage_payouts' => false,
+                'can_send_communications' => false,
+                'can_view_rider_profile' => false,
+                'can_manage_promotions' => false,
+            ],
+            [
+                'name' => 'Staff',
+                'slug' => 'staff',
+                'can_manage_shop_settings' => false,
+                'can_manage_payment_methods' => false,
+                'can_manage_staff' => false,
+                'can_manage_roles_and_permissions' => false,
+                'can_view_user_activity_log' => false,
+                'can_view_products' => true,
+                'can_manage_products' => true,
+                'can_manage_categories' => true,
+                'can_import_products' => false,
+                'can_export_products' => false,
+                'can_use_pos' => true,
+                'can_view_sales_history' => true,
+                'can_view_customers' => true,
+                'can_manage_customers' => false,
+                'can_manage_expenses' => false,
+                'can_access_dashboard' => true,
+                'can_view_reports' => true,
+                'can_view_profit_loss_data' => false,
+                'can_export_data' => false,
+                'can_manage_reservations' => true,
+                'can_manage_payouts' => false,
+                'can_send_communications' => false,
+                'can_view_rider_profile' => false,
+                'can_manage_promotions' => false,
+            ],
+            [
+                'name' => 'Rider',
+                'slug' => 'rider',
+                'can_manage_shop_settings' => false,
+                'can_manage_payment_methods' => false,
+                'can_manage_staff' => false,
+                'can_manage_roles_and_permissions' => false,
+                'can_view_user_activity_log' => false,
+                'can_view_products' => false,
+                'can_manage_products' => false,
+                'can_manage_categories' => false,
+                'can_import_products' => false,
+                'can_export_products' => false,
+                'can_use_pos' => false,
+                'can_view_sales_history' => false,
+                'can_view_customers' => false,
+                'can_manage_customers' => false,
+                'can_manage_expenses' => false,
+                'can_access_dashboard' => true,
+                'can_view_reports' => false,
+                'can_view_profit_loss_data' => false,
+                'can_export_data' => false,
+                'can_manage_reservations' => false,
+                'can_manage_payouts' => false,
+                'can_send_communications' => false,
+                'can_view_rider_profile' => true,
+                'can_manage_promotions' => false,
+            ],
+            [
+                'name' => 'Admin',
+                'slug' => 'admin',
+                'can_manage_shop_settings' => true,
+                'can_manage_payment_methods' => true,
+                'can_manage_staff' => true,
+                'can_manage_roles_and_permissions' => true,
+                'can_view_user_activity_log' => true,
+                'can_view_products' => true,
+                'can_manage_products' => true,
+                'can_manage_categories' => true,
+                'can_import_products' => true,
+                'can_export_products' => true,
+                'can_use_pos' => true,
+                'can_view_sales_history' => true,
+                'can_view_customers' => true,
+                'can_manage_customers' => true,
+                'can_manage_expenses' => true,
+                'can_access_dashboard' => true,
+                'can_view_reports' => true,
+                'can_view_profit_loss_data' => true,
+                'can_export_data' => true,
+                'can_manage_reservations' => true,
+                'can_manage_payouts' => true,
+                'can_send_communications' => true,
+                'can_view_rider_profile' => true,
+                'can_manage_promotions' => true,
+            ],
+        ];
+
+        foreach ($roles as $roleData) {
+            Role::updateOrCreate(
+                ['slug' => $roleData['slug']],
+                $roleData
+            );
+        }
+    }
+}

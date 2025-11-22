@@ -7,17 +7,17 @@ use Faker\Calculator\Luhn;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     protected static $firstNameMale = [
@@ -77,7 +77,7 @@ class Person extends \Faker\Provider\Person
         'Thulani', 'Tumelo', 'Unathi', 'Vusi', 'Vuyokazi', 'Yolandi', 'Your', 'Zandile',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Naidoo', 'Govender', 'Pillay', 'Smith', 'Botha', 'van der Merwe', 'Jacobs', 'Moodley', 'Singh', 'Ndlovu', 'Dlamini',
         'Pretorius', 'Williams', 'Khumalo', 'du Plessis', 'Nkosi', 'Coetzee', 'Venter', 'Nel', 'Fourie', 'Van Wyk', 'Chetty',
         'Smit', 'Kruger', 'Van Zyl', 'Sithole', 'du Toit', 'Adams', 'van Niekerk', 'Reddy', 'Khan', 'Meyer', 'Mahlangu', 'Abrahams',

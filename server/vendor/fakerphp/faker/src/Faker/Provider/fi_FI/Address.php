@@ -40,14 +40,14 @@ class Address extends \Faker\Provider\Address
         'Zimbabwe',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}}-{{firstName}}{{citySuffix}}',
-        '{{cityPrefix}}-{{firstName}}',
-        '{{firstName}}{{citySuffix}}',
-        '{{lastName}}{{citySuffix}}',
+        '{{cityPrefix}}-{{first_name}}{{citySuffix}}',
+        '{{cityPrefix}}-{{first_name}}',
+        '{{first_name}}{{citySuffix}}',
+        '{{last_name}}{{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{firstName}}{{streetSuffix}}',
-        '{{lastName}}{{streetSuffix}}',
+        '{{first_name}}{{streetSuffix}}',
+        '{{last_name}}{{streetSuffix}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}} {{buildingNumber}}',

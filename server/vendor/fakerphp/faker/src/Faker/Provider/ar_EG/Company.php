@@ -8,10 +8,10 @@ class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
         '{{companyPrefix}} {{cityName}}',
-        '{{companyPrefix}} {{lastName}}',
+        '{{companyPrefix}} {{last_name}}',
         '{{cityName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}} {{companySuffix}}',
         '{{companyPrefix}} {{cityName}} {{companySuffix}}',
     ];
 

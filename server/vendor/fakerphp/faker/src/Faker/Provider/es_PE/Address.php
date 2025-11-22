@@ -14,13 +14,13 @@ class Address extends \Faker\Provider\es_ES\Address
         'Lima', 'Callao', 'Arequipa', 'Cuzco', 'Piura', 'Iquitos', 'Huaraz', 'Tacna', 'Ayacucho', 'Pucallpa', 'Trujillo', 'Chimbote', 'Ica', 'Moquegua', 'Puno', 'Tarapoto', 'Cajamarca', 'Lambayeque', 'Huanuco', 'Jauja', 'Tumbes', 'Madre de Dios',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}} {{firstName}} {{lastName}}',
-        '{{cityPrefix}} {{firstName}}',
-        '{{firstName}} {{citySuffix}}',
-        '{{lastName}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}} {{last_name}}',
+        '{{cityPrefix}} {{first_name}}',
+        '{{first_name}} {{citySuffix}}',
+        '{{last_name}} {{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{firstName}} {{lastName}}',
+        '{{streetPrefix}} {{first_name}} {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}} # {{buildingNumber}} ',

@@ -5,18 +5,18 @@ namespace Faker\Provider\en_IN;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{middleNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{middleNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{middleNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{middleNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameMale}} {{last_name}}',
     ];
 
     /**
@@ -78,7 +78,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://genealogy.familyeducation.com/browse/origin/indian
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Acharya', 'Agarwal', 'Agate', 'Aggarwal', 'Agrawal', 'Ahluwalia', 'Ahuja', 'Amble', 'Amin', 'Anand', 'Andra', 'Anne', 'Anthony', 'Apte', 'Arora', 'Arya', 'Atwal', 'Aurora',
         'Babu', 'Badal', 'Badami', 'Bahl', 'Bahri', 'Bail', 'Bains', 'Bajaj', 'Bajwa', 'Bakshi', 'Bal', 'Bala', 'Balakrishnan', 'Balan', 'Balasubramanian', 'Balay', 'Bali', 'Bandi', 'Banerjee', 'Banik', 'Bansal', 'Barad', 'Baral', 'Baria', 'Barman', 'Basak', 'Bassi', 'Basu', 'Bath', 'Batra', 'Batta', 'Bava', 'Bawa', 'Bedi', 'Beharry', 'Behl', 'Ben', 'Bera', 'Bhagat', 'Bhakta', 'Bhalla', 'Bhandari', 'Bhardwaj', 'Bhargava', 'Bhasin', 'Bhat', 'Bhatia', 'Bhatnagar', 'Bhatt', 'Bhattacharyya', 'Bhatti', 'Bhavsar', 'Bir', 'Biswas', 'Biyani', 'Binnani', 'Boase', 'Bobal', 'Bora', 'Borah', 'Borde', 'Borra', 'Bose', 'Brahmbhatt', 'Brar', 'Buch', 'Bumb', 'Butala',
         'Chacko', 'Chad', 'Chada', 'Chadha', 'Chahal', 'Chakrabarti', 'Chakraborty', 'Chana', 'Chand', 'Chanda', 'Chander', 'Chandra', 'Chandran', 'Char', 'Chatterjee', 'Chaudhari', 'Chaudhary', 'Chaudhry', 'Chaudhuri', 'Chaudry', 'Chauhan', 'Chawla', 'Cheema', 'Cherian', 'Chhabra', 'Chia', 'Chohan', 'Chokshi', 'Chopra', 'Choudhary', 'Choudhry', 'Choudhury', 'Chowdhury', 'Comar', 'Contractor',

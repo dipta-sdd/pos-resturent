@@ -164,7 +164,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         return '/dashboard'; // General fallback
     }
 
-    const userName = user ? `${user.firstName} ${user.lastName}` : '';
+    const userName = user ? `${user.first_name} ${user.last_name}` : '';
 
     if (!isAuthenticated || user?.role?.name === 'customer') return null; // Or loading spinner
 

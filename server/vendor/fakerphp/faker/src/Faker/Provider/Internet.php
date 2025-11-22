@@ -8,10 +8,10 @@ class Internet extends Base
     protected static $tld = ['com', 'com', 'com', 'com', 'com', 'com', 'biz', 'info', 'net', 'org'];
 
     protected static $userNameFormats = [
-        '{{lastName}}.{{firstName}}',
-        '{{firstName}}.{{lastName}}',
-        '{{firstName}}##',
-        '?{{lastName}}',
+        '{{last_name}}.{{first_name}}',
+        '{{first_name}}.{{last_name}}',
+        '{{first_name}}##',
+        '?{{last_name}}',
     ];
     protected static $emailFormats = [
         '{{userName}}@{{domainName}}',
@@ -160,19 +160,19 @@ class Internet extends Base
      */
     public function domainWord()
     {
-        $lastName = $this->generator->format('lastName');
+        $last_name = $this->generator->format('last_name');
 
-        $lastName = strtolower(static::transliterate($lastName));
+        $last_name = strtolower(static::transliterate($last_name));
 
         // check if transliterate() didn't support the language and removed all letters
-        if (trim($lastName, '._') === '') {
+        if (trim($last_name, '._') === '') {
             throw new \Exception('domainWord failed with the selected locale. Try a different locale or activate the "intl" PHP extension.');
         }
 
         // clean possible trailing dot from last name
-        $lastName = rtrim($lastName, '.');
+        $last_name = rtrim($last_name, '.');
 
-        return $lastName;
+        return $last_name;
     }
 
     /**

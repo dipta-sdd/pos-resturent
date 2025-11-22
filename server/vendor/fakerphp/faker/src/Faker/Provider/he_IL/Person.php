@@ -5,21 +5,21 @@ namespace Faker\Provider\he_IL;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -117,7 +117,7 @@ class Person extends \Faker\Provider\Person
     /**
      * {@link} http://toladot.blogspot.co.il/p/blog-page_28.html
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'אויערבך', 'אולמן', 'אונגרישר', 'אונטרמן', 'אופנהיים', 'אזולאי', 'אטינגר', 'איגר', 'איגרא', 'אידלשטיין', 'אייבשיץ', 'אייגש', 'איידלש', 'אייזנשטאט', 'אייכנשטיין', 'איסרליש', 'אלטשולר', 'אלישיב', 'אפשטיין',
         'אשכנזי', 'בידרמן', 'בינדיגר', 'ברדוגו', 'ברודא', 'ברוידא', 'ברזובסקי', 'ברלין', 'ברנדיס', 'ברנדסדורפר', 'גוראריה', 'גורדון', 'גינצבורג', 'גרודזנסקי', 'גרוזובסקי', 'גרוסברד', 'גריינמן', 'גשטטנר', 'דון',
         'יחיא', 'דושינסקי', 'דיסקין', 'דרמברדיגר', 'הוטנר', 'הורוביץ', 'הילדסהיים', 'הינדס', 'הלברשטם', 'הלפרין', 'הלר', 'העשל', 'וינברג', 'ויסבלום', 'זוננפלד', 'זק', 'טברסקי', 'טייטלבוים', 'טייכטל', 'טרויב',

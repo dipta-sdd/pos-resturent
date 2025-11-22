@@ -39,7 +39,7 @@ const AdminReservationManagement: React.FC = () => {
             .filter(res => {
                 if (statusFilter && res.status !== statusFilter) return false;
                 const searchLower = searchTerm.toLowerCase();
-                const guestName = res.user ? `${res.user.firstName} ${res.user.lastName}`.toLowerCase() : '';
+                const guestName = res.user ? `${res.user.first_name} ${res.user.last_name}`.toLowerCase() : '';
                 return guestName.includes(searchLower);
             });
     }, [reservations, searchTerm, statusFilter]);
@@ -52,8 +52,8 @@ const AdminReservationManagement: React.FC = () => {
                 let bValue: any;
 
                 if (sortConfig.key === 'guest_name') {
-                    aValue = a.user ? `${a.user.firstName} ${a.user.lastName}` : '';
-                    bValue = b.user ? `${b.user.firstName} ${b.user.lastName}` : '';
+                    aValue = a.user ? `${a.user.first_name} ${a.user.last_name}` : '';
+                    bValue = b.user ? `${b.user.first_name} ${b.user.last_name}` : '';
                 } else {
                     aValue = a[sortConfig.key as keyof Reservation];
                     bValue = b[sortConfig.key as keyof Reservation];
@@ -143,7 +143,7 @@ const AdminReservationManagement: React.FC = () => {
                             ))
                         ) : paginatedReservations.length > 0 ? paginatedReservations.map(res => (
                             <tr key={res.id}>
-                                <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{res.user ? `${res.user.firstName} ${res.user.lastName}` : 'N/A'}</td>
+                                <td className="px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">{res.user ? `${res.user.first_name} ${res.user.last_name}` : 'N/A'}</td>
                                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{new Date(res.reservation_time).toLocaleString()}</td>
                                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{res.num_guests}</td>
                                 <td className="px-6 py-4 text-sm text-gray-500 dark:text-gray-400">{res.table ? res.table.name_or_number : 'Not Assigned'}</td>

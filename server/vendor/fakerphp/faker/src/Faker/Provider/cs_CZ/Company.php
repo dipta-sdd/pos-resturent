@@ -8,10 +8,10 @@ class Company extends \Faker\Provider\Company
      * @var array Czech company name formats.
      */
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}} {{companySuffix}}',
-        '{{lastName}} a {{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}} {{companySuffix}}',
+        '{{last_name}} a {{last_name}} {{companySuffix}}',
     ];
 
     /**

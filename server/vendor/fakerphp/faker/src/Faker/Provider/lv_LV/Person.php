@@ -85,7 +85,7 @@ class Person extends \Faker\Provider\Person
     /**
      * {@link} https://lv.wikipedia.org/wiki/Kategorija:Latvie%C5%A1u_uzv%C4%81rdi
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Abuls', 'Aizupe', 'Akmentiņš', 'Alksnis', 'Alunāns', 'Ancāns', 'Andžāns', 'Ankipāns', 'Aparjode', 'Apine', 'Apinis', 'Aploks', 'Apse', 'Apsītis', 'Arājs', 'Asars', 'Astra', 'Augstkalns', 'Augškalns', 'Auniņš', 'Auns', 'Auškāps', 'Auziņa', 'Auziņš', 'Avens', 'Avens', 'Avotiņš', 'Avots',
         'Ābele', 'Ābelīte', 'Ābola', 'Āboliņa', 'Āboliņš', 'Ābols', 'Āboltiņa', 'Āboltiņš', 'Ārgalis',
         'Bajārs', 'Baldzēns', 'Bāliņa', 'Bāliņš', 'Balode', 'Balodis', 'Baltgailis', 'Baltiņš', 'Banga', 'Bārbale', 'Bārda', 'Bargais', 'Barkāns', 'Barons', 'Baušķenieks', 'Bebris', 'Berģis', 'Bertāns', 'Bērziņa', 'Bērziņš', 'Bērzkalns', 'Bērzs', 'Bētiņš', 'Biezais', 'Birkavs', 'Birkerts', 'Birze', 'Birznieks', 'Bisenieks', 'Bite', 'Bitenieks', 'Bļodnieks', 'Bojārs', 'Brasla', 'Breikšs', 'Brencēns', 'Brice', 'Briede', 'Briedis', 'Broks', 'Brože', 'Buiķis', 'Buks', 'Bulis', 'Bumbiere', 'Burvis', 'Butāne', 'Butkus',

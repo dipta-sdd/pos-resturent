@@ -5,7 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
-import { useSettings } from '../../contexts/SettingsContext';
+import { useSettings } from '../../../contexts/SettingsContext';
+import { api } from '../../../services/api';
 
 const FlavorFusionLogo = () => (
     <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
@@ -17,10 +18,11 @@ const FlavorFusionLogo = () => (
 );
 
 const registerSchema = z.object({
-    name: z.string().min(2, { message: 'Name must be at least 2 characters' }),
+    firstName: z.string().min(2, { message: 'First name must be at least 2 characters' }),
+    last_name: z.string().min(2, { message: 'Last name must be at least 2 characters' }),
     email: z.string().email({ message: 'Invalid email address' }),
     phone: z.string().optional(),
-    password: z.string().min(8, { message: 'Password must be at least 8 characters' }),
+    password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
     confirmPassword: z.string(),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -34,10 +36,11 @@ type FormErrors = { [key in keyof FormData]?: string };
 const RegisterPage: React.FC = () => {
     const router = useRouter();
     const { settings } = useSettings();
-    const [formData, setFormData] = useState<FormData>({ name: '', email: '', phone: '', password: '', confirmPassword: '' });
+    const [formData, setFormData] = useState<FormData>({ firstName: '', last_name: '', email: '', phone: '', password: '', confirmPassword: '' });
     const [errors, setErrors] = useState<FormErrors>({});
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name as keyof FormData;
@@ -48,14 +51,15 @@ const RegisterPage: React.FC = () => {
         }
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         const result = registerSchema.safeParse(formData);
 
         if (!result.success) {
             const fieldErrors = result.error.flatten().fieldErrors;
             setErrors({
-                name: fieldErrors.name?.[0],
+                firstName: fieldErrors.firstName?.[0],
+                last_name: fieldErrors.last_name?.[0],
                 email: fieldErrors.email?.[0],
                 phone: fieldErrors.phone?.[0],
                 password: fieldErrors.password?.[0],
@@ -65,8 +69,37 @@ const RegisterPage: React.FC = () => {
         }
 
         setErrors({});
-        alert('Registration successful! Please log in.');
-        router.push('/login');
+        setIsSubmitting(true);
+
+        try {
+            await api.register({
+                firstName: formData.firstName,
+                last_name: formData.last_name,
+                email: formData.email,
+                mobile: formData.phone || null,
+                password: formData.password,
+                password_confirmation: formData.confirmPassword,
+            });
+            alert('Registration successful! Please log in.');
+            router.push('/login');
+        } catch (error: any) {
+            console.error('Registration error:', error);
+            if (error.response?.data?.errors) {
+                // Handle validation errors from backend
+                const backendErrors = error.response.data.errors;
+                setErrors({
+                    email: backendErrors.email?.[0],
+                    firstName: backendErrors.firstName?.[0],
+                    last_name: backendErrors.last_name?.[0],
+                    phone: backendErrors.mobile?.[0],
+                    password: backendErrors.password?.[0],
+                });
+            } else {
+                alert(error.response?.data?.message || 'Registration failed. Please try again.');
+            }
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -85,11 +118,20 @@ const RegisterPage: React.FC = () => {
                     </div>
 
                     <form className="space-y-5" onSubmit={handleSubmit} noValidate>
-                        <div>
-                            <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Full Name</label>
-                            <div className="mt-1">
-                                <input id="name" name="name" type="text" value={formData.name} onChange={handleChange} className={`w-full px-4 py-3 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.name ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} placeholder="Enter your full name" />
-                                {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
+                        <div className="grid grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+                                <div className="mt-1">
+                                    <input id="firstName" name="firstName" type="text" value={formData.firstName} onChange={handleChange} className={`w-full px-4 py-3 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.firstName ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} placeholder="John" />
+                                    {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>}
+                                </div>
+                            </div>
+                            <div>
+                                <label htmlFor="last_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Last Name</label>
+                                <div className="mt-1">
+                                    <input id="last_name" name="last_name" type="text" value={formData.last_name} onChange={handleChange} className={`w-full px-4 py-3 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.last_name ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} placeholder="Doe" />
+                                    {errors.last_name && <p className="mt-1 text-xs text-red-500">{errors.last_name}</p>}
+                                </div>
                             </div>
                         </div>
 
@@ -131,8 +173,8 @@ const RegisterPage: React.FC = () => {
                         </div>
 
                         <div>
-                            <button type="submit" className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors">
-                                Create Account
+                            <button type="submit" disabled={isSubmitting} className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-base font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                                {isSubmitting ? 'Creating Account...' : 'Create Account'}
                             </button>
                         </div>
                     </form>

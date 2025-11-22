@@ -38,11 +38,11 @@ class Person extends \Faker\Provider\Person
     public static $idDigitValidator = [1, 9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
 
     protected static $maleNameFormats = [
-        '{{lastName}}{{firstNameMale}}',
+        '{{last_name}}{{firstNameMale}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}}{{firstNameFemale}}',
+        '{{last_name}}{{firstNameFemale}}',
     ];
 
     protected static $titleMale = ['先生', '博士', '教授'];
@@ -51,7 +51,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://zh.wikipedia.org/wiki/%E7%99%BE%E5%AE%B6%E5%A7%93
      */
-    protected static $lastName = [
+    protected static $last_name = [
         '趙', '錢', '孫', '李', '周', '吳', '鄭', '王', '馮',
         '陳', '褚', '衛', '蔣', '沈', '韓', '楊', '朱', '秦',
         '尤', '許', '何', '呂', '施', '張', '孔', '曹', '嚴',

@@ -12,7 +12,7 @@ class Company extends \Faker\Provider\Company
     ];
 
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}}',
     ];
 }

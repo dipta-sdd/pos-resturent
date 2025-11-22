@@ -62,7 +62,7 @@ class Person extends \Faker\Provider\de_DE\Person
     /**
      * @see http://blog.tagesanzeiger.ch/datenblog/index.php/6859
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Achermann', 'Ackermann', 'Aeschlimann', 'Ammann', 'Arnold',
         'Bachmann', 'Baumann', 'Baumgartner', 'Beck', 'Benz', 'Berger', 'Betschart', 'Bieri', 'Bischof', 'Blaser', 'Blum', 'Bolliger', 'Bosshard', 'Brunner', 'Bucher', 'Burri', 'Bärtschi', 'Bösch', 'Bühler', 'Bühlmann', 'Bürgi', 'Bürki',
         'Christen',

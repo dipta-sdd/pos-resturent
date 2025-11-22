@@ -97,10 +97,10 @@ class Address extends \Faker\Provider\Address
     ];
 
     protected static $cityFormats = [
-        '{{cityPrefix}} {{firstName}}{{citySuffix}}',
-        '{{cityPrefix}} {{firstName}}',
-        '{{firstName}}{{citySuffix}}',
-        '{{lastName}}{{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}{{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}',
+        '{{first_name}}{{citySuffix}}',
+        '{{last_name}}{{citySuffix}}',
     ];
 
     protected static $streetNameFormats = [

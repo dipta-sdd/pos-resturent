@@ -7,9 +7,9 @@ use Faker\Calculator\Luhn;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}} {{companySuffix}}',
-        '{{lastName}}, {{lastName}} e {{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}} {{companySuffix}}',
+        '{{last_name}}, {{last_name}} e {{last_name}} {{companySuffix}}',
     ];
 
     protected static $catchPhraseWords = [

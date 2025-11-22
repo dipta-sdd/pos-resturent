@@ -19,7 +19,7 @@ const StatCard = ({ title, value, icon: Icon }: { title: string; value: string; 
 
 const POSShiftSummary: React.FC = () => {
     const { user } = useAuth();
-    const userName = user ? `${user.firstName} ${user.lastName}` : '';
+    const userName = user ? `${user.first_name} ${user.last_name}` : '';
     return (
         <div>
             <div className="flex justify-between items-center mb-6">

@@ -107,7 +107,7 @@ class Address extends \Faker\Provider\Address
         '1#####', '2#####', '3#####', '4#####', '5#####',
     ];
     protected static $localityFormats = [
-        '{{firstName}}{{areaSuffix}}',
+        '{{first_name}}{{areaSuffix}}',
         '{{localityName}}',
     ];
     protected static $addressFormats = [
@@ -117,7 +117,7 @@ class Address extends \Faker\Provider\Address
         'Society', 'Apartments', 'Heights', 'Villas',
     ];
     protected static $societyNameFormat = [
-        '{{firstName}} {{societySuffix}}',
+        '{{first_name}} {{societySuffix}}',
     ];
     protected static $streetAddressFormats = [
 

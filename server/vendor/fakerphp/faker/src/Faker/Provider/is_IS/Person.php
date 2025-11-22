@@ -58,7 +58,7 @@ class Person extends \Faker\Provider\Person
      *
      * @return string
      */
-    public function lastName()
+    public function last_name()
     {
         $name = static::firstNameMale();
 
@@ -80,7 +80,7 @@ class Person extends \Faker\Provider\Person
      */
     public function lastNameMale()
     {
-        return $this->lastName() . 'son';
+        return $this->last_name() . 'son';
     }
 
     /**
@@ -90,7 +90,7 @@ class Person extends \Faker\Provider\Person
      */
     public function lastNameFemale()
     {
-        return $this->lastName() . 'dóttir';
+        return $this->last_name() . 'dóttir';
     }
 
     /**

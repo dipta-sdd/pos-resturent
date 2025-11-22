@@ -43,13 +43,13 @@ class Address extends \Faker\Provider\Address
         'Zambia', 'Zimbabue',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}} {{lastName}} {{citySuffix}}',
-        '{{cityPrefix}} {{lastName}}',
-        '{{lastName}} {{citySuffix}}',
+        '{{cityPrefix}} {{last_name}} {{citySuffix}}',
+        '{{cityPrefix}} {{last_name}}',
+        '{{last_name}} {{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{firstName}}',
-        '{{streetPrefix}} {{lastName}}',
+        '{{streetPrefix}} {{first_name}}',
+        '{{streetPrefix}} {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}}, {{buildingNumber}}, {{secondaryAddress}}',

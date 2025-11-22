@@ -7,22 +7,22 @@ use Faker\Calculator\Luhn;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -66,7 +66,7 @@ class Person extends \Faker\Provider\Person
         'هيفاء', 'هيلين', 'وئام', 'وجدان', 'وداد', 'ورود', 'وسام', 'وسن', 'وسيم', 'وعد', 'وفاء', 'ولاء', 'ىمنة', 'يارا', 'ياسمين', 'يسرى',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'العتيبي', 'الشهري', 'العنزي', 'الخضيري', 'الحسين', 'العسكر', 'باشا', 'مدني', 'العرفج',
         'القحطاني', 'الفدا', 'المشيقح', 'العمرو', 'السالم', 'الشيباني', 'السهلي', 'المطرفي',
         'الأحمري', 'الفيفي', 'العقل', 'الفرحان', 'الحصين', 'الأسمري', 'الماجد', 'الخالدي', 'السيف',

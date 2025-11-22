@@ -5,25 +5,25 @@ namespace Faker\Provider\pt_PT;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} de {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} de {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}} de {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}} {{lastName}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} de {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} de {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}} de {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}} {{last_name}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} de {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} de {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}} de {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}} {{lastName}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} de {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} de {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}} de {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}} {{last_name}} {{last_name}}',
     ];
 
     /**
@@ -132,7 +132,7 @@ class Person extends \Faker\Provider\Person
         'Verónica', 'Violeta', 'Lorena', 'Érika', 'Vanessa', 'Iris', 'Anna', 'Viviane', 'Rebeca', 'Neuza',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Abreu',  'Almeida',  'Alves', 'Amaral', 'Amorim', 'Andrade', 'Anjos', 'Antunes', 'Araújo', 'Assunção',
         'Azevedo', 'Baptista', 'Barbosa', 'Barros', 'Batista', 'Borges', 'Branco', 'Brito', 'Campos', 'Cardoso',
         'Carneiro', 'Carvalho', 'Castro', 'Coelho', 'Correia', 'Costa', 'Cruz', 'Cunha', 'Domingues', 'Esteves',

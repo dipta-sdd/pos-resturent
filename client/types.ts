@@ -45,6 +45,7 @@ export type UserRole = 'admin' | 'staff' | 'rider' | 'customer';
 export interface Role {
   id: number;
   name: string;
+  slug: string;
   // Shop & Organization Permissions
   can_manage_shop_settings: boolean;
   can_manage_payment_methods: boolean;
@@ -88,19 +89,32 @@ export interface Role {
  */
 export interface User {
   id: number;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  mobile: string | null;
-  email_verified_at: Date | null;
-  mobile_verified_at: Date | null;
-  password?: string;
+  phone: string | null;
+  email_verified_at: string | null;
+  // mobile_verified_at: Date | null; // Backend doesn't seem to have this yet
+  // password?: string; // Should not be in frontend model
   remember_token: string | null;
-  created_at: Date | null;
-  updated_at: Date | null;
+  created_at: string | null; // Dates from JSON are strings
+  updated_at: string | null;
   role_id: number | null;
   role?: Role;
   avatar_url?: string;
+  is_active: boolean;
+}
+
+export interface LoginResponse {
+  access_token: string;
+  token_type: string;
+  expires_in: number;
+  user: User;
+}
+
+export interface RegisterResponse {
+  message: string;
+  user: User;
 }
 
 /**

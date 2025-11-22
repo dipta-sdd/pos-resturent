@@ -8,22 +8,22 @@ class Company extends \Faker\Provider\Company
      * @var array Danish company name formats.
      */
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{firstname}} {{lastName}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{firstname}} {{last_name}} {{companySuffix}}',
         '{{middleName}} {{companySuffix}}',
         '{{middleName}} {{companySuffix}}',
         '{{middleName}} {{companySuffix}}',
         '{{firstname}} {{middleName}} {{companySuffix}}',
-        '{{lastName}} & {{lastName}} {{companySuffix}}',
-        '{{lastName}} og {{lastName}} {{companySuffix}}',
-        '{{lastName}} & {{lastName}} {{companySuffix}}',
-        '{{lastName}} og {{lastName}} {{companySuffix}}',
+        '{{last_name}} & {{last_name}} {{companySuffix}}',
+        '{{last_name}} og {{last_name}} {{companySuffix}}',
+        '{{last_name}} & {{last_name}} {{companySuffix}}',
+        '{{last_name}} og {{last_name}} {{companySuffix}}',
         '{{middleName}} & {{middleName}} {{companySuffix}}',
         '{{middleName}} og {{middleName}} {{companySuffix}}',
-        '{{middleName}} & {{lastName}}',
-        '{{middleName}} og {{lastName}}',
+        '{{middleName}} & {{last_name}}',
+        '{{middleName}} og {{last_name}}',
     ];
 
     /**

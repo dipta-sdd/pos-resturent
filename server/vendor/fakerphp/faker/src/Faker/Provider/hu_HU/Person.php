@@ -10,22 +10,22 @@ namespace Faker\Provider\hu_HU;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{lastName}} {{firstNameMale}}',
-        '{{title}} {{lastName}} {{firstNameMale}}',
-        '{{lastName}} {{firstNameMale}} {{suffix}}',
-        '{{title}} {{lastName}} {{firstNameMale}} {{suffix}}',
+        '{{last_name}} {{firstNameMale}}',
+        '{{title}} {{last_name}} {{firstNameMale}}',
+        '{{last_name}} {{firstNameMale}} {{suffix}}',
+        '{{title}} {{last_name}} {{firstNameMale}} {{suffix}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}} {{firstNameFemale}}',
-        '{{title}} {{lastName}} {{firstNameFemale}}',
-        '{{lastName}} {{firstNameFemale}} {{suffix}}',
-        '{{title}} {{lastName}} {{firstNameFemale}} {{suffix}}',
-        '{{lastNameFemaleMarried}} {{lastName}} {{firstNameFemale}}',
+        '{{last_name}} {{firstNameFemale}}',
+        '{{title}} {{last_name}} {{firstNameFemale}}',
+        '{{last_name}} {{firstNameFemale}} {{suffix}}',
+        '{{title}} {{last_name}} {{firstNameFemale}} {{suffix}}',
+        '{{lastNameFemaleMarried}} {{last_name}} {{firstNameFemale}}',
         '{{title}} {{lastNameFemaleMarried}} {{firstNameFemale}}',
-        '{{lastName}} {{firstNameMaleNe}}',
-        '{{title}} {{lastName}} {{firstNameMaleNe}}',
-        '{{lastName}}-{{lastName}} {{firstNameFemale}}',
+        '{{last_name}} {{firstNameMaleNe}}',
+        '{{title}} {{last_name}} {{firstNameMaleNe}}',
+        '{{last_name}}-{{last_name}} {{firstNameFemale}}',
     ];
 
     protected static $firstNameMale = [
@@ -64,7 +64,7 @@ class Person extends \Faker\Provider\Person
         'Kincső', 'Panna', 'Szabina', 'Szonja', 'Virág', 'Zsóka',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Antal', 'Bakos', 'Balla', 'Balog', 'Balogh', 'Balázs', 'Barna', 'Barta', 'Biró', 'Bodnár', 'Bogdán', 'Bognár', 'Borbély', 'Boros', 'Budai', 'Bálint', 'Csonka', 'Deák', 'Dobos', 'Dudás', 'Faragó', 'Farkas', 'Fazekas', 'Fehér', 'Fekete', 'Fodor', 'Fábián', 'Fülöp', 'Gulyás', 'Gál', 'Gáspár', 'Hajdu', 'Halász', 'Hegedüs', 'Hegedűs', 'Horváth', 'Illés', 'Jakab', 'Juhász', 'Jónás', 'Katona', 'Kelemen', 'Kerekes', 'Király', 'Kis', 'Kiss', 'Kocsis', 'Kovács', 'Kozma', 'Lakatos', 'Lengyel', 'Lukács', 'László', 'Magyar', 'Major', 'Molnár', 'Máté', 'Mészáros', 'Nagy', 'Nemes', 'Novák', 'Németh', 'Oláh', 'Orbán', 'Orosz', 'Orsós', 'Pap', 'Papp', 'Pataki', 'Pintér', 'Pál', 'Pásztor', 'Péter', 'Rácz', 'Simon', 'Sipos', 'Somogyi', 'Soós', 'Szabó', 'Szalai', 'Szekeres', 'Szilágyi', 'Székely', 'Szücs', 'Szőke', 'Szűcs', 'Sándor', 'Takács', 'Tamás', 'Tóth', 'Török', 'Varga', 'Vass', 'Veres', 'Vincze', 'Virág', 'Váradi', 'Végh', 'Vörös',
     ];
 

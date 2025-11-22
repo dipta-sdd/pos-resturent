@@ -45,7 +45,7 @@ const AdminOrderManagement: React.FC = () => {
                     return false;
                 }
                 const searchLower = searchTerm.toLowerCase();
-                const customerName = order.user ? `${order.user.firstName} ${order.user.lastName}`.toLowerCase() : '';
+                const customerName = order.user ? `${order.user.first_name} ${order.user.last_name}`.toLowerCase() : '';
                 return (
                     String(order.id).includes(searchLower) ||
                     customerName.includes(searchLower)
@@ -61,8 +61,8 @@ const AdminOrderManagement: React.FC = () => {
                 let bValue: any;
 
                 if (sortConfig.key === 'customer') {
-                    aValue = a.user ? `${a.user.firstName} ${a.user.lastName}` : '';
-                    bValue = b.user ? `${b.user.firstName} ${b.user.lastName}` : '';
+                    aValue = a.user ? `${a.user.first_name} ${a.user.last_name}` : '';
+                    bValue = b.user ? `${b.user.first_name} ${b.user.last_name}` : '';
                 } else {
                     aValue = a[sortConfig.key as keyof Order];
                     bValue = b[sortConfig.key as keyof Order];
@@ -174,7 +174,7 @@ const AdminOrderManagement: React.FC = () => {
                         ) : paginatedOrders.length > 0 ? paginatedOrders.map(order => (
                             <tr key={order.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-orange-500">#{order.id}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{order.user ? `${order.user.firstName} ${order.user.lastName}` : 'N/A'}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{order.user ? `${order.user.first_name} ${order.user.last_name}` : 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{order.created_at ? new Date(order.created_at).toLocaleString() : 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{order.updated_at ? new Date(order.updated_at).toLocaleString() : 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{settings.currencySymbol}{order.total_amount.toFixed(2)}</td>

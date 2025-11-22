@@ -5,19 +5,19 @@ namespace Faker\Provider\sl_SI;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{title}} {{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{title}} {{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{title}} {{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{title}} {{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -89,7 +89,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://www.stat.si/imena_top_priimki.asp?r=True
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Ambrožič', 'Babič', 'Bajc', 'Bergant', 'Bevc', 'Bezjak', 'Bizjak', 'Blatnik', 'Blažič',
         'Bogataj', 'Božič', 'Bregar', 'Breznik', 'Bukovec', 'Cerar', 'Cvetko', 'Debeljak',
         'Demšar', 'Dolenc', 'Dolinar', 'Dolinšek', 'Erjavec', 'Eržen', 'Filipič', 'Fras', 'Furlan',
@@ -132,18 +132,18 @@ class Person extends \Faker\Provider\Person
      *
      * @example 'Novak'
      */
-    public function lastName($gender = null)
+    public function last_name($gender = null)
     {
-        return static::randomElement(static::$lastName);
+        return static::randomElement(static::$last_name);
     }
 
     public static function lastNameMale()
     {
-        return static::lastName();
+        return static::last_name();
     }
 
     public static function lastNameFemale()
     {
-        return static::lastName();
+        return static::last_name();
     }
 }

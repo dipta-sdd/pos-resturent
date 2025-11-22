@@ -132,10 +132,10 @@ export const mockRoles: Role[] = [
 ];
 
 export const mockUsers: User[] = [
-  { id: 1, firstName: 'Admin', lastName: 'User', email: 'admin@example.com', mobile: '111-222-3333', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 1, avatar_url: 'https://picsum.photos/seed/admin/100' },
-  { id: 2, firstName: 'Staff', lastName: 'User', email: 'staff@example.com', mobile: '222-333-4444', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 2, avatar_url: 'https://picsum.photos/seed/staff/100' },
-  { id: 3, firstName: 'Rider', lastName: 'User', email: 'rider@example.com', mobile: '333-444-5555', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 3, avatar_url: 'https://picsum.photos/seed/rider/100' },
-  { id: 4, firstName: 'Customer', lastName: 'User', email: 'customer@example.com', mobile: '444-555-6666', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 4, avatar_url: 'https://i.imgur.com/CR1N22g.png' },
+  { id: 1, first_name: 'Admin', last_name: 'User', email: 'admin@example.com', mobile: '111-222-3333', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 1, avatar_url: 'https://picsum.photos/seed/admin/100' },
+  { id: 2, first_name: 'Staff', last_name: 'User', email: 'staff@example.com', mobile: '222-333-4444', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 2, avatar_url: 'https://picsum.photos/seed/staff/100' },
+  { id: 3, first_name: 'Rider', last_name: 'User', email: 'rider@example.com', mobile: '333-444-5555', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 3, avatar_url: 'https://picsum.photos/seed/rider/100' },
+  { id: 4, first_name: 'Customer', last_name: 'User', email: 'customer@example.com', mobile: '444-555-6666', email_verified_at: new Date(), mobile_verified_at: new Date(), remember_token: null, created_at: new Date(), updated_at: new Date(), role_id: 4, avatar_url: 'https://i.imgur.com/CR1N22g.png' },
 ];
 
 export const mockCategories: Category[] = [

@@ -5,17 +5,17 @@ namespace Faker\Provider\nb_NO;
 class Person extends \Faker\Provider\Person
 {
     protected static $formats = [
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}} {{lastName}}',
-        '{{firstName}} {{lastName}}-{{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}-{{lastName}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}-{{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}-{{last_name}}',
     ];
 
     /**
@@ -260,7 +260,7 @@ class Person extends \Faker\Provider\Person
      *
      * @see http://www.ssb.no/befolkning/statistikker/navn/aar/2015-01-27?fane=tabell&sort=nummer&tabell=216066
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Aas', 'Aase', 'Aasen', 'Abrahamsen', 'Ahmed', 'Ali', 'Amundsen', 'Andersen', 'Andersson', 'Andreassen',
         'Andresen', 'Antonsen', 'Arnesen', 'Aune', 'Bakke', 'Bakken', 'Berg', 'Berge', 'Berger', 'Berntsen',
         'Birkeland', 'Bjerke', 'Bjørnstad', 'Borge', 'Borgen', 'Breivik', 'Brekke', 'Bråten', 'Bråthen', 'Bye', 'Bø',

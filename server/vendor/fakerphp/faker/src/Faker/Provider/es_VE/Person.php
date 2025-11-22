@@ -10,12 +10,12 @@ class Person extends \Faker\Provider\Person
      * @see http://www.cne.gob.ve/web/registro_electoral/ciudadanos_111_129_2011.php
      */
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{firstNameMale}} {{lastName}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{firstNameMale}} {{lastName}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{firstNameMale}} {{last_name}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}} {{suffix}}',
     ];
 
     /**
@@ -24,12 +24,12 @@ class Person extends \Faker\Provider\Person
      * @see http://www.cne.gob.ve/web/registro_electoral/ciudadanos_111_129_2011.php
      */
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
     ];
 
     /**
@@ -70,7 +70,7 @@ class Person extends \Faker\Provider\Person
      *
      * @see http://www.cne.gob.ve/web/registro_electoral/ciudadanos_111_129_2011.php
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Abad', 'Abeyta', 'Abrego', 'Abreu', 'Acevedo', 'Acosta', 'Acuña', 'Adame', 'Adorno', 'Agosto', 'Aguado', 'Aguayo',
         'Aguilar', 'Aguilera', 'Aguirre', 'Alanis', 'Alaniz', 'Alarcón', 'Alba', 'Alcala', 'Alcaraz', 'Alcántar', 'Alejandro',
         'Alemán', 'Alfaro', 'Alfonso', 'Alicea', 'Almanza', 'Almaraz', 'Almonte', 'Alonso', 'Alonzo', 'Altamirano', 'Alva',

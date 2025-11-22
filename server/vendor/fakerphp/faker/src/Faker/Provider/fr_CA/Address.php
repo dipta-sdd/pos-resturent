@@ -44,8 +44,8 @@ class Address extends \Faker\Provider\fr_FR\Address
      * @example 'Saint-Marc-des-Carrières' or 'Sainte-Monique'
      */
     protected static $cityFormats = [
-        '{{cityPrefix}}{{firstName}}{{citySuffix}}',
-        '{{cityPrefix}}{{firstName}}',
+        '{{cityPrefix}}{{first_name}}{{citySuffix}}',
+        '{{cityPrefix}}{{first_name}}',
     ];
 
     protected static $buildingNumber = ['%####', '%###', '%##', '%#', '%'];
@@ -60,8 +60,8 @@ class Address extends \Faker\Provider\fr_FR\Address
      * @example 'Avenue Bolduc'
      */
     protected static $streetNameFormats = [
-        '{{streetSuffix}} {{firstName}}',
-        '{{streetSuffix}} {{lastName}}',
+        '{{streetSuffix}} {{first_name}}',
+        '{{streetSuffix}} {{last_name}}',
     ];
 
     protected static $streetAddressFormats = [

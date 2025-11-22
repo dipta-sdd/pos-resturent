@@ -5,14 +5,14 @@ namespace Faker\Provider\fa_IR;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{companyPrefix}} {{companyField}} {{firstName}}',
-        '{{companyPrefix}} {{companyField}} {{firstName}}',
-        '{{companyPrefix}} {{companyField}} {{firstName}}',
-        '{{companyPrefix}} {{companyField}} {{firstName}}',
-        '{{companyPrefix}} {{companyField}} {{lastName}}',
-        '{{companyField}} {{firstName}}',
-        '{{companyField}} {{firstName}}',
-        '{{companyField}} {{lastName}}',
+        '{{companyPrefix}} {{companyField}} {{first_name}}',
+        '{{companyPrefix}} {{companyField}} {{first_name}}',
+        '{{companyPrefix}} {{companyField}} {{first_name}}',
+        '{{companyPrefix}} {{companyField}} {{first_name}}',
+        '{{companyPrefix}} {{companyField}} {{last_name}}',
+        '{{companyField}} {{first_name}}',
+        '{{companyField}} {{first_name}}',
+        '{{companyField}} {{last_name}}',
     ];
 
     protected static $companyPrefix = [

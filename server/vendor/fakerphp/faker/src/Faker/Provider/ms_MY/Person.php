@@ -749,7 +749,7 @@ class Person extends \Faker\Provider\Person
      *
      * @return string
      */
-    public function lastName()
+    public function last_name()
     {
         $formats = [
             '{{lastNameMalay}}',

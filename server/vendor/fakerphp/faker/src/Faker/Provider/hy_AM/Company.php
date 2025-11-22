@@ -5,15 +5,15 @@ namespace Faker\Provider\hy_AM;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} եղբայրներ',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} եղբայրներ',
     ];
 
     protected static $catchPhraseWords = [

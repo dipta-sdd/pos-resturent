@@ -55,8 +55,8 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'firstName' => 'required|string|between:2,50',
-            'lastName' => 'required|string|between:2,50',
+            'first_name' => 'required|string|between:2,50',
+            'last_name' => 'required|string|between:2,50',
             'email' => 'required|string|email|max:100|unique:users',
             'mobile' => 'nullable|string|max:20',
             'password' => 'required|string|confirmed|min:6',
@@ -69,8 +69,8 @@ class AuthController extends Controller
         $role = \App\Models\Role::where('slug', 'customer')->first();
 
         $user = User::create([
-            'first_name' => $request->firstName,
-            'last_name' => $request->lastName,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
             'phone' => $request->mobile,
             'password' => Hash::make($request->password),
@@ -131,6 +131,8 @@ class AuthController extends Controller
     public function me()
     {
         $user = auth()->user();
+
+        $user = $user->with('role')->where('id', $user->id)->first();
         return response()->json($user);
     }
 
@@ -145,7 +147,7 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         if ($user->role_id !== null)
-            $user['role'] = $user->with('role')->get();
+            $user = $user->with('role')->where('id', $user->id)->first();
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',

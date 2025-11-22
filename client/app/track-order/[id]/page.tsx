@@ -151,7 +151,7 @@ const OrderTrackingPage: React.FC = () => {
                                 <div className="flex-grow">
                                     <p className="text-sm text-gray-400">Order #{order.id}</p>
                                     <h3 className="text-xl font-bold text-gray-800 dark:text-white mt-1">
-                                        Your rider, {order.rider.firstName}
+                                        Your rider, {order.rider.first_name}
                                     </h3>
                                     <div className="flex items-center gap-1 mt-1 text-yellow-500">
                                         <Star size={16} fill="currentColor" />
@@ -161,7 +161,7 @@ const OrderTrackingPage: React.FC = () => {
                                         <Phone size={16} /> Contact Rider
                                     </button>
                                 </div>
-                                <img src={order.rider.avatar_url || 'https://i.imgur.com/CR1N22g.png'} alt={order.rider.firstName} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
+                                <img src={order.rider.avatar_url || 'https://i.imgur.com/CR1N22g.png'} alt={order.rider.first_name} className="w-24 h-24 rounded-full object-cover flex-shrink-0" />
                             </div>
                         )}
                     </div>

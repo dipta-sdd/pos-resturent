@@ -102,7 +102,7 @@ const AdminUserManagement: React.FC = () => {
     const [userSearchTerm, setUserSearchTerm] = useState('');
     const [userRoleFilter, setUserRoleFilter] = useState('');
     const [userCurrentPage, setUserCurrentPage] = useState(1);
-    const [userSortConfig, setUserSortConfig] = useState<{ key: keyof User | 'role' | 'name'; direction: 'ascending' | 'descending' } | null>({ key: 'firstName', direction: 'ascending' });
+    const [userSortConfig, setUserSortConfig] = useState<{ key: keyof User | 'role' | 'name'; direction: 'ascending' | 'descending' } | null>({ key: 'first_name', direction: 'ascending' });
     const USERS_PER_PAGE = 10;
 
     // Roles Table State
@@ -124,11 +124,11 @@ const AdminUserManagement: React.FC = () => {
     const getUserNameById = (userId: number | null): string => {
         if (userId === null) return 'System';
         const user = mockUsers.find(u => u.id === userId);
-        return user ? `${user.firstName} ${user.lastName}` : 'Unknown';
+        return user ? `${user.first_name} ${user.last_name}` : 'Unknown';
     };
 
     // Modal Handlers
-    const openUserModal = (user?: User) => { setCurrentUser(user || { firstName: '', lastName: '', email: '', role_id: 4 }); setShowUserModal(true); };
+    const openUserModal = (user?: User) => { setCurrentUser(user || { first_name: '', last_name: '', email: '', role_id: 4 }); setShowUserModal(true); };
     const closeUserModal = () => { setShowUserModal(false); setCurrentUser(null); };
     const handleSaveUser = () => { console.log('Saving user:', currentUser); closeUserModal(); };
 
@@ -151,8 +151,8 @@ const AdminUserManagement: React.FC = () => {
     const addButtonText = { users: 'Add New User', roles: 'Create New Role' }[activeTab];
 
     // Users Table Logic
-    const filteredUsers = useMemo(() => users.filter(user => { const searchLower = userSearchTerm.toLowerCase(); const nameMatch = `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchLower); const emailMatch = user.email.toLowerCase().includes(searchLower); const roleMatch = userRoleFilter ? user.role_id === parseInt(userRoleFilter) : true; return (nameMatch || emailMatch) && roleMatch; }), [users, userSearchTerm, userRoleFilter]);
-    const sortedUsers = useMemo(() => { let sortable = [...filteredUsers]; if (userSortConfig) { sortable.sort((a, b) => { let aVal: any, bVal: any; if (userSortConfig.key === 'role') { aVal = roles.find(r => r.id === a.role_id)?.name || ''; bVal = roles.find(r => r.id === b.role_id)?.name || ''; } else if (userSortConfig.key === 'name') { aVal = `${a.firstName} ${a.lastName}`; bVal = `${b.firstName} ${b.lastName}`; } else { aVal = a[userSortConfig.key as keyof User]; bVal = b[userSortConfig.key as keyof User]; } if (aVal < bVal) return userSortConfig.direction === 'ascending' ? -1 : 1; if (aVal > bVal) return userSortConfig.direction === 'ascending' ? 1 : -1; return 0; }); } return sortable; }, [filteredUsers, userSortConfig, roles]);
+    const filteredUsers = useMemo(() => users.filter(user => { const searchLower = userSearchTerm.toLowerCase(); const nameMatch = `${user.first_name} ${user.last_name}`.toLowerCase().includes(searchLower); const emailMatch = user.email.toLowerCase().includes(searchLower); const roleMatch = userRoleFilter ? user.role_id === parseInt(userRoleFilter) : true; return (nameMatch || emailMatch) && roleMatch; }), [users, userSearchTerm, userRoleFilter]);
+    const sortedUsers = useMemo(() => { let sortable = [...filteredUsers]; if (userSortConfig) { sortable.sort((a, b) => { let aVal: any, bVal: any; if (userSortConfig.key === 'role') { aVal = roles.find(r => r.id === a.role_id)?.name || ''; bVal = roles.find(r => r.id === b.role_id)?.name || ''; } else if (userSortConfig.key === 'name') { aVal = `${a.first_name} ${a.last_name}`; bVal = `${b.first_name} ${b.last_name}`; } else { aVal = a[userSortConfig.key as keyof User]; bVal = b[userSortConfig.key as keyof User]; } if (aVal < bVal) return userSortConfig.direction === 'ascending' ? -1 : 1; if (aVal > bVal) return userSortConfig.direction === 'ascending' ? 1 : -1; return 0; }); } return sortable; }, [filteredUsers, userSortConfig, roles]);
     const paginatedUsers = useMemo(() => { const start = (userCurrentPage - 1) * USERS_PER_PAGE; return sortedUsers.slice(start, start + USERS_PER_PAGE); }, [sortedUsers, userCurrentPage]);
     const requestUserSort = (key: keyof User | 'role' | 'name') => { let dir: 'ascending' | 'descending' = 'ascending'; if (userSortConfig?.key === key && userSortConfig.direction === 'ascending') dir = 'descending'; setUserSortConfig({ key, direction: dir }); setUserCurrentPage(1); };
     const getUserSortIcon = (key: keyof User | 'role' | 'name') => { if (userSortConfig?.key !== key) return null; return userSortConfig.direction === 'ascending' ? <ArrowUp className="h-4 w-4 ml-1 opacity-60" /> : <ArrowDown className="h-4 w-4 ml-1 opacity-60" />; };
@@ -198,7 +198,7 @@ const AdminUserManagement: React.FC = () => {
                                 const roleName = roles.find(r => r.id === user.role_id)?.name as UserRole || 'customer';
                                 return (
                                     <tr key={user.id}>
-                                        <td className="px-6 py-4 whitespace-nowrap"><div className="flex items-center"><div className="flex-shrink-0 h-10 w-10"><img className="h-10 w-10 rounded-full object-cover" src={user.avatar_url} alt="" /></div><div className="ml-4"><div className="text-sm font-medium dark:text-white">{`${user.firstName} ${user.lastName}`}</div></div></div></td>
+                                        <td className="px-6 py-4 whitespace-nowrap"><div className="flex items-center"><div className="flex-shrink-0 h-10 w-10"><img className="h-10 w-10 rounded-full object-cover" src={user.avatar_url} alt="" /></div><div className="ml-4"><div className="text-sm font-medium dark:text-white">{`${user.first_name} ${user.last_name}`}</div></div></div></td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-gray-400">{user.email}</td>
                                         <td className="px-6 py-4 whitespace-nowrap"><span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full capitalize ${getRoleColor(roleName)}`}>{roleName}</span></td>
                                         <td className="px-6 py-4 whitespace-nowrap text-sm dark:text-gray-400">{user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}</td>
@@ -275,8 +275,8 @@ const AdminUserManagement: React.FC = () => {
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">{'id' in currentUser ? 'Edit' : 'Add'} User</h2>
                         <form className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
-                                <div><label className="block text-sm font-medium dark:text-gray-300">First Name</label><input type="text" defaultValue={currentUser.firstName} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" /></div>
-                                <div><label className="block text-sm font-medium dark:text-gray-300">Last Name</label><input type="text" defaultValue={currentUser.lastName} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" /></div>
+                                <div><label className="block text-sm font-medium dark:text-gray-300">First Name</label><input type="text" defaultValue={currentUser.first_name} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" /></div>
+                                <div><label className="block text-sm font-medium dark:text-gray-300">Last Name</label><input type="text" defaultValue={currentUser.last_name} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" /></div>
                             </div>
                             <div><label className="block text-sm font-medium dark:text-gray-300">Email</label><input type="email" defaultValue={currentUser.email} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" /></div>
                             <div><label className="block text-sm font-medium dark:text-gray-300">Role</label><select defaultValue={currentUser.role_id || ''} className="mt-1 block w-full p-2 border rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white">{roles.map(r => (<option key={r.id} value={r.id} className="capitalize">{r.name}</option>))}</select></div>

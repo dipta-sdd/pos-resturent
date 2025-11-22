@@ -7,11 +7,11 @@ class Address extends \Faker\Provider\Address
     protected static $streetPrefix = ['Av.', 'Avenida', 'R.', 'Rua', 'Tv.', 'Travessa', 'Lg.', 'Largo'];
 
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{lastName}}',
-        '{{streetPrefix}} {{firstName}} {{lastName}}',
-        '{{streetPrefix}} St. {{firstName}} {{lastName}}',
-        '{{streetPrefix}} São. {{firstName}}',
-        '{{streetPrefix}} de {{lastName}}',
+        '{{streetPrefix}} {{last_name}}',
+        '{{streetPrefix}} {{first_name}} {{last_name}}',
+        '{{streetPrefix}} St. {{first_name}} {{last_name}}',
+        '{{streetPrefix}} São. {{first_name}}',
+        '{{streetPrefix}} de {{last_name}}',
     ];
 
     protected static $streetAddressFormats = [

@@ -5,11 +5,11 @@ namespace Faker\Provider\es_PE;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}}',
-        '{{lastName}} y {{lastName}}',
-        '{{lastName}} de {{lastName}}',
-        '{{lastName}}, {{lastName}} y {{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}}',
+        '{{last_name}} y {{last_name}}',
+        '{{last_name}} de {{last_name}}',
+        '{{last_name}}, {{last_name}} y {{last_name}}',
     ];
 
     protected static $catchPhraseWords = [

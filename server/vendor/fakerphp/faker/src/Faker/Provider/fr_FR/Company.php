@@ -10,10 +10,10 @@ class Company extends \Faker\Provider\Company
      * @var array French company name formats.
      */
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{lastName}} {{companySuffix}}',
-        '{{lastName}}',
-        '{{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{last_name}} {{companySuffix}}',
+        '{{last_name}}',
+        '{{last_name}}',
     ];
 
     /**

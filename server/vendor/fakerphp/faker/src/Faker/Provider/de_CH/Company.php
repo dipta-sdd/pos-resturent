@@ -5,10 +5,10 @@ namespace Faker\Provider\de_CH;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}} {{lastName}} {{companySuffix}}',
-        '{{lastName}}',
-        '{{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}} {{last_name}} {{companySuffix}}',
+        '{{last_name}}',
+        '{{last_name}}',
     ];
 
     protected static $companySuffix = ['AG', 'GmbH'];

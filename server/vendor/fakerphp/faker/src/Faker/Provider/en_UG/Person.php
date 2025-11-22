@@ -9,8 +9,8 @@ class Person extends \Faker\Provider\Person
      * lastname(surname) firstname
      */
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{lastName}} {{firstNameMale}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{last_name}} {{firstNameMale}}',
         '{{firstNameMale}} {{lastNameMale}}',
         '{{lastNameMale}} {{firstNameMale}}',
     ];
@@ -20,8 +20,8 @@ class Person extends \Faker\Provider\Person
      * lastname(surname) firstname
      */
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{lastName}} {{firstNameFemale}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{last_name}} {{firstNameFemale}}',
         '{{firstNameFemale}} {{lastNameFemale}}',
         '{{lastNameFemale}} {{firstNameFemale}}',
     ];
@@ -92,7 +92,7 @@ class Person extends \Faker\Provider\Person
         'Nabaale', 'Nabaggala', 'Nabakooza', 'Nabaloga', 'Nabankema', 'Nabasirye', 'Nabaweesi', 'Nabayunga', 'Nabbona', 'Nabise', 'Nabukeera', 'Nabunya', 'Nabuufu', 'Nabuuso', 'Nabwami', 'Nakaayi', 'Nakabugo', 'Nakabuye', 'Nakafeero', 'Nakalanzi', 'Nakalunda', 'Nakasinde', 'Nakasolya', 'Nakasumba', 'Nakato', 'Nakaweesa', 'Nakazibwe', 'Nakiboneka', 'Nakidde', 'Nakigozi', 'Nakiguli', 'Nakimbugwe', 'Nakimuli', 'Nakinobe', 'Nakiridde', 'Nakisige', 'Nakitende', 'Nakiyemba', 'Nakku', 'Nakyagaba', 'Nakyanzi', 'Nalubuga', 'Nalubwama', 'Nalukwago', 'Naluyima', 'Nalweyiso', 'Nalwoga', 'Namaganda', 'Namagembe', 'Namatovu', 'Nambi', 'Nambogo', 'Nambooze', 'Nambuusi', 'Namenya', 'Namiiro', 'Namirembe', 'Nampemba', 'Nampijja', 'Namubiru', 'Namuddu', 'Namugenyi', 'Namugwanya', 'Namukwaya', 'Namuleme', 'Namulindwa', 'Namutebi', 'Nankindu', 'Nankinga', 'Nanteeza', 'Nantongo', 'Nanvule', 'Nanyanzi', 'Nanyombi', 'Nanyondo', 'Nanyonjo', 'Nassimwba', 'Nazziwa', 'Ndagire',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Abayisenga', 'Agaba', 'Ahebwe', 'Aisu', 'Akankunda', 'Akankwasa', 'Akashaba', 'Akashabe', 'Ampumuza', 'Ankunda', 'Asasira', 'Asiimwe', 'Atuhe', 'Atuhire', 'Atukunda', 'Atukwase', 'Atwine', 'Aurishaba',
         'Badru', 'Baguma', 'Bakabulindi', 'Bamwiine', 'Barigye', 'Bbosa', 'Bisheko', 'Biyinzika', 'Bugala', 'Bukenya', 'Buyinza', 'Bwana', 'Byanyima', 'Byaruhanga',
         'Ddamulira',
@@ -108,7 +108,7 @@ class Person extends \Faker\Provider\Person
         'Wasswa', 'Wavamuno', 'Were',
     ];
 
-    public function lastName($gender = null)
+    public function last_name($gender = null)
     {
         if ($gender === static::GENDER_MALE) {
             return static::lastNameMale();
@@ -118,7 +118,7 @@ class Person extends \Faker\Provider\Person
             return static::lastNameFemale();
         }
 
-        return static::randomElement(static::$lastName);
+        return static::randomElement(static::$last_name);
     }
 
     public static function lastNameMale()

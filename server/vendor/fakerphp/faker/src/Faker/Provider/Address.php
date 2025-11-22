@@ -7,10 +7,10 @@ class Address extends Base
     protected static $citySuffix = ['Ville'];
     protected static $streetSuffix = ['Street'];
     protected static $cityFormats = [
-        '{{firstName}}{{citySuffix}}',
+        '{{first_name}}{{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{lastName}} {{streetSuffix}}',
+        '{{last_name}} {{streetSuffix}}',
     ];
     protected static $streetAddressFormats = [
         '{{buildingNumber}} {{streetName}}',

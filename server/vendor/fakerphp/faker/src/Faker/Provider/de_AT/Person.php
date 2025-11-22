@@ -7,23 +7,23 @@ use Faker\Provider\DateTime;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
     ];
 
     /**
@@ -83,7 +83,7 @@ class Person extends \Faker\Provider\Person
      * Top 500 Names from a phone directory (February 2004)
      * {@link} https://de.wiktionary.org/w/index.php?title=Verzeichnis:Deutsch/Namen/die_h%C3%A4ufigsten_Nachnamen_%C3%96sterreichs
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Abraham', 'Achleitner', 'Adam', 'Aichinger', 'Aigner', 'Albrecht', 'Altmann', 'Amann', 'Amon', 'Angerer', 'Arnold', 'Artner', 'Aschauer', 'Auer', 'Augustin', 'Auinger',
         'Bacher', 'Bachler', 'Bachmann', 'Bader', 'Baier', 'Barth', 'Bartl', 'Bauer', 'Baumann', 'Baumgartner', 'Bayer', 'Beck', 'Beer', 'Berger', 'Bergmann', 'Bernhard', 'Bichler', 'Binder', 'Bischof', 'Bock', 'Bogner', 'Brandl', 'Brandner', 'Brandstetter', 'Brandstätter', 'Braun', 'Brenner', 'Bruckner', 'Brugger', 'Brunner', 'Buchberger', 'Buchegger', 'Bucher', 'Buchinger', 'Buchner', 'Burger', 'Burgstaller', 'Burtscher', 'Böck', 'Böhm', 'Bösch',
         'Danner', 'Denk', 'Deutsch', 'Dietrich', 'Dobler', 'Doppler', 'Dorner', 'Draxler',

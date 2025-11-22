@@ -7,23 +7,23 @@ use Faker\Provider\Miscellaneous;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{titleMale}} {{firstNameMale}} {{lastName}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{titleMale}} {{firstNameMale}} {{last_name}} {{suffix}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{titleFemale}} {{firstNameFemale}} {{lastName}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{titleFemale}} {{firstNameFemale}} {{last_name}} {{suffix}}',
     ];
 
     protected static $firstNameMale = [
@@ -56,7 +56,7 @@ class Person extends \Faker\Provider\Person
         'ไอริณ',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'กติยา', 'กมลานันท์', 'กล้านอนหงาย', 'กองการ', 'กางมุ้งคอย', 'กาญจนวิภู', 'กำธรเจริญ', 'กิจจานุรักษ์', 'กิตติธร', 'ครองจินดา', 'งามระลึก', 'จันทร์ประดับ', 'จิตประสงค์', 'จิตมานะ', 'จิตสะอาด', 'จิรามณี', 'จุฑาเทพ ณ อยุธยา', 'ชมชอบ', 'ชอบนอนหงาย', 'ดำรงลาวรรณ', 'ดิเรกวิทยา', 'ตะลุมพุก', 'ทวิพักตร์', 'ทองดี', 'ทองม่วง', 'นทีพิทักษ์', 'นิมิตนาม',
         'บาดตาสาว', 'บินทะลุบ้าน', 'บุญมั่น', 'ปรปักษ์เป็นจุล', 'ประจัญบาน', 'ประภาพร', 'ปืนครก', 'พงศ์พิทักษ์', 'พจน์จำเนียร', 'พรรณาราย', 'พิชัยรณรงค์', 'พิทักษ์ไทย', 'พึ่งสุข', 'พุ่มฉัตร', 'มณีน้อย', 'มนูญศักดิ์', 'มหานิยม', 'ยอดยาใจ', 'รอดคงรวย', 'รักธรรม', 'รักสำราญ', 'รัตนามิรา', 'รัตนเดชากร', 'รุจิอาภรณ์', 'วงศ์บันเทิง', 'วงศ์สินวิเศษ',
         'วรรณดำรง', 'วรเลิศรัตน์', 'วังชัยศรี', 'วาทะศรัทธา', 'วิทยเขตปภา', 'วิไลสักดิ์', 'ศรีเจริญ', 'ศิลามหาฤกษ์', 'ศิวาวงศ์', 'สมคำนึง', 'สมุทรเทวา', 'สันตติวงศ์', 'สันต์สิริศักดิ์', 'สัมพันธ์พงษ์', 'สำราญฤทธิ์', 'สุรบดินทร์', 'สูญสิ้นภัย', 'หงส์แก้ว', 'หนึ่งในยุทธจักร', 'หวังกระแทกคาง', 'อดุสาระดี', 'อัศวรัช', 'อัศวเรืองฤทธิ์', 'อาจฤทธิ์', 'เกตุอารี',

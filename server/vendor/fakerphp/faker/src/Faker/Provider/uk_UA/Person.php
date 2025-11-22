@@ -5,13 +5,13 @@ namespace Faker\Provider\uk_UA;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{middleNameMale}} {{lastName}}',
-        '{{lastName}} {{firstNameMale}} {{middleNameMale}}',
+        '{{firstNameMale}} {{middleNameMale}} {{last_name}}',
+        '{{last_name}} {{firstNameMale}} {{middleNameMale}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}} {{firstNameFemale}} {{middleNameFemale}}',
-        '{{firstNameFemale}} {{middleNameFemale}} {{lastName}}',
+        '{{last_name}} {{firstNameFemale}} {{middleNameFemale}}',
+        '{{firstNameFemale}} {{middleNameFemale}} {{last_name}}',
     ];
 
     protected static $firstNameMale = [
@@ -43,7 +43,7 @@ class Person extends \Faker\Provider\Person
         'Євгеніївна', 'Володимирівна',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Антоненко', 'Василенко', 'Васильчук', 'Васильєв', 'Гнатюк', 'Дмитренко',
         'Захарчук', 'Іванченко', 'Микитюк', 'Павлюк', 'Панасюк', 'Петренко', 'Романченко',
         'Сергієнко', 'Середа', 'Таращук', 'Боднаренко', 'Броваренко', 'Броварчук', 'Кравченко',

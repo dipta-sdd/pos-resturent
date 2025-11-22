@@ -50,21 +50,21 @@ class Address extends \Faker\Provider\Address
 
     protected static $postcodeFormats = ['{{postcode1}}{{postcode2}}'];
     protected static $cityFormats = [
-        '{{lastName}}{{citySuffix}}',
+        '{{last_name}}{{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{lastName}}{{streetSuffix}}',
+        '{{last_name}}{{streetSuffix}}',
     ];
     protected static $streetAddressFormats = [
-        '{{streetName}}{{lastName}}{{areaNumber}}-{{areaNumber}}-{{areaNumber}}',
+        '{{streetName}}{{last_name}}{{areaNumber}}-{{areaNumber}}-{{areaNumber}}',
     ];
     protected static $addressFormats = [
         '{{postcode}}  {{prefecture}}{{city}}{{ward}}{{streetAddress}}',
         '{{postcode}}  {{prefecture}}{{city}}{{ward}}{{streetAddress}} {{secondaryAddress}}',
     ];
     protected static $secondaryAddressFormats = [
-        'ハイツ{{lastName}}{{buildingNumber}}号',
-        'コーポ{{lastName}}{{buildingNumber}}号',
+        'ハイツ{{last_name}}{{buildingNumber}}号',
+        'コーポ{{last_name}}{{buildingNumber}}号',
     ];
 
     /**

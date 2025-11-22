@@ -45,14 +45,14 @@ class Address extends \Faker\Provider\Address
         'Zambia', 'Zimbabwe',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}} {{firstName}} {{citySuffix}}',
-        '{{cityPrefix}} {{firstName}}',
-        '{{firstName}} {{citySuffix}}',
-        '{{lastName}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}',
+        '{{first_name}} {{citySuffix}}',
+        '{{last_name}} {{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetSuffix}} {{firstName}}',
-        '{{streetSuffix}} {{lastName}}',
+        '{{streetSuffix}} {{first_name}}',
+        '{{streetSuffix}} {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}} {{buildingNumber}}',

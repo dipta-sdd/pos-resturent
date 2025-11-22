@@ -5,12 +5,12 @@ namespace Faker\Provider\ko_KR;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{companyPrefix}}{{firstName}}',
-        '{{companyPrefix}}{{firstName}}{{companySuffix}}',
-        '{{firstName}}{{companySuffix}}',
-        '{{firstName}}{{companySuffix}}',
-        '{{firstName}}{{companySuffix}}',
-        '{{firstName}}{{companySuffix}}',
+        '{{companyPrefix}}{{first_name}}',
+        '{{companyPrefix}}{{first_name}}{{companySuffix}}',
+        '{{first_name}}{{companySuffix}}',
+        '{{first_name}}{{companySuffix}}',
+        '{{first_name}}{{companySuffix}}',
+        '{{first_name}}{{companySuffix}}',
     ];
 
     protected static $companyPrefix = ['(주)', '(주)', '(주)', '(유)'];

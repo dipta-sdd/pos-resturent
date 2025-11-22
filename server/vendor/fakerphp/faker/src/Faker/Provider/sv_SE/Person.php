@@ -7,17 +7,17 @@ use Faker\Calculator\Luhn;
 class Person extends \Faker\Provider\Person
 {
     protected static $formats = [
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}',
-        '{{firstName}} {{lastName}} {{lastName}}',
-        '{{firstName}} {{lastName}}-{{lastName}}',
-        '{{firstName}} {{firstName}} {{lastName}}-{{lastName}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}',
+        '{{first_name}} {{last_name}} {{last_name}}',
+        '{{first_name}} {{last_name}}-{{last_name}}',
+        '{{first_name}} {{first_name}} {{last_name}}-{{last_name}}',
     ];
 
     /**
@@ -91,7 +91,7 @@ class Person extends \Faker\Provider\Person
      *
      * @see http://www.scb.se/sv_/Hitta-statistik/Statistik-efter-amne/Befolkning/Amnesovergripande-statistik/Namnstatistik/30898/2012A01x/Samtliga-folkbokforda--Efternamn-topplistor/Efternamn-topp-100/
      */
-    protected static $lastName = [
+    protected static $last_name = [
 
         'Abrahamsson', 'Andersson', 'Andreasson', 'Arvidsson', 'Axelsson',
         'Bengtsson', 'Berg', 'Berggren', 'Berglund', 'Bergman', 'Bergqvist', 'Bergström', 'Björk', 'Björklund', 'Blom', 'Blomqvist',

@@ -94,15 +94,15 @@ class Address extends \Faker\Provider\Address
      * @var array Swedish street name formats
      */
     protected static $streetNameFormats = [
-        '{{lastName}}{{streetSuffix}}',
-        '{{lastName}}{{streetSuffix}}',
-        '{{firstName}}{{streetSuffix}}',
-        '{{firstName}}{{streetSuffix}}',
+        '{{last_name}}{{streetSuffix}}',
+        '{{last_name}}{{streetSuffix}}',
+        '{{first_name}}{{streetSuffix}}',
+        '{{first_name}}{{streetSuffix}}',
         '{{streetPrefix}}{{streetSuffix}}',
         '{{streetPrefix}}{{streetSuffix}}',
         '{{streetPrefix}}{{streetSuffix}}',
         '{{streetPrefix}}{{streetSuffix}}',
-        '{{lastName}} {{streetSuffixWord}}',
+        '{{last_name}} {{streetSuffixWord}}',
     ];
 
     /**

@@ -18,11 +18,11 @@ class Person extends Base
     ];
 
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
     ];
 
     protected static $firstNameMale = [
@@ -33,7 +33,7 @@ class Person extends Base
         'Jane',
     ];
 
-    protected static $lastName = ['Doe'];
+    protected static $last_name = ['Doe'];
 
     protected static $titleMale = ['Mr.', 'Dr.', 'Prof.'];
 
@@ -66,7 +66,7 @@ class Person extends Base
      *
      * @example 'John'
      */
-    public function firstName($gender = null)
+    public function first_name($gender = null)
     {
         if ($gender === static::GENDER_MALE) {
             return static::firstNameMale();
@@ -100,9 +100,9 @@ class Person extends Base
      *
      * @return string
      */
-    public function lastName()
+    public function last_name()
     {
-        return static::randomElement(static::$lastName);
+        return static::randomElement(static::$last_name);
     }
 
     /**

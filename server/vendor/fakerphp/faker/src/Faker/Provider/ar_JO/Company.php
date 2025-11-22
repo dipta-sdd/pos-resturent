@@ -5,9 +5,9 @@ namespace Faker\Provider\ar_JO;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}} {{companySuffix}}',
-        '{{companyPrefix}} {{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}} {{companySuffix}}',
+        '{{companyPrefix}} {{last_name}}',
     ];
 
     protected static $bsWords = [

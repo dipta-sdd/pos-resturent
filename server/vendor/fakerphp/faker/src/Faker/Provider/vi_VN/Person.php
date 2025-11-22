@@ -5,17 +5,17 @@ namespace Faker\Provider\vi_VN;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{lastName}} {{firstNameMale}}',
-        '{{titleMale}}. {{lastName}} {{firstNameMale}}',
-        '{{lastName}} {{middleNameMale}} {{firstNameMale}}',
-        '{{titleMale}}. {{lastName}} {{middleNameMale}} {{firstNameMale}}',
+        '{{last_name}} {{firstNameMale}}',
+        '{{titleMale}}. {{last_name}} {{firstNameMale}}',
+        '{{last_name}} {{middleNameMale}} {{firstNameMale}}',
+        '{{titleMale}}. {{last_name}} {{middleNameMale}} {{firstNameMale}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}} {{firstNameFemale}}',
-        '{{titleFemale}}. {{lastName}} {{firstNameFemale}}',
-        '{{lastName}} {{middleNameFemale}} {{firstNameFemale}}',
-        '{{titleFemale}}. {{lastName}} {{middleNameFemale}} {{firstNameFemale}}',
+        '{{last_name}} {{firstNameFemale}}',
+        '{{titleFemale}}. {{last_name}} {{firstNameFemale}}',
+        '{{last_name}} {{middleNameFemale}} {{firstNameFemale}}',
+        '{{titleFemale}}. {{last_name}} {{middleNameFemale}} {{firstNameFemale}}',
     ];
 
     protected static $middleNameFormat = [
@@ -133,7 +133,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://vi.wikipedia.org/wiki/H%E1%BB%8D_ng%C6%B0%E1%BB%9Di_Vi%E1%BB%87t_Nam
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'An', 'Ánh',
         'Ân', 'Âu', 'Ấu',
         'Biện', 'Bàng', 'Bành', 'Bá', 'Bì', 'Bình', 'Bùi', 'Bạc', 'Bạch', 'Bảo', 'Bế', 'Bồ', 'Bửu',

@@ -5,21 +5,21 @@ namespace Faker\Provider\nl_NL;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}}',
-        '{{title}} {{firstNameMale}} {{lastName}}',
-        '{{firstNameMale}} {{lastName}} {{suffix}}',
-        '{{title}} {{firstNameMale}} {{lastName}} {{suffix}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}}',
+        '{{title}} {{firstNameMale}} {{last_name}}',
+        '{{firstNameMale}} {{last_name}} {{suffix}}',
+        '{{title}} {{firstNameMale}} {{last_name}} {{suffix}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}}',
-        '{{title}} {{firstNameFemale}} {{lastName}}',
-        '{{firstNameFemale}} {{lastName}} {{suffix}}',
-        '{{title}} {{firstNameFemale}} {{lastName}} {{suffix}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}}',
+        '{{title}} {{firstNameFemale}} {{last_name}}',
+        '{{firstNameFemale}} {{last_name}} {{suffix}}',
+        '{{title}} {{firstNameFemale}} {{last_name}} {{suffix}}',
     ];
 
     protected static $title = [
@@ -262,21 +262,21 @@ class Person extends \Faker\Provider\Person
     /**
      * @example 'Doe'
      */
-    public function lastName()
+    public function last_name()
     {
         $determinator = self::numberBetween(0, 25);
 
         if ($determinator === 0) {
-            $lastName = static::randomElement(static::$longLastNames);
+            $last_name = static::randomElement(static::$longLastNames);
         } elseif ($determinator <= 10) {
-            $lastName = static::randomElement(static::$commonDutchLastNames);
+            $last_name = static::randomElement(static::$commonDutchLastNames);
         } elseif ($determinator <= 15) {
-            $lastName = static::randomElement(static::$commonForeignLastNames);
+            $last_name = static::randomElement(static::$commonForeignLastNames);
         } else {
-            $lastName = static::randomElement(static::$dutchLastNames);
+            $last_name = static::randomElement(static::$dutchLastNames);
         }
 
-        return $lastName;
+        return $last_name;
     }
 
     public function title($gender = null)

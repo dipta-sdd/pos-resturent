@@ -5,11 +5,11 @@ namespace Faker\Provider\zh_CN;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{lastName}}{{firstNameMale}}',
+        '{{last_name}}{{firstNameMale}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{lastName}}{{firstNameFemale}}',
+        '{{last_name}}{{firstNameFemale}}',
     ];
 
     protected static $titleMale = ['先生', '医生', '老师', '教授', '律师', '经理'];
@@ -22,7 +22,7 @@ class Person extends \Faker\Provider\Person
      * containing 299 single-character surname and 1 double-character surname '欧阳',
      * so you can get random names including double-character surname but not too many.
      */
-    protected static $lastName = [
+    protected static $last_name = [
         '李', '王', '张', '刘', '陈', '杨', '赵', '黄', '周', '吴',
         '徐', '孙', '胡', '朱', '高', '林', '何', '郭', '马', '罗',
         '梁', '宋', '郑', '谢', '韩', '唐', '冯', '于', '董', '萧',

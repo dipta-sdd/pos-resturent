@@ -18,15 +18,15 @@ class Address extends \Faker\Provider\es_ES\Address
         'Sucre', 'Táchira', 'Trujillo', 'Vargas', 'Yaracuy', 'Zulia',
     ];
     protected static $cityFormats = [
-        '{{cityPrefix}} {{firstName}}{{citySuffix}}',
-        '{{cityPrefix}} {{firstName}}',
-        '{{firstName}} {{citySuffix}}',
-        '{{lastName}} {{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}{{citySuffix}}',
+        '{{cityPrefix}} {{first_name}}',
+        '{{first_name}} {{citySuffix}}',
+        '{{last_name}} {{citySuffix}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{firstName}}',
-        '{{streetPrefix}} {{lastName}}',
-        '{{streetPrefix}} {{firstName}} {{lastName}}',
+        '{{streetPrefix}} {{first_name}}',
+        '{{streetPrefix}} {{last_name}}',
+        '{{streetPrefix}} {{first_name}} {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}}, {{buildingNumber}}, {{secondaryAddress}}',

@@ -61,7 +61,7 @@ class Person extends \Faker\Provider\it_IT\Person
     /**
      * @see http://blog.tagesanzeiger.ch/datenblog/index.php/6859
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Agustoni', 'Alberti', 'Albertini', 'Albisetti', 'Ambrosini', 'Antonini',
         'Balestra', 'Balmelli', 'Bassetti', 'Bassi', 'Baumann', 'Beffa', 'Belotti', 'Beretta', 'Bernasconi', 'Berta', 'Besomi', 'Bettosini', 'Bianchi', 'Bianda', 'Bizzozero', 'Bonetti', 'Botta', 'Bottinelli', 'Brunner', 'Butti',
         'Caccia', 'Campana', 'Camponovo', 'Candolfi', 'Canepa', 'Canonica', 'Capoferri', 'Carrara', 'Casanova', 'Cassina', 'Castelli', 'Cattaneo', 'Cavadini', 'Cavalli', 'Ceppi', 'Cereghetti', 'Cerutti', 'Chiesa', 'Colombo', 'Conti', 'Corti', 'Costa', 'Crivelli', 'Croci',

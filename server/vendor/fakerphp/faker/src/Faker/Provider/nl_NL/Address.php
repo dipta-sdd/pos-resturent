@@ -44,7 +44,7 @@ class Address extends \Faker\Provider\Address
         '9712LJ', '9742GT', '9745EH', '9751TA', '9751TS', '9752BK', '9752GE', '9801TA', '9901EH', '9991EG', '9999XK',
     ];
 
-    protected static $streetNameFormats = ['{{lastName}}{{streetSuffix}}'];
+    protected static $streetNameFormats = ['{{last_name}}{{streetSuffix}}'];
 
     protected static $streetAddressFormats = ['{{streetName}} {{buildingNumber}}'];
 

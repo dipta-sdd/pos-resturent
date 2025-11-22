@@ -27,7 +27,7 @@ class Person extends \Faker\Provider\Person
         'Yana', 'Yasmine', 'Zoé', 'Zoë', 'Ferre', 'Roos',
     ];
 
-    protected static $lastName = [
+    protected static $last_name = [
         'Adam', 'Aerts', 'Amrani', 'André', 'Antoine', 'Baert', 'Bah', 'Barry', 'Bastin', 'Bauwens', 'Benali', 'Bernard', 'Bertrand', 'Bodart', 'Bogaert', 'Bogaerts', 'Borremans', 'Bosmans',
         'Boulanger', 'Bourgeois', 'Brasseur', 'Carlier', 'Celik', 'Ceulemans', 'Charlier', 'Christiaens', 'Claes', 'Claessens', 'Claeys', 'Collard', 'Collignon', 'Collin', 'Cools', 'Coppens',
         'Cornelis', 'Cornet', 'Cuvelier', 'Daems', 'De Backer', 'De Clercq', 'De Cock', 'De Coninck', 'De Coster', 'De Greef', 'De Groote', 'De Meyer', 'De Pauw', 'De Ridder', 'De Smedt',

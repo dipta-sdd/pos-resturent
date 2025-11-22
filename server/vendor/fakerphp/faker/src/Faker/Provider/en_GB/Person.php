@@ -5,11 +5,11 @@ namespace Faker\Provider\en_GB;
 class Person extends \Faker\Provider\Person
 {
     protected static $maleNameFormats = [
-        '{{firstNameMale}} {{lastName}}',
+        '{{firstNameMale}} {{last_name}}',
     ];
 
     protected static $femaleNameFormats = [
-        '{{firstNameFemale}} {{lastName}}',
+        '{{firstNameFemale}} {{last_name}}',
     ];
 
     /**
@@ -69,7 +69,7 @@ class Person extends \Faker\Provider\Person
     /**
      * @see http://surname.sofeminine.co.uk/w/surnames/most-common-surnames-in-great-britain.html
      */
-    protected static $lastName = [
+    protected static $last_name = [
         'Adams', 'Allen', 'Anderson',
         'Bailey', 'Baker', 'Bell', 'Bennett', 'Brown', 'Butler',
         'Campbell', 'Carter', 'Chapman', 'Clark', 'Clarke', 'Collins', 'Cook', 'Cooper', 'Cox',

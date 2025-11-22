@@ -5,9 +5,9 @@ namespace Faker\Provider\en_US;
 class Company extends \Faker\Provider\Company
 {
     protected static $formats = [
-        '{{lastName}} {{companySuffix}}',
-        '{{lastName}}-{{lastName}}',
-        '{{lastName}}, {{lastName}} and {{lastName}}',
+        '{{last_name}} {{companySuffix}}',
+        '{{last_name}}-{{last_name}}',
+        '{{last_name}}, {{last_name}} and {{last_name}}',
     ];
 
     protected static $catchPhraseWords = [

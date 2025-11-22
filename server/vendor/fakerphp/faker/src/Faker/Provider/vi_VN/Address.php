@@ -32,23 +32,23 @@ class Address extends \Faker\Provider\Address
         'Cần Thơ', 'Đà Nẵng', 'Hải Phòng', 'Hà Nội', 'Hồ Chí Minh',
     ];
     protected static $streetNameFormats = [
-        'Phố {{lastName}} {{middleName}} {{firstName}}',
-        'Phố {{lastName}} {{middleName}} {{firstName}}',
-        'Phố {{lastName}} {{middleName}} {{firstName}}',
-        'Phố {{firstName}}',
-        'Phố {{lastName}}',
+        'Phố {{last_name}} {{middleName}} {{first_name}}',
+        'Phố {{last_name}} {{middleName}} {{first_name}}',
+        'Phố {{last_name}} {{middleName}} {{first_name}}',
+        'Phố {{first_name}}',
+        'Phố {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{buildingNumber}} {{streetName}}',
     ];
     protected static $hamletNameFormats = [
-        '{{hamletPrefix}} {{middleName}} {{firstName}}',
-        '{{hamletPrefix}} {{lastName}} {{firstName}}',
-        '{{hamletPrefix}} {{firstName}} {{lastName}}',
-        '{{hamletPrefix}} {{middleName}} {{firstName}}',
-        '{{hamletPrefix}} {{lastName}} {{middleName}} {{firstName}}',
-        '{{hamletPrefix}} {{firstName}}',
-        '{{hamletPrefix}} {{lastName}}',
+        '{{hamletPrefix}} {{middleName}} {{first_name}}',
+        '{{hamletPrefix}} {{last_name}} {{first_name}}',
+        '{{hamletPrefix}} {{first_name}} {{last_name}}',
+        '{{hamletPrefix}} {{middleName}} {{first_name}}',
+        '{{hamletPrefix}} {{last_name}} {{middleName}} {{first_name}}',
+        '{{hamletPrefix}} {{first_name}}',
+        '{{hamletPrefix}} {{last_name}}',
         '{{hamletPrefix}} ##',
         '{{hamletPrefix}} #',
     ];
@@ -56,13 +56,13 @@ class Address extends \Faker\Provider\Address
         'Thôn', 'Ấp',
     ];
     protected static $wardNameFormats = [
-        '{{hamletPrefix}} {{middleName}} {{firstName}}',
-        '{{hamletPrefix}} {{lastName}} {{firstName}}',
-        '{{wardPrefix}} {{firstName}} {{lastName}}',
-        '{{wardPrefix}} {{middleName}} {{firstName}}',
-        '{{wardPrefix}} {{lastName}} {{middleName}} {{firstName}}',
-        '{{wardPrefix}} {{firstName}}',
-        '{{wardPrefix}} {{lastName}}',
+        '{{hamletPrefix}} {{middleName}} {{first_name}}',
+        '{{hamletPrefix}} {{last_name}} {{first_name}}',
+        '{{wardPrefix}} {{first_name}} {{last_name}}',
+        '{{wardPrefix}} {{middleName}} {{first_name}}',
+        '{{wardPrefix}} {{last_name}} {{middleName}} {{first_name}}',
+        '{{wardPrefix}} {{first_name}}',
+        '{{wardPrefix}} {{last_name}}',
         '{{wardPrefix}} ##',
         '{{wardPrefix}} #',
     ];
@@ -70,13 +70,13 @@ class Address extends \Faker\Provider\Address
         'Phường', 'Xã',
     ];
     protected static $districtNameFormats = [
-        '{{districtPrefix}} {{middleName}} {{firstName}}',
-        '{{districtPrefix}} {{lastName}} {{firstName}}',
-        '{{districtPrefix}} {{firstName}} {{lastName}}',
-        '{{districtPrefix}} {{middleName}} {{firstName}}',
-        '{{districtPrefix}} {{lastName}} {{middleName}} {{firstName}}',
-        '{{districtPrefix}} {{firstName}}',
-        '{{districtPrefix}} {{lastName}}',
+        '{{districtPrefix}} {{middleName}} {{first_name}}',
+        '{{districtPrefix}} {{last_name}} {{first_name}}',
+        '{{districtPrefix}} {{first_name}} {{last_name}}',
+        '{{districtPrefix}} {{middleName}} {{first_name}}',
+        '{{districtPrefix}} {{last_name}} {{middleName}} {{first_name}}',
+        '{{districtPrefix}} {{first_name}}',
+        '{{districtPrefix}} {{last_name}}',
         '{{districtPrefix}} ##',
         '{{districtPrefix}} #',
     ];

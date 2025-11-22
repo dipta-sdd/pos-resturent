@@ -23,7 +23,7 @@ class Address extends \Faker\Provider\Address
         '{{cityPrefix}} {{cityName}}',
     ];
     protected static $streetNameFormats = [
-        '{{streetPrefix}} {{lastName}}',
+        '{{streetPrefix}} {{last_name}}',
     ];
     protected static $streetAddressFormats = [
         '{{streetName}} {{building}}',
@@ -33,8 +33,8 @@ class Address extends \Faker\Provider\Address
         '{{city}} {{streetAddress}}',
     ];
     protected static $buildingFormat = [
-        '{{buildingNamePrefix}} {{firstName}} {{buildingNumberPrefix}} {{buildingNumber}}',
-        '{{buildingNamePrefix}} {{firstName}}',
+        '{{buildingNamePrefix}} {{first_name}} {{buildingNumberPrefix}} {{buildingNumber}}',
+        '{{buildingNamePrefix}} {{first_name}}',
     ];
 
     protected static $postcode = ['##########'];

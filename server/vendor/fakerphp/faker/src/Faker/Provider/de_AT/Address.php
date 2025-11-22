@@ -102,8 +102,8 @@ class Address extends \Faker\Provider\Address
     ];
 
     protected static $streetNameFormats = [
-        '{{lastName}}{{streetSuffixShort}}',
-        '{{firstName}}-{{lastName}}-{{streetSuffixLong}}',
+        '{{last_name}}{{streetSuffixShort}}',
+        '{{first_name}}-{{last_name}}-{{streetSuffixLong}}',
     ];
 
     protected static $streetAddressFormats = [

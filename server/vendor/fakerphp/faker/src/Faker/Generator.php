@@ -449,9 +449,9 @@ use Faker\Container\ContainerInterface;
  *
  * @method string name($gender = null)
  *
- * @property string $firstName
+ * @property string $first_name
  *
- * @method string firstName($gender = null)
+ * @method string first_name($gender = null)
  *
  * @property string $firstNameMale
  *
@@ -461,9 +461,9 @@ use Faker\Container\ContainerInterface;
  *
  * @method string firstNameFemale()
  *
- * @property string $lastName
+ * @property string $last_name
  *
- * @method string lastName($gender = null)
+ * @method string last_name($gender = null)
  *
  * @property string $title
  *
