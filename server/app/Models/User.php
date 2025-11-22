@@ -4,11 +4,12 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -21,11 +22,15 @@ class User extends Authenticatable implements JWTSubject
      * @var list<string>
      */
     protected $fillable = [
-        'firstName',
-        'lastName',
+        'role_id',
+        'name',
         'email',
-        'mobile',
+        'phone',
         'password',
+        'avatar_url',
+        'is_active',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -48,6 +53,7 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 
@@ -71,11 +77,33 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function role(): HasOne
+    public function role(): BelongsTo
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
+    }
 
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
 
+    public function reservations(): HasMany
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function createdBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updatedBy(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
 }

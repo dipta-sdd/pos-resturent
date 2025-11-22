@@ -15,6 +15,9 @@ return new class extends Migration
             $table->foreignId('menu_item_id')->constrained('menu_items')->onDelete('cascade');
             $table->foreignId('add_on_id')->constrained('add_ons')->onDelete('cascade');
             $table->primary(['menu_item_id', 'add_on_id']);
+            $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 

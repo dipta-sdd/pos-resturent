@@ -15,11 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->foreignId('payment_method_id')->constrained('payment_methods')->onDelete('restrict');
+            $table->enum('type', ['payment', 'refund'])->default('payment');
             $table->decimal('amount', 10, 2);
-            $table->enum('status', ['paid', 'failed', 'refunded'])->default('paid');
             $table->string('transaction_id')->nullable();
-            $table->timestamp('payment_date')->useCurrent();
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 

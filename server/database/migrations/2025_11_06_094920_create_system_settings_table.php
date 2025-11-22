@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings', function (Blueprint $table) {
-            $table->string('key')->primary();
+        Schema::create('system_settings', function (Blueprint $table) {
+            $table->string('key', 100)->primary();
             $table->text('value')->nullable();
+            $table->string('group', 50);
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings');
+        Schema::dropIfExists('system_settings');
     }
 };

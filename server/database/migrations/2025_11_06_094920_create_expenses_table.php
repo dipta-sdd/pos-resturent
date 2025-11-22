@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('expense_category_id')->constrained('expense_categories')->onDelete('restrict');
-            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('expense_category_id')->constrained('expense_categories')->onDelete('cascade');
+            $table->foreignId('payment_method_id')->nullable()->constrained('payment_methods')->onDelete('set null');
             $table->decimal('amount', 10, 2);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->date('expense_date');
+            $table->string('receipt_image_url')->nullable();
             $table->timestamps();
+            $table->foreignId('created_by')->nullable()->constrained('users')->onDelete('set null');
+            $table->foreignId('updated_by')->nullable()->constrained('users')->onDelete('set null');
         });
     }
 
