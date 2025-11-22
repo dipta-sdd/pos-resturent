@@ -119,7 +119,7 @@ const Header: React.FC = () => {
                           <p className="text-sm text-white" role="none">Signed in as</p>
                           <p className="text-sm font-medium text-white truncate" role="none">{userName}</p>
                         </div>
-                        <Link href="/customer/dashboard" className={dropdownLinkClass} role="menuitem" tabIndex={-1} onClick={() => setIsProfileDropdownOpen(false)}>
+                        <Link href="/customer/" className={dropdownLinkClass} role="menuitem" tabIndex={-1} onClick={() => setIsProfileDropdownOpen(false)}>
                           <LayoutDashboard size={16} /> Dashboard
                         </Link>
                         {permissions?.can_use_pos ? (
