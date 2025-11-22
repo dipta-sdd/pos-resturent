@@ -8,8 +8,7 @@ import { useTheme } from '../../contexts/ThemeContext';
 import { useSettings } from '../../contexts/SettingsContext';
 import { Role } from '../../types';
 import {
-    LayoutDashboard, User, Utensils, ClipboardList, BarChart2, Settings, ChevronLeft, ChevronRight, LogOut, Car, HandCoins, BookUser,
-    Home, History, Star, Wallet, Truck, UtensilsCrossed, FileText, Banknote, Users, Moon, Sun, Megaphone, Receipt, Menu, X, Tag, CreditCard
+    LayoutDashboard, User, Utensils, ClipboardList, BarChart2, Settings, ChevronLeft, ChevronRight, LogOut, Car, HandCoins, BookUser, History, Star, Wallet, Truck, UtensilsCrossed, FileText, Banknote, Users, Moon, Sun, Megaphone, Receipt, Menu, X, Tag, CreditCard
 } from 'lucide-react';
 
 // Define all possible navigation links in a single source of truth.
@@ -143,20 +142,58 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, isMobileOpen, setIsMobil
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-    const { user, permissions, isAuthenticated } = useAuth();
+    const { user, permissions, isAuthenticated, loading } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const router = useRouter();
 
     // Auth Check (Client-side fallback, middleware should handle this ideally)
     React.useEffect(() => {
+        if (loading) return;
         if (!isAuthenticated) {
             router.push('/login');
         } else if (user?.role?.name === 'customer') {
             router.push('/customer/dashboard');
         }
-    }, [isAuthenticated, user, router]);
+    }, [isAuthenticated, user, router, loading]);
 
+    if (loading) return (
+        <>
+            <div className="flex h-screen bg-gray-100 dark:bg-gray-950 animate-pulse">
+                {/* Sidebar Skeleton */}
+                <aside className="bg-gray-900 dark:bg-gray-950 w-64 flex flex-col p-4 space-y-4">
+                    <div className="h-10 bg-gray-700 dark:bg-gray-800 rounded-lg w-3/4 mx-auto mb-4"></div>
+                    {[...Array(6)].map((_, i) => (
+                        <div key={i} className="h-10 bg-gray-700 dark:bg-gray-800 rounded-lg w-full"></div>
+                    ))}
+                    <div className="flex-grow"></div>
+                    <div className="h-10 bg-gray-700 dark:bg-gray-800 rounded-lg w-full"></div>
+                </aside>
 
+                <div className="flex-1 flex flex-col overflow-hidden">
+                    {/* Header Skeleton */}
+                    <header className="bg-white dark:bg-gray-800 shadow-sm h-16 flex items-center justify-between px-6">
+                        <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+                        <div className="flex items-center gap-4">
+                            <div className="h-8 w-8 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                            <div className="h-8 w-24 bg-gray-200 dark:bg-gray-700 rounded-md"></div>
+                            <div className="h-10 w-10 rounded-full bg-gray-200 dark:bg-gray-700"></div>
+                        </div>
+                    </header>
+
+                    {/* Main Content Skeleton */}
+                    <main className="flex-1 p-6 space-y-6">
+                        <div className="h-12 bg-gray-200 dark:bg-gray-800 rounded-lg w-1/3"></div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            {[...Array(3)].map((_, i) => (
+                                <div key={i} className="h-48 bg-white dark:bg-gray-800 rounded-lg shadow-sm"></div>
+                            ))}
+                        </div>
+                        <div className="h-64 bg-white dark:bg-gray-800 rounded-lg shadow-sm"></div>
+                    </main>
+                </div>
+            </div>
+        </>
+    );
     const getProfileLink = (permissions: Role | null) => {
         if (!permissions) return '/dashboard';
         if (permissions.can_manage_shop_settings) return '/dashboard/settings';

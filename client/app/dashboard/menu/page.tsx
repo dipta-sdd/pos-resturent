@@ -150,6 +150,8 @@ const AdminMenuManagement: React.FC = () => {
             setMenuItems(mockMenuItems);
             const categories = await api.getCategories();
             setCategories(categories);
+            const addons = await api.getAddOns();
+            setAddOns(addons);
             setLoadingItems(false);
         };
 
@@ -237,7 +239,6 @@ const AdminMenuManagement: React.FC = () => {
     const handleTouchEnd = () => { if (draggedItemId && dropTarget.id) performDrop(draggedItemId, dropTarget.id, dropTarget.position); handleDragEnd(); };
 
     const categoryTree = useMemo(() => {
-        console.log('cat : ', categories);
         const categoriesById: Map<number, Category> = new Map(categories.map(cat => [cat.id, { ...cat, children: [] }]));
         const rootCategories: Category[] = [];
         for (const category of categoriesById.values()) {
@@ -440,7 +441,7 @@ const AdminMenuManagement: React.FC = () => {
                         {paginatedAddOns.map(addOn => (
                             <tr key={addOn.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{addOn.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${addOn.price.toFixed(2)}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${ addOn.price}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button onClick={() => openAddOnModal(addOn)} className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300 mr-4"><Edit size={18} /></button>
                                     <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
