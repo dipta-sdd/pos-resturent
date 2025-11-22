@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -105,5 +106,15 @@ class User extends Authenticatable implements JWTSubject
     public function updatedBy(): BelongsTo
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function riderProfile(): HasOne
+    {
+        return $this->hasOne(RiderProfile::class);
+    }
+
+    public function payoutRequests(): HasMany
+    {
+        return $this->hasMany(PayoutRequest::class);
     }
 }

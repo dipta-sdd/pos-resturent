@@ -11,6 +11,14 @@ class Order extends Model
 {
     use HasFactory;
 
+    const STATUS_PENDING = 'pending';
+    const STATUS_CONFIRMED = 'confirmed';
+    const STATUS_PREPARING = 'preparing';
+    const STATUS_READY = 'ready';
+    const STATUS_OUT_FOR_DELIVERY = 'out_for_delivery';
+    const STATUS_DELIVERED = 'delivered';
+    const STATUS_CANCELLED = 'cancelled';
+
     protected $fillable = [
         'order_number',
         'user_id',

@@ -3,31 +3,46 @@
 namespace App\Http\Controllers\System;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\System\StoreCouponRequest;
+use App\Http\Requests\System\UpdateCouponRequest;
+use App\Models\Coupon;
+use Illuminate\Support\Facades\Auth;
 
 class CouponController extends Controller
 {
     public function index()
     {
-        // Placeholder
+        return Coupon::paginate();
     }
 
-    public function store()
+    public function store(StoreCouponRequest $request)
     {
-        // Placeholder
+        $data = $request->validated();
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        $coupon = Coupon::create($data);
+        return response()->json($coupon, 201);
     }
 
-    public function show($id)
+    public function show(Coupon $coupon)
     {
-        // Placeholder
+        $this->authorize('view', $coupon);
+        return $coupon;
     }
 
-    public function update($id)
+    public function update(UpdateCouponRequest $request, Coupon $coupon)
     {
-        // Placeholder
+        $this->authorize('update', $coupon);
+        $data = $request->validated();
+        $data['updated_by'] = Auth::id();
+        $coupon->update($data);
+        return response()->json($coupon);
     }
 
-    public function destroy($id)
+    public function destroy(Coupon $coupon)
     {
-        // Placeholder
+        $this->authorize('delete', $coupon);
+        $coupon->delete();
+        return response()->json(null, 204);
     }
 }

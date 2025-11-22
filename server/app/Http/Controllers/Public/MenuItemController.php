@@ -3,16 +3,17 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\MenuItem;
 
 class MenuItemController extends Controller
 {
     public function index()
     {
-        // Placeholder
+        return MenuItem::where('is_active', true)->with(['category', 'itemVariants', 'addOns'])->paginate();
     }
 
-    public function show($slug)
+    public function show(MenuItem $menuItem)
     {
-        // Placeholder
+        return $menuItem->load(['category', 'itemVariants', 'addOns']);
     }
 }

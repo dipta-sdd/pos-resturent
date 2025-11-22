@@ -55,7 +55,7 @@ Route::prefix('public')->group(function () {
     Route::get('settings', [PublicSettingsController::class, 'index']);
     Route::get('categories', [PublicCategoryController::class, 'index']);
     Route::get('menu-items', [PublicMenuItemController::class, 'index']);
-    Route::get('menu-items/{slug}', [PublicMenuItemController::class, 'show']);
+    Route::get('menu-items/{menu_item:slug}', [PublicMenuItemController::class, 'show']);
     Route::get('payment-methods', [PublicPaymentMethodController::class, 'index']);
 });
 
@@ -64,8 +64,8 @@ Route::prefix('customer')->middleware(['auth:api', 'role:customer'])->group(func
     Route::post('cart/validate', [CustomerCartController::class, 'validateCart']);
     Route::get('orders', [CustomerOrderController::class, 'index']);
     Route::post('orders', [CustomerOrderController::class, 'store']);
-    Route::get('orders/{id}', [CustomerOrderController::class, 'show']);
-    Route::post('orders/{id}/cancel', [CustomerOrderController::class, 'cancel']);
+    Route::get('orders/{order}', [CustomerOrderController::class, 'show']);
+    Route::post('orders/{order}/cancel', [CustomerOrderController::class, 'cancel']);
     Route::apiResource('reservations', CustomerReservationController::class)->only(['index', 'store']);
 });
 
@@ -73,25 +73,17 @@ Route::prefix('shifts')->middleware(['auth:api', 'permission:can_perform_shifts'
     Route::post('start', [ShiftController::class, 'start']);
     Route::get('current', [ShiftController::class, 'current']);
     Route::post('end', [ShiftController::class, 'end']);
-    Route::get('{id}/report', [ShiftController::class, 'report']);
+    Route::get('{shift}/report', [ShiftController::class, 'report']);
 });
 
 Route::middleware('auth:api')->group(function () {
-    Route::get('orders', [OrderController::class, 'index'])->middleware('permission:can_view_all_orders');
-    Route::post('orders', [OrderController::class, 'store'])->middleware('permission:can_create_orders');
-    Route::get('orders/{id}', [OrderController::class, 'show'])->middleware('permission:can_view_all_orders');
-    Route::put('orders/{id}', [OrderController::class, 'update'])->middleware('permission:can_edit_orders');
-    Route::patch('orders/{id}/status', [OrderController::class, 'updateStatus'])->middleware('permission:can_update_order_status');
-    Route::patch('orders/{id}/assign', [OrderController::class, 'assign'])->middleware('permission:can_edit_orders');
-    Route::post('orders/{id}/payments', [OrderController::class, 'addPayment'])->middleware('permission:can_create_orders');
-    Route::delete('orders/{id}/payments/{paymentId}', [OrderController::class, 'refundPayment'])->middleware('permission:can_edit_orders');
-    Route::get('orders/{id}/print', [OrderController::class, 'printReceipt'])->middleware('permission:can_create_orders');
+    Route::apiResource('orders', OrderController::class);
 
     Route::prefix('menu')->middleware('permission:can_manage_menu')->group(function () {
         Route::apiResource('categories', CategoryController::class);
         Route::apiResource('menu-items', MenuItemController::class);
-        Route::patch('menu-items/{id}/status', [MenuItemController::class, 'updateStatus']);
-        Route::apiResource('menu-items/{menu_item_id}/variants', ItemVariantController::class);
+        Route::patch('menu-items/{menu_item}/status', [MenuItemController::class, 'updateStatus']);
+        Route::apiResource('menu-items.variants', ItemVariantController::class)->scoped();
         Route::apiResource('add-ons', AddOnController::class);
     });
 
@@ -101,7 +93,7 @@ Route::middleware('auth:api')->group(function () {
         Route::apiResource('expense-categories', ExpenseCategoryController::class);
         Route::get('payment-methods', [PaymentMethodController::class, 'index']);
         Route::get('rider-ledgers', [RiderLedgerController::class, 'index']);
-        Route::patch('payouts/{id}', [PayoutController::class, 'update']);
+        Route::patch('payouts/{payout_request}', [PayoutController::class, 'update']);
     });
 
     Route::prefix('rider')->middleware('permission:can_perform_delivery')->group(function () {

@@ -3,36 +3,56 @@
 namespace App\Http\Controllers\Menu;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Menu\StoreMenuItemRequest;
+use App\Http\Requests\Menu\UpdateMenuItemRequest;
+use App\Http\Requests\Menu\UpdateMenuItemStatusRequest;
+use App\Models\MenuItem;
+use Illuminate\Support\Facades\Auth;
 
 class MenuItemController extends Controller
 {
     public function index()
     {
-        // Placeholder
+        return MenuItem::with(['category', 'itemVariants', 'addOns'])->paginate();
     }
 
-    public function store()
+    public function store(StoreMenuItemRequest $request)
     {
-        // Placeholder
+        $data = $request->validated();
+        $data['created_by'] = Auth::id();
+        $data['updated_by'] = Auth::id();
+        $menuItem = MenuItem::create($data);
+        return response()->json($menuItem, 201);
     }
 
-    public function show($id)
+    public function show(MenuItem $menuItem)
     {
-        // Placeholder
+        $this->authorize('view', $menuItem);
+        return $menuItem->load(['category', 'itemVariants', 'addOns']);
     }
 
-    public function update($id)
+    public function update(UpdateMenuItemRequest $request, MenuItem $menuItem)
     {
-        // Placeholder
+        $this->authorize('update', $menuItem);
+        $data = $request->validated();
+        $data['updated_by'] = Auth::id();
+        $menuItem->update($data);
+        return response()->json($menuItem);
     }
 
-    public function destroy($id)
+    public function destroy(MenuItem $menuItem)
     {
-        // Placeholder
+        $this->authorize('delete', $menuItem);
+        $menuItem->delete();
+        return response()->json(null, 204);
     }
 
-    public function updateStatus($id)
+    public function updateStatus(UpdateMenuItemStatusRequest $request, MenuItem $menuItem)
     {
-        // Placeholder
+        $this->authorize('update', $menuItem);
+        $data = $request->validated();
+        $data['updated_by'] = Auth::id();
+        $menuItem->update($data);
+        return response()->json($menuItem);
     }
 }
