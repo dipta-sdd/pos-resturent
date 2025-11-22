@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { useSettings } from '../../../contexts/SettingsContext';
 import { api } from '../../../services/api';
 import toast from 'react-hot-toast';
+import { LaravelErrorResponse } from '@/types';
 
 const FlavorFusionLogo = () => (
     <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
@@ -19,7 +20,7 @@ const FlavorFusionLogo = () => (
 );
 
 const registerSchema = z.object({
-    firstName: z.string().min(2, { message: 'First name must be at least 2 characters' }),
+    first_name: z.string().min(2, { message: 'First name must be at least 2 characters' }),
     last_name: z.string().min(2, { message: 'Last name must be at least 2 characters' }),
     email: z.string().email({ message: 'Invalid email address' }),
     phone: z.string().optional(),
@@ -37,7 +38,7 @@ type FormErrors = { [key in keyof FormData]?: string };
 const RegisterPage: React.FC = () => {
     const router = useRouter();
     const { settings } = useSettings();
-    const [formData, setFormData] = useState<FormData>({ firstName: '', last_name: '', email: '', phone: '', password: '', confirmPassword: '' });
+    const [formData, setFormData] = useState<FormData>({ first_name: '', last_name: '', email: '', phone: '', password: '', confirmPassword: '' });
     const [errors, setErrors] = useState<FormErrors>({});
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -59,7 +60,7 @@ const RegisterPage: React.FC = () => {
         if (!result.success) {
             const fieldErrors = result.error.flatten().fieldErrors;
             setErrors({
-                firstName: fieldErrors.firstName?.[0],
+                first_name: fieldErrors.first_name?.[0],
                 last_name: fieldErrors.last_name?.[0],
                 email: fieldErrors.email?.[0],
                 phone: fieldErrors.phone?.[0],
@@ -75,7 +76,7 @@ const RegisterPage: React.FC = () => {
 
         try {
             await api.register({
-                firstName: formData.firstName,
+                first_name: formData.first_name,
                 last_name: formData.last_name,
                 email: formData.email,
                 mobile: formData.phone || null,
@@ -86,18 +87,18 @@ const RegisterPage: React.FC = () => {
             router.push('/login');
         } catch (error: any) {
             console.error('Registration error:', error);
-            if (error.response?.data?.errors) {
-                // Handle validation errors from backend
-                const backendErrors = error.response.data.errors;
+
+            // Handle Laravel validation errors (422)
+            if (error.response?.data) {
+                const backendErrors: LaravelErrorResponse = error.response.data;
                 setErrors({
-                    email: backendErrors.email?.[0],
-                    firstName: backendErrors.firstName?.[0],
-                    last_name: backendErrors.last_name?.[0],
-                    phone: backendErrors.mobile?.[0],
-                    password: backendErrors.password?.[0],
+                    ...api.normalizeErrors(backendErrors)
                 });
+                console.log(api.normalizeErrors(backendErrors));
                 toast.error('Please fix the validation errors');
-            } else {
+            }
+            // Handle other errors
+            else {
                 const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
                 toast.error(errorMessage);
             }
@@ -124,10 +125,10 @@ const RegisterPage: React.FC = () => {
                     <form className="space-y-5" onSubmit={handleSubmit} noValidate>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
+                                <label htmlFor="first_name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">First Name</label>
                                 <div className="mt-1">
-                                    <input id="firstName" name="firstName" type="text" value={formData.firstName} onChange={handleChange} className={`w-full px-4 py-3 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.firstName ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} placeholder="John" />
-                                    {errors.firstName && <p className="mt-1 text-xs text-red-500">{errors.firstName}</p>}
+                                    <input id="first_name" name="first_name" type="text" value={formData.first_name} onChange={handleChange} className={`w-full px-4 py-3 border rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.first_name ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} placeholder="John" />
+                                    {errors.first_name && <p className="mt-1 text-xs text-red-500">{errors.first_name}</p>}
                                 </div>
                             </div>
                             <div>

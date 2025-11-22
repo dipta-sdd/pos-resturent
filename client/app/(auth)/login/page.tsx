@@ -5,10 +5,11 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '../../../contexts/AuthContext';
 import { useSettings } from '../../../contexts/SettingsContext';
-import { UserRole } from '../../../types';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import toast from 'react-hot-toast';
+import { LaravelErrorResponse } from '@/types';
+import { api } from '@/services/api';
 
 const FlavorFusionLogo = () => (
     <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
@@ -69,10 +70,20 @@ const LoginPage: React.FC = () => {
             toast.success('Login successful!');
         } catch (error: any) {
             console.error('Login error:', error);
-            if (error.response?.status === 401) {
+
+            // Handle Laravel validation errors
+            if (error.response?.data) {
+                const backendErrors: LaravelErrorResponse = error.response.data;
+                setErrors(api.normalizeErrors(backendErrors));
+                toast.error('Please fix the validation errors');
+            }
+            // Handle authentication errors (401)
+            else if (error.response?.status === 401) {
                 setErrors({ email: 'Invalid email or password' });
                 toast.error('Invalid email or password');
-            } else {
+            }
+            // Handle other errors
+            else {
                 const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
                 setErrors({ email: errorMessage });
                 toast.error(errorMessage);

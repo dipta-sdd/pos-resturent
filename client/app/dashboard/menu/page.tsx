@@ -9,6 +9,7 @@ import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lu
 import Pagination from '../../../components/common/Pagination';
 import { mockMenuItems } from '@/data/mockData';
 import toast from 'react-hot-toast';
+import { LaravelErrorResponse } from '@/types';
 
 interface DraggableCategoryItemProps {
     category: Category;
@@ -124,8 +125,10 @@ const AdminMenuManagement: React.FC = () => {
     // Modals state
     const [showCategoryModal, setShowCategoryModal] = useState(false);
     const [currentCategory, setCurrentCategory] = useState<Category | Partial<Category> | null>(null);
+    const [categoryErrors, setCategoryErrors] = useState<{ [key: string]: string }>({});
     const [showAddOnModal, setShowAddOnModal] = useState(false);
     const [currentAddOn, setCurrentAddOn] = useState<AddOn | Partial<AddOn> | null>(null);
+    const [addOnErrors, setAddOnErrors] = useState<{ [key: string]: string }>({});
     const [isSavingCategory, setIsSavingCategory] = useState(false);
     const [isSavingAddOn, setIsSavingAddOn] = useState(false);
 
@@ -164,15 +167,18 @@ const AdminMenuManagement: React.FC = () => {
     // Modal handlers
     const openCategoryModal = (category?: Category) => {
         setCurrentCategory(category || { name: '' });
+        setCategoryErrors({}); // Clear errors when opening modal
         setShowCategoryModal(true);
     };
     const closeCategoryModal = () => {
         setShowCategoryModal(false);
         setCurrentCategory(null);
+        setCategoryErrors({});
     };
     const handleSaveCategory = async () => {
         if (!currentCategory) return;
 
+        setCategoryErrors({}); // Clear previous errors
         setIsSavingCategory(true);
         try {
             if ('id' in currentCategory && currentCategory.id) {
@@ -189,9 +195,17 @@ const AdminMenuManagement: React.FC = () => {
             const updatedCategories = await api.getCategories();
             setCategories(updatedCategories);
             closeCategoryModal();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving category:', error);
-            toast.error('Failed to save category. Please try again.');
+
+            // Handle Laravel validation errors
+            if (error.response?.data) {
+                const backendErrors: LaravelErrorResponse = error.response.data;
+                setCategoryErrors(api.normalizeErrors(backendErrors));
+                toast.error('Please fix the validation errors');
+            } else {
+                toast.error('Failed to save category. Please try again.');
+            }
         } finally {
             setIsSavingCategory(false);
         }
@@ -214,15 +228,18 @@ const AdminMenuManagement: React.FC = () => {
 
     const openAddOnModal = (addOn?: AddOn) => {
         setCurrentAddOn(addOn || { name: '', price: 0 });
+        setAddOnErrors({}); // Clear errors when opening modal
         setShowAddOnModal(true);
     };
     const closeAddOnModal = () => {
         setShowAddOnModal(false);
         setCurrentAddOn(null);
+        setAddOnErrors({});
     };
     const handleSaveAddOn = async () => {
         if (!currentAddOn) return;
 
+        setAddOnErrors({}); // Clear previous errors
         setIsSavingAddOn(true);
         try {
             if ('id' in currentAddOn && currentAddOn.id) {
@@ -239,9 +256,17 @@ const AdminMenuManagement: React.FC = () => {
             const updatedAddOns = await api.getAddOns();
             setAddOns(updatedAddOns);
             closeAddOnModal();
-        } catch (error) {
+        } catch (error: any) {
             console.error('Error saving add-on:', error);
-            toast.error('Failed to save add-on. Please try again.');
+
+            // Handle Laravel validation errors
+            if (error.response?.data) {
+                const backendErrors: LaravelErrorResponse = error.response.data;
+                setAddOnErrors(api.normalizeErrors(backendErrors));
+                toast.error('Please fix the validation errors');
+            } else {
+                toast.error('Failed to save add-on. Please try again.');
+            }
         } finally {
             setIsSavingAddOn(false);
         }
@@ -592,20 +617,28 @@ const AdminMenuManagement: React.FC = () => {
                                     type="text"
                                     value={currentCategory.name || ''}
                                     onChange={(e) => setCurrentCategory({ ...currentCategory, name: e.target.value })}
-                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className={`mt-1 block w-full border rounded-md p-2 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${categoryErrors.name
+                                        ? 'border-red-500 focus:ring-red-500/50'
+                                        : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'
+                                        }`}
                                     required
                                 />
+                                {categoryErrors.name && <p className="mt-1 text-xs text-red-500">{categoryErrors.name}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Parent Category</label>
                                 <select
                                     value={currentCategory.parent_id ?? ''}
                                     onChange={(e) => setCurrentCategory({ ...currentCategory, parent_id: e.target.value ? Number(e.target.value) : null })}
-                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className={`mt-1 block w-full border rounded-md p-2 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${categoryErrors.parent_id
+                                        ? 'border-red-500 focus:ring-red-500/50'
+                                        : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'
+                                        }`}
                                 >
                                     <option value="">-- No Parent --</option>
                                     {categories.filter(cat => !('id' in currentCategory) || cat.id !== currentCategory.id).map(cat => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
                                 </select>
+                                {categoryErrors.parent_id && <p className="mt-1 text-xs text-red-500">{categoryErrors.parent_id}</p>}
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">
@@ -633,9 +666,13 @@ const AdminMenuManagement: React.FC = () => {
                                     type="text"
                                     value={currentAddOn.name || ''}
                                     onChange={(e) => setCurrentAddOn({ ...currentAddOn, name: e.target.value })}
-                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className={`mt-1 block w-full border rounded-md p-2 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${addOnErrors.name
+                                        ? 'border-red-500 focus:ring-red-500/50'
+                                        : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'
+                                        }`}
                                     required
                                 />
+                                {addOnErrors.name && <p className="mt-1 text-xs text-red-500">{addOnErrors.name}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
@@ -644,9 +681,13 @@ const AdminMenuManagement: React.FC = () => {
                                     step="0.01"
                                     value={currentAddOn.price || 0}
                                     onChange={(e) => setCurrentAddOn({ ...currentAddOn, price: parseFloat(e.target.value) })}
-                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    className={`mt-1 block w-full border rounded-md p-2 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${addOnErrors.price
+                                        ? 'border-red-500 focus:ring-red-500/50'
+                                        : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'
+                                        }`}
                                     required
                                 />
+                                {addOnErrors.price && <p className="mt-1 text-xs text-red-500">{addOnErrors.price}</p>}
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">

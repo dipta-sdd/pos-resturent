@@ -4,7 +4,7 @@
 
 
 import axiosInstance from './axiosConfig';
-import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, LaravelPaginatedResponse } from '../types';
+import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, LaravelPaginatedResponse, LaravelErrorResponse, NormalizedErrorResponse } from '../types';
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -18,7 +18,7 @@ export const api = {
   },
   register: async (data: any) => {
     const response = await axiosInstance.post<RegisterResponse>('/auth/register', {
-      first_name: data.firstName,
+      first_name: data.first_name,
       last_name: data.last_name,
       email: data.email,
       mobile: data.mobile,
@@ -255,5 +255,13 @@ export const api = {
           return true;
       }
       return false;
-  }
+  },
+
+  normalizeErrors: (errors: LaravelErrorResponse) => {
+    const normalizedErrors: NormalizedErrorResponse = {};
+    Object.entries(errors).forEach(([key, value]) => {
+      normalizedErrors[key] = value[0];
+    });
+    return normalizedErrors;
+  },
 };

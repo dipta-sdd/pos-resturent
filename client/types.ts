@@ -37,6 +37,13 @@ export interface LaravelPaginatedResponse<T> extends LaravelPaginationMeta {
   data: T[];
 }
 
+export interface LaravelErrorResponse {
+  [key: string]: string[];
+}
+export interface NormalizedErrorResponse {
+  [key: string]: string;
+}
+
 /**
  * Specific paginated response types
  */
