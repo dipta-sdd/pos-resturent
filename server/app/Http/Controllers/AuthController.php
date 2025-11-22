@@ -66,12 +66,15 @@ class AuthController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        $role = \App\Models\Role::where('slug', 'customer')->first();
+
         $user = User::create([
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
             'email' => $request->email,
-            'mobile' => $request->mobile,
+            'phone' => $request->mobile,
             'password' => Hash::make($request->password),
+            'role_id' => $role ? $role->id : null,
         ]);
 
         return response()->json([
@@ -125,7 +128,7 @@ class AuthController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function userProfile()
+    public function me()
     {
         $user = auth()->user();
         return response()->json($user);
