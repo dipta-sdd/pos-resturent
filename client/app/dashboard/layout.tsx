@@ -15,6 +15,8 @@ import {
 // Define all possible navigation links in a single source of truth.
 // The order determines precedence for duplicate paths (e.g., /dashboard).
 const allNavLinks: ({ to: string; text: string; icon: React.ElementType; permission: keyof Role; })[] = [
+
+    { to: '/dashboard/pos', text: 'POS', icon: LayoutDashboard, permission: 'can_use_pos' },
     // Admin links (highest priority for duplicates)
     { to: '/dashboard', text: 'Dashboard', icon: LayoutDashboard, permission: 'can_view_dashboard' },
     { to: '/dashboard/menu', text: 'Menu Management', icon: Utensils, permission: 'can_manage_products' },
@@ -30,7 +32,6 @@ const allNavLinks: ({ to: string; text: string; icon: React.ElementType; permiss
     { to: '/dashboard/settings', text: 'Settings', icon: Settings, permission: 'can_manage_shop_settings' },
 
     // Staff links
-    { to: '/dashboard/pos', text: 'POS Dashboard', icon: LayoutDashboard, permission: 'can_use_pos' },
     { to: '/dashboard/shift-summary', text: 'Shift Summary', icon: HandCoins, permission: 'can_view_sales_history' },
 
     // Rider links
@@ -91,7 +92,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, isMobileOpen, setIsMobil
     if (!permissions) return null;
 
     return (
-        <aside className={`fixed inset-y-0 left-0 bg-gray-800 dark:bg-gray-900 text-white flex flex-col w-64
+        <aside className={`fixed inset-y-0 left-0 bg-gray-900 dark:bg-gray-950 text-white flex flex-col w-64
             transition-transform duration-300 ease-in-out z-40
             ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}
             lg:relative lg:translate-x-0 lg:transition-all lg:duration-300
