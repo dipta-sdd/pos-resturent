@@ -7,6 +7,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import { useSettings } from '../../../contexts/SettingsContext';
 import { api } from '../../../services/api';
+import toast from 'react-hot-toast';
 
 const FlavorFusionLogo = () => (
     <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">
@@ -65,6 +66,7 @@ const RegisterPage: React.FC = () => {
                 password: fieldErrors.password?.[0],
                 confirmPassword: fieldErrors.confirmPassword?.[0],
             });
+            toast.error('Please fix the errors in the form');
             return;
         }
 
@@ -80,7 +82,7 @@ const RegisterPage: React.FC = () => {
                 password: formData.password,
                 password_confirmation: formData.confirmPassword,
             });
-            alert('Registration successful! Please log in.');
+            toast.success('Registration successful! Please log in.');
             router.push('/login');
         } catch (error: any) {
             console.error('Registration error:', error);
@@ -94,8 +96,10 @@ const RegisterPage: React.FC = () => {
                     phone: backendErrors.mobile?.[0],
                     password: backendErrors.password?.[0],
                 });
+                toast.error('Please fix the validation errors');
             } else {
-                alert(error.response?.data?.message || 'Registration failed. Please try again.');
+                const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
+                toast.error(errorMessage);
             }
         } finally {
             setIsSubmitting(false);

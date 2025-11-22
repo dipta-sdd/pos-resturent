@@ -8,6 +8,7 @@ import { api } from '../../../services/api';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '../../../components/common/Pagination';
 import { mockMenuItems } from '@/data/mockData';
+import toast from 'react-hot-toast';
 
 interface DraggableCategoryItemProps {
     category: Category;
@@ -125,6 +126,8 @@ const AdminMenuManagement: React.FC = () => {
     const [currentCategory, setCurrentCategory] = useState<Category | Partial<Category> | null>(null);
     const [showAddOnModal, setShowAddOnModal] = useState(false);
     const [currentAddOn, setCurrentAddOn] = useState<AddOn | Partial<AddOn> | null>(null);
+    const [isSavingCategory, setIsSavingCategory] = useState(false);
+    const [isSavingAddOn, setIsSavingAddOn] = useState(false);
 
     // Drag and drop state
     const [draggedItemId, setDraggedItemId] = useState<number | null>(null);
@@ -170,13 +173,16 @@ const AdminMenuManagement: React.FC = () => {
     const handleSaveCategory = async () => {
         if (!currentCategory) return;
 
+        setIsSavingCategory(true);
         try {
             if ('id' in currentCategory && currentCategory.id) {
                 // Update existing category
                 await api.updateCategory(currentCategory.id, currentCategory);
+                toast.success('Category updated successfully');
             } else {
                 // Create new category
                 await api.createCategory(currentCategory);
+                toast.success('Category created successfully');
             }
 
             // Refresh categories
@@ -185,7 +191,9 @@ const AdminMenuManagement: React.FC = () => {
             closeCategoryModal();
         } catch (error) {
             console.error('Error saving category:', error);
-            alert('Failed to save category. Please try again.');
+            toast.error('Failed to save category. Please try again.');
+        } finally {
+            setIsSavingCategory(false);
         }
     };
 
@@ -193,12 +201,13 @@ const AdminMenuManagement: React.FC = () => {
         if (window.confirm('Are you sure you want to delete this category? Any sub-categories and menu items may be affected.')) {
             try {
                 await api.deleteCategory(id);
+                toast.success('Category deleted successfully');
                 // Refresh categories
                 const updatedCategories = await api.getCategories();
                 setCategories(updatedCategories);
             } catch (error) {
                 console.error('Error deleting category:', error);
-                alert('Failed to delete category. Please try again.');
+                toast.error('Failed to delete category. Please try again.');
             }
         }
     }
@@ -214,13 +223,16 @@ const AdminMenuManagement: React.FC = () => {
     const handleSaveAddOn = async () => {
         if (!currentAddOn) return;
 
+        setIsSavingAddOn(true);
         try {
             if ('id' in currentAddOn && currentAddOn.id) {
                 // Update existing add-on
                 await api.updateAddOn(currentAddOn.id, currentAddOn);
+                toast.success('Add-on updated successfully');
             } else {
                 // Create new add-on
                 await api.createAddOn(currentAddOn);
+                toast.success('Add-on created successfully');
             }
 
             // Refresh add-ons
@@ -229,7 +241,9 @@ const AdminMenuManagement: React.FC = () => {
             closeAddOnModal();
         } catch (error) {
             console.error('Error saving add-on:', error);
-            alert('Failed to save add-on. Please try again.');
+            toast.error('Failed to save add-on. Please try again.');
+        } finally {
+            setIsSavingAddOn(false);
         }
     };
 
@@ -237,12 +251,13 @@ const AdminMenuManagement: React.FC = () => {
         if (window.confirm('Are you sure you want to delete this add-on?')) {
             try {
                 await api.deleteAddOn(id);
+                toast.success('Add-on deleted successfully');
                 // Refresh add-ons
                 const updatedAddOns = await api.getAddOns();
                 setAddOns(updatedAddOns);
             } catch (error) {
                 console.error('Error deleting add-on:', error);
-                alert('Failed to delete add-on. Please try again.');
+                toast.error('Failed to delete add-on. Please try again.');
             }
         }
     };
@@ -296,12 +311,13 @@ const AdminMenuManagement: React.FC = () => {
         // Save to backend
         try {
             await api.updateCategory(draggedId, { parent_id: newParentId });
+            toast.success('Category hierarchy updated');
         } catch (error) {
             console.error('Error updating category parent:', error);
             // Revert on error
             const revertedCategories = await api.getCategories();
             setCategories(revertedCategories);
-            alert('Failed to update category hierarchy. Changes have been reverted.');
+            toast.error('Failed to update category hierarchy.');
         }
     };
 
@@ -593,8 +609,14 @@ const AdminMenuManagement: React.FC = () => {
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">
-                            <button onClick={closeCategoryModal} className="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">Cancel</button>
-                            <button onClick={handleSaveCategory} className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">Save</button>
+                            <button onClick={closeCategoryModal} className="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500" disabled={isSavingCategory}>Cancel</button>
+                            <button
+                                onClick={handleSaveCategory}
+                                className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isSavingCategory}
+                            >
+                                {isSavingCategory ? 'Saving...' : 'Save'}
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -628,8 +650,14 @@ const AdminMenuManagement: React.FC = () => {
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">
-                            <button onClick={closeAddOnModal} className="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500">Cancel</button>
-                            <button onClick={handleSaveAddOn} className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">Save</button>
+                            <button onClick={closeAddOnModal} className="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500" disabled={isSavingAddOn}>Cancel</button>
+                            <button
+                                onClick={handleSaveAddOn}
+                                className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                                disabled={isSavingAddOn}
+                            >
+                                {isSavingAddOn ? 'Saving...' : 'Save'}
+                            </button>
                         </div>
                     </div>
                 </div>
