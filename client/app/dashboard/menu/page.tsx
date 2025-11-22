@@ -160,21 +160,46 @@ const AdminMenuManagement: React.FC = () => {
 
     // Modal handlers
     const openCategoryModal = (category?: Category) => {
-        setCurrentCategory(category || { name: '', description: '' });
+        setCurrentCategory(category || { name: '' });
         setShowCategoryModal(true);
     };
     const closeCategoryModal = () => {
         setShowCategoryModal(false);
         setCurrentCategory(null);
     };
-    const handleSaveCategory = () => {
-        console.log('Saving category:', currentCategory);
-        closeCategoryModal();
+    const handleSaveCategory = async () => {
+        if (!currentCategory) return;
+
+        try {
+            if ('id' in currentCategory && currentCategory.id) {
+                // Update existing category
+                await api.updateCategory(currentCategory.id, currentCategory);
+            } else {
+                // Create new category
+                await api.createCategory(currentCategory);
+            }
+
+            // Refresh categories
+            const updatedCategories = await api.getCategories();
+            setCategories(updatedCategories);
+            closeCategoryModal();
+        } catch (error) {
+            console.error('Error saving category:', error);
+            alert('Failed to save category. Please try again.');
+        }
     };
 
-    const handleDeleteCategory = (id: number) => {
+    const handleDeleteCategory = async (id: number) => {
         if (window.confirm('Are you sure you want to delete this category? Any sub-categories and menu items may be affected.')) {
-            console.log(`Deleting category ${id}`);
+            try {
+                await api.deleteCategory(id);
+                // Refresh categories
+                const updatedCategories = await api.getCategories();
+                setCategories(updatedCategories);
+            } catch (error) {
+                console.error('Error deleting category:', error);
+                alert('Failed to delete category. Please try again.');
+            }
         }
     }
 
@@ -186,9 +211,40 @@ const AdminMenuManagement: React.FC = () => {
         setShowAddOnModal(false);
         setCurrentAddOn(null);
     };
-    const handleSaveAddOn = () => {
-        console.log('Saving add-on:', currentAddOn);
-        closeAddOnModal();
+    const handleSaveAddOn = async () => {
+        if (!currentAddOn) return;
+
+        try {
+            if ('id' in currentAddOn && currentAddOn.id) {
+                // Update existing add-on
+                await api.updateAddOn(currentAddOn.id, currentAddOn);
+            } else {
+                // Create new add-on
+                await api.createAddOn(currentAddOn);
+            }
+
+            // Refresh add-ons
+            const updatedAddOns = await api.getAddOns();
+            setAddOns(updatedAddOns);
+            closeAddOnModal();
+        } catch (error) {
+            console.error('Error saving add-on:', error);
+            alert('Failed to save add-on. Please try again.');
+        }
+    };
+
+    const handleDeleteAddOn = async (id: number) => {
+        if (window.confirm('Are you sure you want to delete this add-on?')) {
+            try {
+                await api.deleteAddOn(id);
+                // Refresh add-ons
+                const updatedAddOns = await api.getAddOns();
+                setAddOns(updatedAddOns);
+            } catch (error) {
+                console.error('Error deleting add-on:', error);
+                alert('Failed to delete add-on. Please try again.');
+            }
+        }
     };
 
     const handleAddNew = () => {
@@ -211,7 +267,7 @@ const AdminMenuManagement: React.FC = () => {
         return isAncestor(potentialAncestorId, child.parent_id);
     };
 
-    const performDrop = (draggedId: number, targetId: number, position: 'top' | 'bottom' | 'middle' | null) => {
+    const performDrop = async (draggedId: number, targetId: number, position: 'top' | 'bottom' | 'middle' | null) => {
         if (!position) return;
         if (draggedId === targetId || isAncestor(draggedId, targetId)) return;
 
@@ -220,13 +276,33 @@ const AdminMenuManagement: React.FC = () => {
         if (draggedItemIndex === -1) return;
         const [draggedItem] = newCategories.splice(draggedItemIndex, 1);
         const targetCategory = categories.find(c => c.id === targetId)!;
-        if (position === 'middle') draggedItem.parent_id = targetId;
-        else draggedItem.parent_id = targetCategory.parent_id;
+
+        // Determine new parent_id based on drop position
+        let newParentId: number | null;
+        if (position === 'middle') {
+            newParentId = targetId;
+        } else {
+            newParentId = targetCategory.parent_id ?? null;
+        }
+
+        // Update local state
+        draggedItem.parent_id = newParentId;
         const targetItemIndex = newCategories.findIndex(c => c.id === targetId);
         let insertIndex = targetItemIndex + (position === 'bottom' ? 1 : 0);
         if (position === 'middle') newCategories.splice(targetItemIndex + 1, 0, draggedItem);
         else newCategories.splice(insertIndex, 0, draggedItem);
         setCategories(newCategories);
+
+        // Save to backend
+        try {
+            await api.updateCategory(draggedId, { parent_id: newParentId });
+        } catch (error) {
+            console.error('Error updating category parent:', error);
+            // Revert on error
+            const revertedCategories = await api.getCategories();
+            setCategories(revertedCategories);
+            alert('Failed to update category hierarchy. Changes have been reverted.');
+        }
     };
 
     const handleDragStart = (e: React.DragEvent<HTMLDivElement>, id: number) => { e.dataTransfer.effectAllowed = 'move'; e.dataTransfer.setData('text/plain', String(id)); setDraggedItemId(id); };
@@ -441,10 +517,10 @@ const AdminMenuManagement: React.FC = () => {
                         {paginatedAddOns.map(addOn => (
                             <tr key={addOn.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{addOn.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${ addOn.price}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${addOn.price}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button onClick={() => openAddOnModal(addOn)} className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300 mr-4"><Edit size={18} /></button>
-                                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
+                                    <button onClick={() => handleDeleteAddOn(addOn.id)} className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
                                 </td>
                             </tr>
                         ))}
@@ -493,18 +569,24 @@ const AdminMenuManagement: React.FC = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">{'id' in currentCategory ? 'Edit' : 'Add'} Category</h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSaveCategory(); }}>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category Name</label>
-                                <input type="text" defaultValue={currentCategory.name} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
-                                <textarea defaultValue={currentCategory.description || ''} rows={3} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"></textarea>
+                                <input
+                                    type="text"
+                                    value={currentCategory.name || ''}
+                                    onChange={(e) => setCurrentCategory({ ...currentCategory, name: e.target.value })}
+                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Parent Category</label>
-                                <select defaultValue={currentCategory.parent_id ?? ''} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <select
+                                    value={currentCategory.parent_id ?? ''}
+                                    onChange={(e) => setCurrentCategory({ ...currentCategory, parent_id: e.target.value ? Number(e.target.value) : null })}
+                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                >
                                     <option value="">-- No Parent --</option>
                                     {categories.filter(cat => !('id' in currentCategory) || cat.id !== currentCategory.id).map(cat => (<option key={cat.id} value={cat.id}>{cat.name}</option>))}
                                 </select>
@@ -522,14 +604,27 @@ const AdminMenuManagement: React.FC = () => {
                 <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex justify-center items-center p-4">
                     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-xl p-6 w-full max-w-md">
                         <h2 className="text-2xl font-bold mb-4 dark:text-white">{'id' in currentAddOn ? 'Edit' : 'Add'} Add-On</h2>
-                        <form className="space-y-4">
+                        <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); handleSaveAddOn(); }}>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Add-On Name</label>
-                                <input type="text" defaultValue={currentAddOn.name} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                <input
+                                    type="text"
+                                    value={currentAddOn.name || ''}
+                                    onChange={(e) => setCurrentAddOn({ ...currentAddOn, name: e.target.value })}
+                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Price</label>
-                                <input type="number" step="0.01" defaultValue={currentAddOn.price} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                <input
+                                    type="number"
+                                    step="0.01"
+                                    value={currentAddOn.price || 0}
+                                    onChange={(e) => setCurrentAddOn({ ...currentAddOn, price: parseFloat(e.target.value) })}
+                                    className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                                    required
+                                />
                             </div>
                         </form>
                         <div className="mt-6 flex justify-end gap-4">

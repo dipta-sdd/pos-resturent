@@ -60,13 +60,41 @@ export const api = {
     }
     return item;
   },
+  
+  // Categories
   getCategories: async () => {
     const response = await axiosInstance.get<LaravelPaginatedResponse<Category>>('/menu/categories');
     return response.data.data;
   },
+  createCategory: async (data: Partial<Category>) => {
+    const response = await axiosInstance.post<Category>('/menu/categories', data);
+    return response.data;
+  },
+  updateCategory: async (id: number, data: Partial<Category>) => {
+    const response = await axiosInstance.put<Category>(`/menu/categories/${id}`, data);
+    return response.data;
+  },
+  deleteCategory: async (id: number) => {
+    const response = await axiosInstance.delete(`/menu/categories/${id}`);
+    return response.data;
+  },
+  
+  // Add-ons
   getAddOns: async () => {
     const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons');
     return response.data.data;
+  },
+  createAddOn: async (data: Partial<AddOn>) => {
+    const response = await axiosInstance.post<AddOn>('/menu/add-ons', data);
+    return response.data;
+  },
+  updateAddOn: async (id: number, data: Partial<AddOn>) => {
+    const response = await axiosInstance.put<AddOn>(`/menu/add-ons/${id}`, data);
+    return response.data;
+  },
+  deleteAddOn: async (id: number) => {
+    const response = await axiosInstance.delete(`/menu/add-ons/${id}`);
+    return response.data;
   },
 
   // Customer
