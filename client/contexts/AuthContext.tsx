@@ -52,7 +52,6 @@ export const AuthProvider = ({ children }: { children?: ReactNode }) => {
       const response = await api.login({ email, password });
       localStorage.setItem('token', response.access_token);
       setUser(response.user);
-      console.log(response.user);
       if (response.user.role) {
         setPermissions(response.user.role);
       }

@@ -69,7 +69,7 @@ const Header: React.FC = () => {
                 <Link href="/reserve" className={navLinkClass('/reserve')}>Reservations</Link>
                 <Link href="/about" className={navLinkClass('/about')}>About</Link>
                 <Link href="/contact" className={navLinkClass('/contact')}>Contact</Link>
-                {isAuthenticated && permissions?.can_use_pos && (
+                {isAuthenticated && permissions?.can_use_pos ? (
                   <Link
                     href="/dashboard/pos"
                     className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg font-semibold transition-colors flex items-center gap-2"
@@ -77,7 +77,7 @@ const Header: React.FC = () => {
                     <MonitorPlay size={18} />
                     POS
                   </Link>
-                )}
+                ) : null}
               </nav>
             </div>
 
@@ -85,11 +85,11 @@ const Header: React.FC = () => {
             <div className="hidden md:flex items-center gap-3">
               <Link href="/checkout" className="relative p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors" aria-label={`View cart, ${cartCount} items`}>
                 <ShoppingCart className="h-6 w-6 text-white" />
-                {cartCount > 0 && (
+                {cartCount > 0 ? (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center border-2 border-gray-900" aria-hidden="true">
                     {cartCount}
                   </span>
-                )}
+                ) : null}
               </Link>
 
               <button onClick={toggleTheme} className="p-3 bg-gray-800 rounded-lg hover:bg-gray-700 transition-colors" aria-label="Toggle theme">
@@ -112,7 +112,7 @@ const Header: React.FC = () => {
                     )}
                   </button>
 
-                  {isProfileDropdownOpen && (
+                  {isProfileDropdownOpen ? (
                     <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabIndex={-1}>
                       <div className="py-1" role="none">
                         <div className="px-4 py-3 border-b border-gray-700">
@@ -122,11 +122,11 @@ const Header: React.FC = () => {
                         <Link href="/customer/dashboard" className={dropdownLinkClass} role="menuitem" tabIndex={-1} onClick={() => setIsProfileDropdownOpen(false)}>
                           <LayoutDashboard size={16} /> Dashboard
                         </Link>
-                        {permissions?.can_use_pos && (
+                        {permissions?.can_use_pos ? (
                           <Link href="/dashboard/pos" className={dropdownLinkClass} role="menuitem" tabIndex={-1} onClick={() => setIsProfileDropdownOpen(false)}>
                             <MonitorPlay size={16} /> POS Interface
                           </Link>
-                        )}
+                        ) : null}
                         <Link href="/customer/profile" className={dropdownLinkClass} role="menuitem" tabIndex={-1} onClick={() => setIsProfileDropdownOpen(false)}>
                           <User size={16} /> Profile Settings
                         </Link>
@@ -142,7 +142,7 @@ const Header: React.FC = () => {
                         </button>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               ) : (
                 <div className="flex items-center gap-2">
@@ -160,9 +160,9 @@ const Header: React.FC = () => {
             <div className="md:hidden flex items-center">
               <Link href="/checkout" className="relative p-2 text-gray-300 mr-2" aria-label={`View cart, ${cartCount} items`}>
                 <ShoppingCart size={24} />
-                {cartCount > 0 && (
+                {cartCount > 0 ? (
                   <span className="absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center border-2 border-gray-900"></span>
-                )}
+                ) : null}
               </Link>
               <button onClick={() => setIsMobileMenuOpen(true)} className="p-2 rounded-md text-gray-300" aria-label="Open main menu">
                 <Menu size={28} />
@@ -193,15 +193,15 @@ const Header: React.FC = () => {
             <Link href="/reserve" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass('/reserve')}>Reservations</Link>
             <Link href="/about" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass('/about')}>About</Link>
             <Link href="/contact" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass('/contact')}>Contact</Link>
-            {isAuthenticated && permissions?.can_use_pos && (
+            {isAuthenticated && permissions?.can_use_pos ? (
               <Link href="/dashboard/pos" onClick={() => setIsMobileMenuOpen(false)} className={mobileNavLinkClass('/dashboard/pos')}>POS Interface</Link>
-            )}
+            ) : null}
           </nav>
 
           <div className="mt-auto space-y-2">
             {isAuthenticated ? (
               <>
-                <Link href='/customer/dashboard' onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 w-full justify-center py-3 px-4 rounded-md text-lg text-gray-200 bg-gray-700 hover:bg-gray-600">
+                <Link href='/customer/' onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-3 w-full justify-center py-3 px-4 rounded-md text-lg text-gray-200 bg-gray-700 hover:bg-gray-600">
                   <User size={20} /> My Account
                 </Link>
                 <button onClick={handleLogout} className="flex items-center gap-3 w-full justify-center py-3 px-4 rounded-md text-lg text-red-400 bg-red-900/30 hover:bg-red-900/50">
