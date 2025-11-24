@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { Promotion } from '../../../types';
+import { Promotion } from '@/types';
 import { Plus, Edit, Trash2, Tag } from 'lucide-react';
-import { useSettings } from '@/components//SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const AdminPromotionsManagement: React.FC = () => {
     const [promotions, setPromotions] = useState<Promotion[]>([]);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem, ItemVariant } from '../../types';
+import { MenuItem, ItemVariant } from '@/types';
 import { useSettings } from '@/contexts/SettingsContext';
 import { X } from 'lucide-react';
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Reservation } from '../../../../types';
+import { Reservation } from '@/types';
 import { api } from '../../../../services/api';
 import { Calendar, Users, Clock, Hash, Info, Edit, X } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';

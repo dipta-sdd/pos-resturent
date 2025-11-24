@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { Payout } from '../../../types';
+import { Payout } from '@/types';
 import { Check, X } from 'lucide-react';
 import { mockUsers } from '../../../data/mockData';
 

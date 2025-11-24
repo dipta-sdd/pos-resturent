@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
-import { MenuItem, AddOn, ItemVariant } from '../../../../types';
+import { MenuItem, AddOn, ItemVariant } from '@/types';
 import { api } from '../../../../services/api';
-import { useCart } from '../@/contexts/CartContext';
-import { useSettings } from '../@/contexts/SettingsContext';
+import { useCart } from '@/contexts/CartContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Plus, Minus, ShoppingCart } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 

@@ -8,9 +8,20 @@ interface PaginationProps {
   itemsPerPage: number;
   totalItems: number;
   colSpan?: number;
+  onItemsPerPageChange?: (itemsPerPage: number) => void;
+  pageSizeOptions?: number[];
 }
 
-const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPageChange, itemsPerPage, totalItems, colSpan }) => {
+const Pagination: React.FC<PaginationProps> = ({
+  currentPage,
+  totalPages,
+  onPageChange,
+  itemsPerPage,
+  totalItems,
+  colSpan,
+  onItemsPerPageChange,
+  pageSizeOptions = [10, 25, 50, 100]
+}) => {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -19,11 +30,25 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   }
 
   const content = (
-    <div className="py-3 px-6 flex items-center justify-between border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg">
-      <div>
+    <div className="py-3 px-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-lg">
+      <div className="flex items-center gap-4">
         <p className="text-sm text-gray-700 dark:text-gray-300">
           Showing <span className="font-medium">{totalItems > 0 ? startItem : 0}</span> to <span className="font-medium">{endItem}</span> of <span className="font-medium">{totalItems}</span> results
         </p>
+        {onItemsPerPageChange && (
+          <div className="flex items-center gap-2">
+            <span className="text-sm text-gray-600 dark:text-gray-400">Per page:</span>
+            <select
+              value={itemsPerPage}
+              onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
+              className="text-sm border-gray-300 rounded-md shadow-sm focus:border-orange-500 focus:ring-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white py-1"
+            >
+              {pageSizeOptions.map(size => (
+                <option key={size} value={size}>{size}</option>
+              ))}
+            </select>
+          </div>
+        )}
       </div>
       {totalPages > 1 && (
         <div className="inline-flex items-center gap-3">
@@ -49,16 +74,16 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       )}
     </div>
   );
-  
+
   if (colSpan) {
     return (
-        <tfoot>
-            <tr>
-                <td colSpan={colSpan} className="p-0">
-                    {content}
-                </td>
-            </tr>
-        </tfoot>
+      <tfoot>
+        <tr>
+          <td colSpan={colSpan} className="p-0">
+            {content}
+          </td>
+        </tr>
+      </tfoot>
     )
   }
 

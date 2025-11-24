@@ -3,7 +3,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { MenuItem, Category, AddOn } from '../../../types';
+import { MenuItem, Category, AddOn } from '@/types';
 import { api } from '../../../services/api';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '@/components/common/Pagination';
@@ -547,8 +547,8 @@ const AdminMenuManagement: React.FC = () => {
     const renderItems = () => (
         <>
             <div className="bg-white dark:bg-gray-800 p-4 rounded-t-lg shadow-md border-b dark:border-gray-700">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="relative md:col-span-2">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <input type="text" placeholder="Search by item name..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full p-2 pl-10 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" />
                     </div>
@@ -556,14 +556,6 @@ const AdminMenuManagement: React.FC = () => {
                         <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setCurrentPage(1); }} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="">All Categories</option>
                             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-                        </select>
-                    </div>
-                    <div>
-                        <select value={itemsPerPage} onChange={e => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                            <option value={10}>10 per page</option>
-                            <option value={25}>25 per page</option>
-                            <option value={50}>50 per page</option>
-                            <option value={100}>100 per page</option>
                         </select>
                     </div>
                 </div>
@@ -610,7 +602,16 @@ const AdminMenuManagement: React.FC = () => {
                             <tr><td colSpan={7} className="text-center py-10 text-gray-500 dark:text-gray-400">No menu items found.</td></tr>
                         )}
                     </tbody>
-                    <Pagination colSpan={7} currentPage={currentPage} totalPages={menuItemsTotalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} totalItems={totalMenuItems} />
+
+                    <Pagination
+                        colSpan={7}
+                        currentPage={currentPage}
+                        totalPages={menuItemsTotalPages}
+                        onPageChange={setCurrentPage}
+                        itemsPerPage={itemsPerPage}
+                        totalItems={totalMenuItems}
+                        onItemsPerPageChange={(val) => { setItemsPerPage(val); setCurrentPage(1); }}
+                    />
                 </table>
             </div>
         </>
@@ -631,18 +632,10 @@ const AdminMenuManagement: React.FC = () => {
 
     const renderAddOns = () => (
         <>
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-t-lg shadow-md border-b dark:border-gray-700 flex justify-between items-center gap-4">
-                <div className="relative max-w-sm flex-grow">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-t-lg shadow-md border-b dark:border-gray-700">
+                <div className="relative max-w-sm">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                     <input type="text" placeholder="Search by add-on name..." value={addOnSearchTerm} onChange={e => setAddOnSearchTerm(e.target.value)} className="w-full p-2 pl-10 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
-                </div>
-                <div>
-                    <select value={addOnsPerPage} onChange={e => { setAddOnsPerPage(Number(e.target.value)); setAddOnCurrentPage(1); }} className="p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                        <option value={10}>10 per page</option>
-                        <option value={25}>25 per page</option>
-                        <option value={50}>50 per page</option>
-                        <option value={100}>100 per page</option>
-                    </select>
                 </div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-b-lg shadow-md overflow-x-auto">
@@ -680,6 +673,7 @@ const AdminMenuManagement: React.FC = () => {
                         onPageChange={setAddOnCurrentPage}
                         itemsPerPage={addOnsPerPage}
                         totalItems={totalAddOns}
+                        onItemsPerPageChange={(val) => { setAddOnsPerPage(val); setAddOnCurrentPage(1); }}
                     />
                 </table>
             </div>

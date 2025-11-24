@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
 import { useAuth } from '@/components//AuthContext';
-import { Address } from '../../../types';
+import { Address } from '@/types';
 import { Plus, Edit, Trash2, Home, Briefcase, MapPin } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 

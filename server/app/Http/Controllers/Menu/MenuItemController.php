@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Menu;
 use App\Http\Controllers\Controller;
 
 use App\Models\MenuItem;
+use App\Models\Category;
+use App\Models\AddOn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -29,6 +31,12 @@ class MenuItemController extends Controller
 
         $perPage = $request->input('per_page', 10);
         $menuItems = $query->paginate($perPage);
+        return response()->json($menuItems);
+    }
+
+    public function allItems()
+    {
+        $menuItems = MenuItem::with(['category', 'variants'])->get();
         return response()->json($menuItems);
     }
 
@@ -84,9 +92,25 @@ class MenuItemController extends Controller
         if (!$menuItem) {
             return response()->json(['message' => 'Menu Item not found'], 404);
         }
-
-        return response()->json($menuItem);
+        $category = Category::all();
+        $addOns = AddOn::all();
+        return response()->json([
+            'menu_item' => $menuItem,
+            'categories' => $category,
+            'add_ons' => $addOns,
+        ]);
     }
+    public function get_resource()
+    {
+        $category = Category::all();
+        $addOns = AddOn::all();
+        return response()->json([
+            'categories' => $category,
+            'add_ons' => $addOns,
+        ]);
+    }
+
+
 
     public function update(Request $request, $id)
     {
@@ -152,4 +176,5 @@ class MenuItemController extends Controller
 
         return response()->json($menuItem);
     }
+
 }

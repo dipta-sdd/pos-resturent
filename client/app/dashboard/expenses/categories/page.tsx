@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../../services/api';
-import { ExpenseCategory } from '../../../../types';
+import { ExpenseCategory } from '@/types';
 import { Plus, Edit, Trash2, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 

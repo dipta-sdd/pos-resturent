@@ -29,19 +29,17 @@ const AdminMenuItemManagement: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const [cats, addons] = await Promise.all([
-                api.getCategories(),
-                api.getAddOns(),
-            ]);
-            setCategories(cats);
-            setAllAddOns(addons.data);
+            
 
             if (isNew) {
+                const res = await api.getMenuItemResourse();
+                setCategories(res.categories);
+                setAllAddOns(res.add_ons);
                 setItem({
                     id: Date.now(),
                     name: '',
                     description: '',
-                    category_id: cats[0]?.id || 1,
+                    category_id: res.categories[0]?.id || 1,
                     is_active: true,
                     is_featured: false,
                     image_url: null,
@@ -51,10 +49,12 @@ const AdminMenuItemManagement: React.FC = () => {
                     updated_at: new Date(),
                 });
             } else {
-                const menuItem = await api.getMenuItemById(parseInt(id!));
-                setItem(menuItem);
-                if (menuItem?.image_url) {
-                    setImagePreview(menuItem.image_url);
+                const res = await api.getMenuItemById(parseInt(id!));
+                setItem({ ...res.menu_item });
+                setCategories(res.categories);
+                setAllAddOns(res.add_ons);
+                if (res.menu_item?.image_url) {
+                    setImagePreview(res.menu_item.image_url);
                 }
             }
         };
@@ -298,7 +298,7 @@ const AdminMenuItemManagement: React.FC = () => {
                                         {filteredAddOns.length > 0 ? filteredAddOns.map(addOn => (
                                             <li key={addOn.id} onMouseDown={() => handleAddOnSelect(addOn)} className="p-3 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-600 text-sm text-gray-800 dark:text-gray-200 flex justify-between">
                                                 <span>{addOn.name}</span>
-                                                <span className="text-gray-500 dark:text-gray-400">(+${addOn.price.toFixed(2)})</span>
+                                                <span className="text-gray-500 dark:text-gray-400">(+${addOn.price})</span>
                                             </li>
                                         )) : (
                                             <li className="p-3 text-sm text-gray-500 dark:text-gray-400">No add-ons found.</li>

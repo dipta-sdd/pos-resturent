@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Order, OrderStatus } from '../../../types';
+import { Order, OrderStatus } from '@/types';
 import { api } from '../../../services/api';
 import { ChefHat, Bike, Home, Check, Phone, Star } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';

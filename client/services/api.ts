@@ -4,7 +4,7 @@
 
 
 import axiosInstance from './axiosConfig';
-import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, MenuItem, LaravelPaginatedResponse, LaravelErrorResponse, NormalizedErrorResponse } from '../types';
+import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, MenuItem, LaravelPaginatedResponse, LaravelErrorResponse, NormalizedErrorResponse } from '@/types';
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -50,6 +50,10 @@ export const api = {
     return response.data;
   },
   // end public
+  getAllMenuItems: async () => {
+    const response = await axiosInstance.get<MenuItem[]>('/menu/items/all');
+    return response.data;
+  },
   getMenuItems: async (params: { categoryId?: number | string; page?: number; search?: string; perPage?: number } = {}) => {
     const queryParams: any = {};
     if (params.categoryId && params.categoryId !== 'all') queryParams.category_id = params.categoryId;
@@ -61,7 +65,11 @@ export const api = {
     return response.data;
   },
   getMenuItemById: async (id: number) => {
-    const response = await axiosInstance.get<MenuItem>(`/menu/items/${id}`);
+    const response = await axiosInstance.get<{ menu_item: MenuItem; add_ons: AddOn[]; categories: Category[] }>(`/menu/items/${id}`);
+    return response.data;
+  },
+  getMenuItemResourse: async () => {
+    const response = await axiosInstance.get<{ menu_item: MenuItem; add_ons: AddOn[]; categories: Category[] }>(`/menu/items/resourse`);
     return response.data;
   },
   createMenuItem: async (data: FormData) => {

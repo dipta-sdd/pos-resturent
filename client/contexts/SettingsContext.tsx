@@ -1,6 +1,6 @@
 'use client';
 import React, { createContext, useState, useContext, ReactNode } from 'react';
-import { Settings } from '../types';
+import { Settings } from '@/types';
 import { mockSettings } from '../data/mockData';
 
 interface SettingsContextType {

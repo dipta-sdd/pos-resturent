@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Order, OrderStatus as ApiOrderStatus } from '../../../types';
+import { Order, OrderStatus as ApiOrderStatus } from '@/types';
 import { useAuth } from '@/components//AuthContext';
 import { api } from '../../../services/api';
 import { Search, ChevronLeft, ChevronRight, ClipboardList } from 'lucide-react';

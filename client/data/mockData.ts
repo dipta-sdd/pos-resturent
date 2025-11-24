@@ -1,4 +1,4 @@
-import { User, MenuItem, Category, Order, OrderStatus, OrderType, AddOn, Table, Reservation, Address, PaymentMethod, Notification, ExpenseCategory, Payout, Role, ItemVariant, CustomerPaymentMethod, Expense, OrderItem, OrderItemAddOn, Settings, Promotion } from '../types';
+import { User, MenuItem, Category, Order, OrderStatus, OrderType, AddOn, Table, Reservation, Address, PaymentMethod, Notification, ExpenseCategory, Payout, Role, ItemVariant, CustomerPaymentMethod, Expense, OrderItem, OrderItemAddOn, Settings, Promotion } from '@/types';
 
 export const mockRoles: Role[] = [
   { 

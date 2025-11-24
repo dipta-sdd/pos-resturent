@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Order } from '../../../types';
+import { Order } from '@/types';
 import { api } from '../../../services/api';
-import { useSettings } from '@/components//SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { FileText, MapPin, ChevronDown, Check } from 'lucide-react';
 
 const OrderConfirmationPage: React.FC = () => {

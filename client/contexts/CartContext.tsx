@@ -3,7 +3,7 @@
 'use client';
 
 import React, { createContext, useState, useContext, ReactNode, useCallback } from 'react';
-import { CartItem, MenuItem, AddOn, ItemVariant } from '../types';
+import { CartItem, MenuItem, AddOn, ItemVariant } from '@/types';
 // FIX: Import 'mockItemVariants' which was missing.
 import { mockMenuItems, mockItemVariants } from '../data/mockData';
 

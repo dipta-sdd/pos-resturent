@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
 import { useAuth } from '@/components//AuthContext';
-import { CustomerPaymentMethod } from '../../../types';
+import { CustomerPaymentMethod } from '@/types';
 import { Plus, Edit, Trash2, Star, CreditCard } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
-import { Category, MenuItem, ItemVariant } from '../../../types';
+import { Category, MenuItem, ItemVariant } from '@/types';
 import { api } from '../../../services/api';
 import { useCart } from '@/contexts/CartContext';
 import {

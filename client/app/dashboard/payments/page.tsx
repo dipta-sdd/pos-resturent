@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { PaymentMethod, PaymentMethodType } from '../../../types';
+import { PaymentMethod, PaymentMethodType } from '@/types';
 import { Plus, Edit, Trash2, CreditCard, Banknote, Globe, Landmark, Wallet, Check, X } from 'lucide-react';
 
 const PaymentTypeIcon = ({ type }: { type: PaymentMethodType }) => {

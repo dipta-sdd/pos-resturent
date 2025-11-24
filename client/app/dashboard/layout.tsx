@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { useSettings } from '@/contexts/SettingsContext';
-import { Role } from '../../types';
+import { Role } from '@/types';
 import {
     LayoutDashboard, User, Utensils, ClipboardList, BarChart2, Settings, ChevronLeft, ChevronRight, LogOut, Car, HandCoins, BookUser, History, Star, Wallet, Truck, UtensilsCrossed, FileText, Banknote, Users, Moon, Sun, Megaphone, Receipt, Menu, X, Tag, CreditCard
 } from 'lucide-react';
@@ -243,7 +243,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                         </div>
                     </div>
                 </header>
-                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6">
+                <main className="flex-1 overflow-x-hidden overflow-y-auto bg-main p-6">
                     {children}
                 </main>
             </div>

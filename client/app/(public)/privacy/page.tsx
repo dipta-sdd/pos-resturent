@@ -3,7 +3,7 @@
 import React, { useState, ReactNode } from 'react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 import { ChevronDown } from 'lucide-react';
-import { useSettings } from '@/components//SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 interface AccordionItemProps {
     title: string;

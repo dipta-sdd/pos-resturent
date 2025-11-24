@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from 'react';
 import { mockUsers, mockRoles } from '../../../data/mockData';
-import { User, UserRole, Role } from '../../../types';
+import { User, UserRole, Role } from '@/types';
 import { Plus, Edit, Trash2, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '@/components/common/Pagination';
 

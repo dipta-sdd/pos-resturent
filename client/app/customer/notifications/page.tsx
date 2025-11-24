@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
 import { useAuth } from '@/components//AuthContext';
-import { Notification } from '../../../types';
+import { Notification } from '@/types';
 import { Bell, Tag, Truck } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 

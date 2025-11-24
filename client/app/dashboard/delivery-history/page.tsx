@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { Order } from '../../../types';
+import { Order } from '@/types';
 import { useAuth } from '@/components//AuthContext';
-import { useSettings } from '@/components//SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const RiderHistoryPage: React.FC = () => {
     const [history, setHistory] = useState<Order[]>([]);

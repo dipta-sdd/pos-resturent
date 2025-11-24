@@ -3,9 +3,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Order, OrderStatus } from '../../../../types';
+import { Order, OrderStatus } from '@/types';
 import { api } from '../../../../services/api';
-import { useSettings } from '../@/contexts/SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { HelpCircle, Printer, CreditCard, Home, CheckCircle, XCircle, RefreshCw, Truck } from 'lucide-react';
 import Breadcrumb from '@/components/common/Breadcrumb';
 

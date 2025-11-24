@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ToggleLeft, ToggleRight, MapPin, Clock, Check, X } from 'lucide-react';
 import { api } from '../../services/api';
-import { Order } from '../../types';
+import { Order } from '@/types';
 import { useSettings } from '@/contexts/SettingsContext';
 
 const RiderDashboard: React.FC = () => {

@@ -66,7 +66,7 @@ const POSOrderManagement: React.FC = () => {
         const initialize = async () => {
             try {
                 const [menuItems, cats, methods] = await Promise.all([
-                    api.getMenuItems(),
+                    api.getAllMenuItems(),
                     api.getCategories(),
                     api.getAllPaymentMethods()
                 ]);
@@ -86,7 +86,7 @@ const POSOrderManagement: React.FC = () => {
                     tip: 0,
                     payments: [],
                     tenderAmount: '',
-                    activeCategory: cats.length > 0 ? cats[0].id : null,
+                    activeCategory: null,
                     orderId: 'new'
                 };
 
@@ -164,7 +164,7 @@ const POSOrderManagement: React.FC = () => {
             tip: 0,
             payments: [],
             tenderAmount: '',
-            activeCategory: categories.length > 0 ? categories[0].id : null,
+            activeCategory: null,
             orderId: 'new'
         };
         setTabs([...tabs, newTab]);
@@ -274,7 +274,9 @@ const POSOrderManagement: React.FC = () => {
     // ----------------------------------------------------------------------
 
     const filteredMenu = useMemo(() => {
-        return menu.filter(item => activeTab?.activeCategory ? item.category_id === activeTab.activeCategory : true);
+        if (!activeTab) return [];
+        if (!activeTab.activeCategory) return menu;
+        return menu.filter(item => item.category_id === activeTab.activeCategory);
     }, [menu, activeTab?.activeCategory]);
 
     // Organize payment methods by type
@@ -397,7 +399,7 @@ const POSOrderManagement: React.FC = () => {
     };
 
 
-    if (loading || !activeTab) return <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900 text-gray-500">Loading POS...</div>;
+    if (loading || !activeTab) return <div className="flex h-screen items-center justify-center bg-main text-gray-500">Loading POS...</div>;
 
     return (
         <>
@@ -429,7 +431,7 @@ const POSOrderManagement: React.FC = () => {
                                         handleAddPayment(method);
                                         setSelectedPaymentCategory(null);
                                     }}
-                                    className="flex items-center justify-between w-full p-4 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-orange-50 hover:border-orange-200 dark:hover:bg-gray-700 dark:hover:border-gray-600 transition-all group"
+                                    className="flex items-center justify-between w-full p-4 rounded-xs border border-main hover:bg-orange-50 hover:border-orange-200 dark:hover:bg-gray-700 dark:hover:border-gray-600 transition-all group"
                                 >
                                     <span className="font-semibold text-gray-800 dark:text-gray-200 group-hover:text-orange-600 dark:group-hover:text-orange-400">{method.name}</span>
                                     <span className="text-gray-400 group-hover:text-orange-500"><Plus size={18} /></span>
@@ -442,52 +444,54 @@ const POSOrderManagement: React.FC = () => {
             {/* NEW UI */}
             <div>
                 <div className="flex justify-between items-center mb-6">
-                    <h1 className="text-3xl font-bold text-gray-800 dark:text-white">POS Terminal</h1>
-                    <button className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600 flex items-center gap-2">
+                    <h1 className="text-3xl font-bold primary">POS Terminal</h1>
+                    {/* <button className="bg-orange-500 text-white font-bold py-2 px-4 rounded-xs hover:bg-orange-600 flex items-center gap-2">
                         <Plus size={20} />
-                    </button>
+                    </button> */}
                 </div>
-                <div className="border-1 border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden">
-                    <div className="flex flex-col h-[calc(100vh-64px)]  overflow-hidden ">
+                <div className="border-1 border-main bg-secondary rounded-xs overflow-hidden">
+                    <div className="flex flex-col  overflow-hidden ">
                         {/* tab menu */}
-                        <div className="border-b border-gray-200 dark:border-gray-700 overflow-x-auto overflow-y-hidden">
-                            <nav className="-mb-px flex space-x-1" aria-label="Tabs">{tabs.map(tab => (
+                        <div className="border-b border-main flex flex-nowrap items-end">
+                            <div className="overflow-x-auto overflow-y-hidden ">
+                                <nav className="flex space-x-1" aria-label="Tabs">{tabs.map(tab => (
 
-                                <div key={tab.internalId} className={`${activeTabId === tab.internalId ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'} whitespace-nowrap border-b-2 font-medium text-sm flex items-center gap-2 p-2.5`}>
-                                    <button className="truncate" onClick={() => { setActiveTabId(tab.internalId); setMobileTab('menu'); }} >
-                                        {tab.label}
-                                    </button>
-                                    <button
-                                        onClick={(e) => closeTab(e, tab.internalId)}
-                                        className={`p-0.5 rounded-full hover:bg-gray-200 dark:hover:bg-gray-500 ${activeTabId === tab.internalId ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}
-                                    >
-                                        <X size={14} />
-                                    </button>
-                                </div>
+                                    <div key={tab.internalId} className={`${activeTabId === tab.internalId ? 'border-orange-500 primary' : 'border-transparent text-gray-500 hover:text-orange-600 hover:border-orange-500'} whitespace-nowrap border-b-2 font-medium text-sm flex items-center gap-2 p-1.5`}>
+                                        <button className="truncate" onClick={() => { setActiveTabId(tab.internalId); setMobileTab('menu'); }} >
+                                            {tab.label}
+                                        </button>
+                                        <button
+                                            onClick={(e) => closeTab(e, tab.internalId)}
+                                            className={`p-0.5 rounded-full hover:bg-gray-300 dark:hover:bg-gray-500`}
+                                        >
+                                            <X size={14} />
+                                        </button>
+                                    </div>
+                                ))}
+                                </nav>
+                            </div>
 
-                            ))}
 
-                                <button
-                                    onClick={createNewTab}
-                                    className="p-2.5 ml-1 hover:bg-green-500 hover:text-white text-gray-600 dark:text-gray-300 transition-colors"
-                                    title="New Order Tab"
-                                >
-                                    <Plus size={20} />
-                                </button>
-                            </nav>
+                            <button
+                                onClick={createNewTab}
+                                className="p-2.5 ml-1 hover:bg-green-500 hover:text-white text-gray-600 dark:text-gray-300 transition-colors"
+                                title="New Order Tab"
+                            >
+                                <Plus size={20} />
+                            </button>
                         </div>
 
                         <div className="flex flex-grow overflow-hidden relative m-3 gap-3">
                             {/* Left: Menu Column */}
-                            <div className={`w-full lg:w-3/5 flex flex-col h-full transition-transform duration-300 absolute lg:relative z-10 lg:z-0 bg-gray-50 dark:bg-gray-800 border-1 border-gray-0 dark:border-gray-700 ${mobileTab === 'menu' ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} scrollbar-thin`}>
+                            <div className={`w-full bg-secondary lg:w-auto flex flex-col h-full transition-transform duration-300 absolute lg:relative z-10 lg:z-0 border-1 border-main ${mobileTab === 'menu' ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'} scrollbar-thin`}>
                                 {/* Categories Header */}
-                                <div className="p-4  shadow-sm z-10 flex-shrink-0 border-b border-gray-200 dark:border-gray-700">
+                                <div className="p-4  shadow-sm z-10 flex-shrink-0 border-b border-main">
                                     <div className="flex flex-wrap gap-2 scrollbar-hide -mx-4 px-4">
                                         {categories.map(cat => (
                                             <button
                                                 key={cat.id}
-                                                onClick={() => updateActiveTab({ activeCategory: cat.id })}
-                                                className={`py-2 px-4 rounded-full text-sm font-semibold whitespace-nowrap transition-colors border ${activeTab.activeCategory === cat.id ? 'bg-orange-500 text-white border-orange-500' : 'bg-white dark:bg-gray-900 dark:text-gray-200 border-gray-200 dark:border-gray-500 hover:border-orange-500'} focus:outline-2 focus:outline-orange-500 focus:border-orange-500`}
+                                                onClick={() => updateActiveTab({ activeCategory: activeTab.activeCategory === cat.id ? null : cat.id })}
+                                                className={`cursor-pointer py-2 px-4 rounded-full text-sm font-semibold whitespace-nowrap transition-colors border ${activeTab.activeCategory === cat.id ? 'bg-primary text-white border-primary' : 'bg-main dark:text-gray-200 border-gray-400 dark:border-gray-500 hover:border-orange-500 hover:text-orange-500'} focus:outline-2 focus:outline-orange-500 focus:border-orange-500`}
                                             >
                                                 {cat.name}
                                             </button>
@@ -499,13 +503,13 @@ const POSOrderManagement: React.FC = () => {
                                 <div className="flex-grow overflow-y-auto p-4 pb-28 lg:pb-4">
                                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                                         {filteredMenu.map(item => (
-                                            <div key={item.id} onClick={() => handleItemClick(item)} className="bg-white dark:bg-gray-900 rounded-xl p-3 text-center cursor-pointer hover:shadow-lg transition-all border border-transparent hover:border-orange-200 dark:hover:border-orange-900 group h-full flex flex-col">
-                                                <div className="relative w-full aspect-square rounded-lg overflow-hidden mb-3">
+                                            <div key={item.id} onClick={() => handleItemClick(item)} className="bg-main rounded-sm p-1.5 text-center cursor-pointer hover:shadow-lg transition-all border border-main hover:border-orange-200 dark:hover:border-orange-900 group h-full flex flex-col">
+                                                <div className="relative w-full aspect-square rounded-xs overflow-hidden mb-3">
                                                     <img src={item.image_url || ''} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                                 </div>
                                                 <h3 className="font-semibold text-sm dark:text-white leading-tight mb-1">{item.name}</h3>
-                                                <p className="text-sm font-bold text-orange-600 dark:text-orange-400 mt-auto">
-                                                    ${item.variants?.[0]?.price.toFixed(2)}
+                                                <p className="text-sm font-bold primary mt-auto">
+                                                    ${item.variants?.[0]?.price}
                                                 </p>
                                             </div>
                                         ))}
@@ -519,7 +523,7 @@ const POSOrderManagement: React.FC = () => {
                                         className="w-full bg-gray-900 dark:bg-orange-600 text-white p-4 rounded-xl shadow-2xl flex justify-between items-center active:scale-95 transition-transform"
                                     >
                                         <div className="flex items-center gap-3">
-                                            <div className="bg-white/20 px-3 py-1 rounded-lg font-bold text-sm">{itemCount}</div>
+                                            <div className="bg-white/20 px-3 py-1 rounded-xs font-bold text-sm">{itemCount}</div>
                                             <span className="font-semibold">View Order</span>
                                         </div>
                                         <span className="font-bold text-lg">${total.toFixed(2)}</span>
@@ -528,9 +532,9 @@ const POSOrderManagement: React.FC = () => {
                             </div>
 
                             {/* Right: Order Ticket Column */}
-                            <div className={`w-full lg:w-2/5 flex flex-col h-full absolute lg:relative z-20 lg:z-0 bg-white dark:bg-gray-800 shadow-2xl lg:shadow-none border-l dark:border-gray-700 transition-transform duration-300 border-1 border-gray-200 dark:border-gray-700 ${mobileTab === 'order' ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
+                            <div className={`w-full lg:w-[600px] flex flex-col h-full absolute lg:relative z-20 lg:z-0 bg-secondary shadow-2xl lg:shadow-none border-l dark:border-gray-700 transition-transform duration-300 border-1 border-main ${mobileTab === 'order' ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'}`}>
                                 {/* Ticket Header */}
-                                <div className="p-4 border-b dark:border-gray-700 flex flex-col gap-3 flex-shrink-0 bg-white dark:bg-gray-800">
+                                <div className="p-2 border-b border-main flex flex-col gap-3 flex-shrink-0 bg-secondary">
                                     <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                             <button
@@ -550,16 +554,16 @@ const POSOrderManagement: React.FC = () => {
                                     </div>
 
                                     {/* Order Type Toggle */}
-                                    <div className="flex bg-gray-100 dark:bg-gray-700 p-1 rounded-lg">
+                                    <div className="flex bg-main border dark:border-transparent border-gray-100 p-1 rounded-xs">
                                         <button
                                             onClick={() => updateActiveTab({ orderType: 'dine-in' })}
-                                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-all ${activeTab.orderType === 'dine-in' ? 'bg-white dark:bg-gray-600 text-orange-600 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
+                                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xs text-sm font-semibold transition-all ${activeTab.orderType === 'dine-in' ? 'bg-secondary primary shadow-sm ' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 cursor-pointer'}`}
                                         >
                                             <Utensils size={16} /> Dine-In
                                         </button>
                                         <button
                                             onClick={() => updateActiveTab({ orderType: 'takeaway' })}
-                                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-md text-sm font-semibold transition-all ${activeTab.orderType === 'takeaway' ? 'bg-white dark:bg-gray-600 text-orange-600 shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'}`}
+                                            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xs text-sm font-semibold transition-all ${activeTab.orderType === 'takeaway' ? 'bg-secondary primary shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 cursor-pointer'}`}
                                         >
                                             <ShoppingBag size={16} /> Takeout
                                         </button>
@@ -567,7 +571,7 @@ const POSOrderManagement: React.FC = () => {
                                 </div>
 
                                 {/* Order Items List */}
-                                <div className="flex-grow overflow-y-auto p-4">
+                                <div className="flex-grow overflow-y-auto p-2">
                                     {activeTab.items.length === 0 ? (
                                         <div className="flex flex-col items-center justify-center h-full text-gray-400 dark:text-gray-500">
                                             <Layers size={48} className="mb-4 opacity-50" />
@@ -576,13 +580,13 @@ const POSOrderManagement: React.FC = () => {
                                             <button onClick={() => setMobileTab('menu')} className="lg:hidden mt-4 text-orange-500 font-semibold">Go to Menu</button>
                                         </div>
                                     ) : (
-                                        <div className="space-y-3">
+                                        <div className="space-y-1">
                                             {activeTab.items.map(item => (
-                                                <div key={item.id} className="flex gap-3 p-3 rounded-lg bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600">
+                                                <div key={item.id} className="flex gap-3 p-2 rounded-xs bg-main">
                                                     <img
                                                         src={item.menu_item?.image_url || 'https://via.placeholder.com/64'}
                                                         alt={item.menu_item?.name}
-                                                        className="w-16 h-16 rounded-md object-cover flex-shrink-0 bg-gray-200 dark:bg-gray-600"
+                                                        className="w-16 h-16 rounded-xs object-cover flex-shrink-0 bg-gray-200 dark:bg-gray-600"
                                                     />
                                                     <div className="flex-grow flex flex-col justify-between min-w-0">
                                                         <div>
@@ -590,35 +594,39 @@ const POSOrderManagement: React.FC = () => {
                                                                 <p className="font-semibold dark:text-white text-sm leading-tight line-clamp-1">{item.menu_item?.name}</p>
                                                                 <p className="font-bold dark:text-white text-sm whitespace-nowrap ml-2">${(item.quantity * item.unit_price).toFixed(2)}</p>
                                                             </div>
-                                                            <p className="text-xs text-gray-500 dark:text-gray-400 capitalize mt-0.5">
-                                                                {item.variant?.name} (${item.unit_price.toFixed(2)})
-                                                            </p>
-                                                        </div>
-                                                        <div className="flex justify-between items-end mt-2">
-                                                            <div className="flex items-center bg-white dark:bg-gray-600 rounded border dark:border-gray-500 h-7">
-                                                                <button
-                                                                    onClick={() => updateItemQuantity(item.id, -1)}
-                                                                    className="px-2 h-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-l transition-colors flex items-center"
-                                                                >
-                                                                    <Minus size={12} />
-                                                                </button>
-                                                                <span className="px-2 text-sm font-semibold text-gray-900 dark:text-white min-w-[1.5rem] text-center">
-                                                                    {item.quantity}
-                                                                </span>
-                                                                <button
-                                                                    onClick={() => updateItemQuantity(item.id, 1)}
-                                                                    className="px-2 h-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-r transition-colors flex items-center"
-                                                                >
-                                                                    <Plus size={12} />
-                                                                </button>
+                                                            <div className="flex justify-between items-start">
+                                                                <p className="text-xs text-gray-500 dark:text-gray-400 capitalize mt-0.5">
+                                                                    {item.variant?.name} (${item.unit_price})
+                                                                </p>
+
+                                                                <div className="flex justify-between items-center gap-1">
+                                                                    <div className="flex items-center bg-secondary rounded-xs border border-main h-5">
+                                                                        <button
+                                                                            onClick={() => updateItemQuantity(item.id, -1)}
+                                                                            className="px-2 h-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-l transition-colors flex items-center"
+                                                                        >
+                                                                            <Minus size={12} />
+                                                                        </button>
+                                                                        <span className="px-2 text-sm font-semibold text-gray-900 dark:text-white min-w-[1.5rem] text-center">
+                                                                            {item.quantity}
+                                                                        </span>
+                                                                        <button
+                                                                            onClick={() => updateItemQuantity(item.id, 1)}
+                                                                            className="px-2 h-full text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-500 rounded-r transition-colors flex items-center"
+                                                                        >
+                                                                            <Plus size={12} />
+                                                                        </button>
+                                                                    </div>
+                                                                    <button
+                                                                        onClick={() => removeItemFromOrder(item.id)}
+                                                                        className="text-red-500 hover:text-red-700 p-1 hover:bg-red-50 dark:hover:bg-red-900/30  transition-colors"
+                                                                        title="Remove Item"
+                                                                    >
+                                                                        <Trash2 size={14} />
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <button
-                                                                onClick={() => removeItemFromOrder(item.id)}
-                                                                className="text-red-500 hover:text-red-700 p-1.5 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md transition-colors"
-                                                                title="Remove Item"
-                                                            >
-                                                                <Trash2 size={16} />
-                                                            </button>
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -628,7 +636,7 @@ const POSOrderManagement: React.FC = () => {
                                 </div>
 
                                 {/* Footer Summary & Actions */}
-                                <div className="border-t p-4 bg-gray-50 dark:bg-gray-800/90 backdrop-blur-sm flex-shrink-0 dark:border-gray-700">
+                                <div className="border-t p-2 bg-secondary backdrop-blur-sm flex-shrink-0 border-main">
                                     <div className="space-y-2 text-gray-700 dark:text-gray-300 mb-4 text-sm">
                                         <div className="flex justify-between"><span>Subtotal</span><span>${subtotal.toFixed(2)}</span></div>
 
@@ -642,7 +650,7 @@ const POSOrderManagement: React.FC = () => {
                                                     step="0.01"
                                                     value={activeTab.discount || ''}
                                                     onChange={(e) => updateActiveTab({ discount: Math.max(0, parseFloat(e.target.value) || 0) })}
-                                                    className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-right focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm py-1 pl-5 pr-2 text-red-500"
+                                                    className="w-full bg-main border border-main rounded-xs text-right focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm py-1 pl-5 pr-2 text-red-500"
                                                     placeholder="0.00"
                                                 />
                                             </div>
@@ -658,7 +666,7 @@ const POSOrderManagement: React.FC = () => {
                                                     step="0.01"
                                                     value={activeTab.tip || ''}
                                                     onChange={(e) => updateActiveTab({ tip: Math.max(0, parseFloat(e.target.value) || 0) })}
-                                                    className="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md text-right focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm py-1 pl-5 pr-2"
+                                                    className="w-full bg-main border border-main rounded-xs text-right focus:outline-none focus:ring-1 focus:ring-orange-500 text-sm py-1 pl-5 pr-2"
                                                     placeholder="0.00"
                                                 />
                                             </div>
@@ -713,7 +721,7 @@ const POSOrderManagement: React.FC = () => {
                                                         value={activeTab.tenderAmount}
                                                         onChange={(e) => updateActiveTab({ tenderAmount: e.target.value })}
                                                         placeholder={remaining.toFixed(2)}
-                                                        className="w-full pl-7 pr-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white focus:ring-2 focus:ring-orange-500"
+                                                        className="w-full pl-7 pr-3 py-2 bg-main border border-main focus:ring-2 focus:ring-orange-500"
                                                         onKeyDown={(e) => {
                                                             if (e.key === 'Enter') {
                                                                 // If enter is pressed, default to the first type if available
@@ -728,7 +736,7 @@ const POSOrderManagement: React.FC = () => {
                                                     <button
                                                         key={type}
                                                         onClick={() => handlePaymentTypeClick(type)}
-                                                        className="py-2 px-2 rounded-lg flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-1 transition-all text-xs border bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 hover:bg-orange-50 dark:hover:bg-gray-600 hover:border-orange-200 active:bg-orange-100"
+                                                        className="py-2 px-2 rounded-xs flex flex-row sm:flex-col items-center justify-center gap-2 sm:gap-1 transition-all text-xs border bg-main text-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600 hover:bg-orange-50 dark:hover:bg-gray-600 hover:border-orange-200 active:bg-orange-100"
                                                     >
                                                         {getPaymentTypeIcon(type)}
                                                         <span className="capitalize font-medium">{type}</span>
