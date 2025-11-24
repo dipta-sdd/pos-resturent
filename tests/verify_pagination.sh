@@ -66,7 +66,22 @@ else
     echo -e "${RED}Could not fetch a category ID for testing.${NC}"
 fi
 
-# 4. Test Add-on Pagination & Search
+# 4. Test Per Page Pagination
+echo -e "\nTesting Per Page Pagination (per_page=5)..."
+PER_PAGE_RESPONSE=$(curl -s -X GET "$BASE_URL/menu/items?per_page=5" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json")
+
+PER_PAGE_COUNT=$(echo $PER_PAGE_RESPONSE | grep -o '"per_page":[0-9]*' | cut -d':' -f2)
+echo "Per Page: $PER_PAGE_COUNT"
+
+if [ "$PER_PAGE_COUNT" -eq 5 ]; then
+    echo -e "${GREEN}Per Page test passed.${NC}"
+else
+    echo -e "${RED}Per Page test failed. Expected 5, got $PER_PAGE_COUNT.${NC}"
+fi
+
+# 5. Test Add-on Pagination & Search
 echo -e "\nTesting Add-on Pagination & Search..."
 ADDON_RESPONSE=$(curl -s -X GET "$BASE_URL/menu/add-ons?page=1&search=Cheese" \
   -H "Authorization: Bearer $TOKEN" \

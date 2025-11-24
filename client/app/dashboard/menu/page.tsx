@@ -144,7 +144,7 @@ const AdminMenuManagement: React.FC = () => {
     const [totalMenuItems, setTotalMenuItems] = useState(0);
     const [menuItemsTotalPages, setMenuItemsTotalPages] = useState(1);
     const [sortConfig, setSortConfig] = useState<{ key: keyof MenuItem | 'price'; direction: 'ascending' | 'descending' } | null>({ key: 'name', direction: 'ascending' });
-    const ITEMS_PER_PAGE = 10;
+    const [itemsPerPage, setItemsPerPage] = useState(10);
 
     // Addons table state
     const [addOnSearchTerm, setAddOnSearchTerm] = useState('');
@@ -153,7 +153,7 @@ const AdminMenuManagement: React.FC = () => {
     const [totalAddOns, setTotalAddOns] = useState(0);
     const [addOnTotalPages, setAddOnTotalPages] = useState(1);
     const [addOnSortConfig, setAddOnSortConfig] = useState<{ key: keyof AddOn; direction: 'ascending' | 'descending' } | null>({ key: 'name', direction: 'ascending' });
-    const ADDONS_PER_PAGE = 10;
+    const [addOnsPerPage, setAddOnsPerPage] = useState(10);
 
     useEffect(() => {
         fetchInitialData();
@@ -168,23 +168,15 @@ const AdminMenuManagement: React.FC = () => {
         return () => clearTimeout(timer);
     }, [searchTerm]);
 
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setDebouncedAddOnSearchTerm(addOnSearchTerm);
-            setAddOnCurrentPage(1); // Reset to page 1 on search
-        }, 500);
-        return () => clearTimeout(timer);
-    }, [addOnSearchTerm]);
-
     // Fetch menu items when params change
     useEffect(() => {
         fetchMenuItems();
-    }, [currentPage, debouncedSearchTerm, categoryFilter]);
+    }, [currentPage, debouncedSearchTerm, categoryFilter, itemsPerPage]);
 
     // Fetch add-ons when params change
     useEffect(() => {
         fetchAddOns();
-    }, [addOnCurrentPage, debouncedAddOnSearchTerm]);
+    }, [addOnCurrentPage, debouncedAddOnSearchTerm, addOnsPerPage]);
 
     // Modal handlers
     const openCategoryModal = (category?: Category) => {
@@ -268,7 +260,8 @@ const AdminMenuManagement: React.FC = () => {
             const response = await api.getMenuItems({
                 page: currentPage,
                 search: debouncedSearchTerm,
-                categoryId: categoryFilter
+                categoryId: categoryFilter,
+                perPage: itemsPerPage
             });
             setMenuItems(response.data);
             setTotalMenuItems(response.total);
@@ -285,7 +278,8 @@ const AdminMenuManagement: React.FC = () => {
         try {
             const response = await api.getAddOns({
                 page: addOnCurrentPage,
-                search: debouncedAddOnSearchTerm
+                search: debouncedAddOnSearchTerm,
+                perPage: addOnsPerPage
             });
             setAddOns(response.data);
             setTotalAddOns(response.total);
@@ -490,6 +484,14 @@ const AdminMenuManagement: React.FC = () => {
         return sortableItems;
     }, [menuItems, sortConfig]);
 
+    const paginatedItems = useMemo(() => {
+        // Since we are doing server side pagination, we just return the sorted items
+        // But if we were doing client side sorting on the current page, we might need to slice?
+        // Actually, the API returns only the items for the current page.
+        // So we don't need to slice. sortedItems contains only the items for the current page.
+        return sortedItems;
+    }, [sortedItems]);
+
     const requestSort = (key: keyof MenuItem | 'price') => {
         let direction: 'ascending' | 'descending' = 'ascending';
         if (sortConfig && sortConfig.key === key && sortConfig.direction === 'ascending') direction = 'descending';
@@ -521,6 +523,11 @@ const AdminMenuManagement: React.FC = () => {
         return sortableItems;
     }, [addOns, addOnSortConfig]);
 
+    const paginatedAddOns = useMemo(() => {
+        // Same as above, server side pagination returns only current page items
+        return sortedAddOns;
+    }, [sortedAddOns]);
+
     const requestAddOnSort = (key: keyof AddOn) => {
         let direction: 'ascending' | 'descending' = 'ascending';
         if (addOnSortConfig && addOnSortConfig.key === key && addOnSortConfig.direction === 'ascending') {
@@ -549,6 +556,14 @@ const AdminMenuManagement: React.FC = () => {
                         <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setCurrentPage(1); }} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="">All Categories</option>
                             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                        </select>
+                    </div>
+                    <div>
+                        <select value={itemsPerPage} onChange={e => { setItemsPerPage(Number(e.target.value)); setCurrentPage(1); }} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                            <option value={10}>10 per page</option>
+                            <option value={25}>25 per page</option>
+                            <option value={50}>50 per page</option>
+                            <option value={100}>100 per page</option>
                         </select>
                     </div>
                 </div>
@@ -595,7 +610,7 @@ const AdminMenuManagement: React.FC = () => {
                             <tr><td colSpan={7} className="text-center py-10 text-gray-500 dark:text-gray-400">No menu items found.</td></tr>
                         )}
                     </tbody>
-                    <Pagination colSpan={7} currentPage={currentPage} totalPages={menuItemsTotalPages} onPageChange={setCurrentPage} itemsPerPage={ITEMS_PER_PAGE} totalItems={totalMenuItems} />
+                    <Pagination colSpan={7} currentPage={currentPage} totalPages={menuItemsTotalPages} onPageChange={setCurrentPage} itemsPerPage={itemsPerPage} totalItems={totalMenuItems} />
                 </table>
             </div>
         </>
@@ -616,10 +631,18 @@ const AdminMenuManagement: React.FC = () => {
 
     const renderAddOns = () => (
         <>
-            <div className="bg-white dark:bg-gray-800 p-4 rounded-t-lg shadow-md border-b dark:border-gray-700">
-                <div className="relative max-w-sm">
+            <div className="bg-white dark:bg-gray-800 p-4 rounded-t-lg shadow-md border-b dark:border-gray-700 flex justify-between items-center gap-4">
+                <div className="relative max-w-sm flex-grow">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                     <input type="text" placeholder="Search by add-on name..." value={addOnSearchTerm} onChange={e => setAddOnSearchTerm(e.target.value)} className="w-full p-2 pl-10 border border-gray-300 rounded-md dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                </div>
+                <div>
+                    <select value={addOnsPerPage} onChange={e => { setAddOnsPerPage(Number(e.target.value)); setAddOnCurrentPage(1); }} className="p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <option value={10}>10 per page</option>
+                        <option value={25}>25 per page</option>
+                        <option value={50}>50 per page</option>
+                        <option value={100}>100 per page</option>
+                    </select>
                 </div>
             </div>
             <div className="bg-white dark:bg-gray-800 rounded-b-lg shadow-md overflow-x-auto">
@@ -655,7 +678,7 @@ const AdminMenuManagement: React.FC = () => {
                         currentPage={addOnCurrentPage}
                         totalPages={addOnTotalPages}
                         onPageChange={setAddOnCurrentPage}
-                        itemsPerPage={ADDONS_PER_PAGE}
+                        itemsPerPage={addOnsPerPage}
                         totalItems={totalAddOns}
                     />
                 </table>

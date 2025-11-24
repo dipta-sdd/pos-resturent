@@ -27,7 +27,8 @@ class MenuItemController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
-        $menuItems = $query->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $menuItems = $query->paginate($perPage);
         return response()->json($menuItems);
     }
 

@@ -21,7 +21,8 @@ class AddOnController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
 
-        $addOns = $query->paginate(10);
+        $perPage = $request->input('per_page', 10);
+        $addOns = $query->paginate($perPage);
         return response()->json($addOns);
     }
 

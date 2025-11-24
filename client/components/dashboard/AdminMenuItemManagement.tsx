@@ -34,7 +34,7 @@ const AdminMenuItemManagement: React.FC = () => {
                 api.getAddOns(),
             ]);
             setCategories(cats);
-            setAllAddOns(addons);
+            setAllAddOns(addons.data);
 
             if (isNew) {
                 setItem({

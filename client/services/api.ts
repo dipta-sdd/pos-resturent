@@ -50,11 +50,12 @@ export const api = {
     return response.data;
   },
   // end public
-  getMenuItems: async (params: { categoryId?: number | string; page?: number; search?: string } = {}) => {
+  getMenuItems: async (params: { categoryId?: number | string; page?: number; search?: string; perPage?: number } = {}) => {
     const queryParams: any = {};
     if (params.categoryId && params.categoryId !== 'all') queryParams.category_id = params.categoryId;
     if (params.page) queryParams.page = params.page;
     if (params.search) queryParams.search = params.search;
+    if (params.perPage) queryParams.per_page = params.perPage;
     
     const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params: queryParams });
     return response.data;
@@ -109,10 +110,11 @@ export const api = {
   },
   
   // Add-ons
-  getAddOns: async (params: { page?: number; search?: string } = {}) => {
+  getAddOns: async (params: { page?: number; search?: string; perPage?: number } = {}) => {
     const queryParams: any = {};
     if (params.page) queryParams.page = params.page;
     if (params.search) queryParams.search = params.search;
+    if (params.perPage) queryParams.per_page = params.perPage;
 
     const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons', { params: queryParams });
     return response.data;
