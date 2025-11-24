@@ -7,7 +7,6 @@ import { MenuItem, Category, AddOn } from '../../../types';
 import { api } from '../../../services/api';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import Pagination from '../../../components/common/Pagination';
-import { mockMenuItems } from '@/data/mockData';
 import toast from 'react-hot-toast';
 import { LaravelErrorResponse } from '@/types';
 
@@ -151,16 +150,6 @@ const AdminMenuManagement: React.FC = () => {
     const ADDONS_PER_PAGE = 10;
 
     useEffect(() => {
-        const fetchData = async () => {
-            setLoadingItems(true);
-            setMenuItems(mockMenuItems);
-            const categories = await api.getCategories();
-            setCategories(categories);
-            const addons = await api.getAddOns();
-            setAddOns(addons);
-            setLoadingItems(false);
-        };
-
         fetchData();
     }, []);
 
@@ -226,6 +215,25 @@ const AdminMenuManagement: React.FC = () => {
         }
     }
 
+    const fetchData = async () => {
+        setLoadingItems(true);
+        try {
+            const [categoriesData, addOnsData, menuItemsData] = await Promise.all([
+                api.getCategories(),
+                api.getAddOns(),
+                api.getMenuItems()
+            ]);
+            setCategories(categoriesData);
+            setAddOns(addOnsData);
+            setMenuItems(menuItemsData);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            toast.error('Failed to load menu data');
+        } finally {
+            setLoadingItems(false);
+        }
+    };
+
     const openAddOnModal = (addOn?: AddOn) => {
         setCurrentAddOn(addOn || { name: '', price: 0 });
         setAddOnErrors({}); // Clear errors when opening modal
@@ -283,6 +291,30 @@ const AdminMenuManagement: React.FC = () => {
             } catch (error) {
                 console.error('Error deleting add-on:', error);
                 toast.error('Failed to delete add-on. Please try again.');
+            }
+        }
+    };
+
+    const handleSaveItem = async () => {
+        // We need to implement this for the new item modal
+        // For now, since the item form is on a separate page (/dashboard/menu/new or /edit/[id]),
+        // this function might not be needed here if we are not using a modal for items.
+        // However, if we are using a modal, we need it.
+        // Looking at the renderItems function, the "Add New Item" button redirects to /dashboard/menu/new.
+        // And the Edit button redirects to /dashboard/menu/edit/[id].
+        // So we don't need handleSaveItem here for items!
+        // We only need handleDeleteItem.
+    };
+
+    const handleDeleteItem = async (id: number) => {
+        if (window.confirm('Are you sure you want to delete this item?')) {
+            try {
+                await api.deleteMenuItem(id);
+                toast.success('Menu item deleted successfully');
+                fetchData();
+            } catch (error) {
+                console.error('Error deleting menu item:', error);
+                toast.error('Failed to delete menu item');
             }
         }
     };
@@ -501,13 +533,13 @@ const AdminMenuManagement: React.FC = () => {
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{categories.find(c => c.id === item.category_id)?.name}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${item.variants?.[0]?.price.toFixed(2)}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
-                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.is_available ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>{item.is_available ? 'Yes' : 'No'}</span>
+                                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>{item.is_active ? 'Yes' : 'No'}</span>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{item.created_at ? new Date(item.created_at).toLocaleDateString() : 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{item.updated_at ? new Date(item.updated_at).toLocaleDateString() : 'N/A'}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <button onClick={() => router.push(`/dashboard/menu/edit/${item.id}`)} className="text-orange-600 hover:text-orange-900 dark:text-orange-400 dark:hover:text-orange-300 mr-4"><Edit size={18} /></button>
-                                    <button className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
+                                    <button onClick={() => handleDeleteItem(item.id)} className="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300"><Trash2 size={18} /></button>
                                 </td>
                             </tr>
                         )) : (

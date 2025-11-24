@@ -13,7 +13,7 @@ class MenuItemController extends Controller
 {
     public function index()
     {
-        $menuItems = MenuItem::with('category')->paginate(10);
+        $menuItems = MenuItem::with(['category', 'itemVariants'])->paginate(10);
         return response()->json($menuItems);
     }
 
@@ -25,19 +25,41 @@ class MenuItemController extends Controller
             'description' => 'nullable|string',
             'image_url' => 'nullable|string|max:255',
             'is_active' => 'boolean',
-            'is_veg' => 'boolean',
+            'is_featured' => 'boolean',
+            // Variants are required
+            'variants' => 'required|array|min:1',
+            'variants.*.name' => 'required|string|max:100',
+            'variants.*.price' => 'required|numeric|min:0',
+            'variants.*.is_active' => 'boolean',
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 422);
         }
 
-        $data = $request->all();
-        $data['slug'] = Str::slug($request->name);
+        try {
+            // Use transaction to create item and variants together
+            $menuItem = \DB::transaction(function () use ($request) {
+                $data = $request->except('variants');
+                $data['slug'] = Str::slug($request->name);
 
-        $menuItem = MenuItem::create($data);
+                $menuItem = MenuItem::create($data);
 
-        return response()->json($menuItem, 201);
+                // Create variants
+                foreach ($request->variants as $variantData) {
+                    $menuItem->itemVariants()->create($variantData);
+                }
+
+                // Load relationships for response
+                $menuItem->load(['category', 'itemVariants']);
+
+                return $menuItem;
+            });
+
+            return response()->json($menuItem, 201);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Failed to create menu item', 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function show($id)

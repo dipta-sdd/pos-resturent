@@ -4,8 +4,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Breadcrumb from '../common/Breadcrumb';
 import { Plus, Trash2, UploadCloud, X, Search } from 'lucide-react';
-import { AddOn, Category, ItemVariant, MenuItem } from '@/types';
+import { AddOn, Category, ItemVariant, MenuItem, LaravelErrorResponse } from '@/types';
 import { api } from '@/services/api';
+import toast from 'react-hot-toast';
 
 const AdminMenuItemManagement: React.FC = () => {
     const params = useParams();
@@ -17,7 +18,10 @@ const AdminMenuItemManagement: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [allAddOns, setAllAddOns] = useState<AddOn[]>([]);
     const [imagePreview, setImagePreview] = useState<string | null>(null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [isSaving, setIsSaving] = useState(false);
 
     const [addOnSearch, setAddOnSearch] = useState('');
     const [isAddOnDropdownOpen, setIsAddOnDropdownOpen] = useState(false);
@@ -38,10 +42,10 @@ const AdminMenuItemManagement: React.FC = () => {
                     name: '',
                     description: '',
                     category_id: cats[0]?.id || 1,
-                    is_available: true,
+                    is_active: true,
                     is_featured: false,
                     image_url: null,
-                    variants: [{ id: Date.now(), menu_item_id: 0, name: 'Regular', price: 0, is_available: true, created_at: new Date(), updated_at: new Date() }],
+                    variants: [{ id: Date.now(), menu_item_id: 0, name: 'Regular', price: 0, is_active: true, created_at: new Date(), updated_at: new Date() }],
                     add_ons: [],
                     created_at: new Date(),
                     updated_at: new Date(),
@@ -95,7 +99,7 @@ const AdminMenuItemManagement: React.FC = () => {
                 menu_item_id: prev.id,
                 name: '',
                 price: 0,
-                is_available: true,
+                is_active: true,
                 created_at: new Date(),
                 updated_at: new Date(),
             };
@@ -139,6 +143,7 @@ const AdminMenuItemManagement: React.FC = () => {
     const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
         if (file) {
+            setImageFile(file);
             const reader = new FileReader();
             reader.onloadend = () => {
                 setImagePreview(reader.result as string);
@@ -147,10 +152,57 @@ const AdminMenuItemManagement: React.FC = () => {
         }
     };
 
-    const handleSave = () => {
-        console.log("Saving item:", item);
-        alert("Item saved successfully!");
-        router.push('/dashboard/menu');
+    const handleSave = async () => {
+        if (!item) return;
+        setIsSaving(true);
+        setErrors({});
+
+        try {
+            const formData = new FormData();
+            formData.append('name', item.name);
+            formData.append('description', item.description || '');
+            formData.append('category_id', String(item.category_id));
+            formData.append('is_active', item.is_active ? '1' : '0');
+            formData.append('is_featured', item.is_featured ? '1' : '0');
+
+            if (imageFile) {
+                formData.append('image', imageFile);
+            }
+
+            // Variants
+            item.variants.forEach((variant, index) => {
+                formData.append(`variants[${index}][name]`, variant.name);
+                formData.append(`variants[${index}][price]`, String(variant.price));
+                formData.append(`variants[${index}][is_active]`, variant.is_active ? '1' : '0');
+            });
+
+            // Add-ons (if backend supports syncing add-ons via this endpoint, otherwise might need separate calls)
+            // Assuming backend doesn't handle add-ons in create/update menu item yet based on controller code.
+            // But if it did:
+            // item.add_ons?.forEach((addon, index) => {
+            //     formData.append(`add_ons[${index}]`, String(addon.id));
+            // });
+
+            if (isNew) {
+                await api.createMenuItem(formData);
+                toast.success('Menu item created successfully');
+            } else {
+                await api.updateMenuItem(item.id, formData);
+                toast.success('Menu item updated successfully');
+            }
+            router.push('/dashboard/menu');
+        } catch (error: any) {
+            console.error('Error saving item:', error);
+            if (error.response?.data) {
+                const backendErrors: LaravelErrorResponse = error.response.data;
+                setErrors(api.normalizeErrors(backendErrors));
+                toast.error('Please fix the validation errors');
+            } else {
+                toast.error('Failed to save menu item');
+            }
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     if (!item) return <div>Loading...</div>;
@@ -167,7 +219,9 @@ const AdminMenuItemManagement: React.FC = () => {
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-white">{isNew ? 'Create Menu Item' : 'Edit Menu Item'}</h1>
                 <div>
                     <button onClick={() => router.push('/dashboard/menu')} className="bg-gray-200 text-gray-800 font-bold py-2 px-4 rounded-lg hover:bg-gray-300 dark:bg-gray-600 dark:text-gray-100 dark:hover:bg-gray-500 mr-2">Cancel</button>
-                    <button onClick={handleSave} className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600">Save Item</button>
+                    <button onClick={handleSave} disabled={isSaving} className="bg-orange-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-orange-600 disabled:opacity-50">
+                        {isSaving ? 'Saving...' : 'Save Item'}
+                    </button>
                 </div>
             </div>
 
@@ -177,7 +231,8 @@ const AdminMenuItemManagement: React.FC = () => {
                     <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Item Name</label>
-                            <input type="text" name="name" value={item.name} onChange={handleInputChange} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                            <input type="text" name="name" value={item.name} onChange={handleInputChange} className={`mt-1 block w-full border rounded-md p-2 shadow-sm focus:outline-none focus:ring-2 focus:border-transparent dark:bg-gray-700 dark:text-white ${errors.name ? 'border-red-500 focus:ring-red-500/50' : 'border-gray-300 dark:border-gray-600 focus:ring-orange-500'}`} />
+                            {errors.name && <p className="mt-1 text-xs text-red-500">{errors.name}</p>}
                         </div>
                         <div className="mt-4">
                             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">Description</label>
@@ -191,11 +246,13 @@ const AdminMenuItemManagement: React.FC = () => {
                                 <div key={variant.id} className="grid grid-cols-12 gap-3 items-center">
                                     <div className="col-span-6">
                                         <label className="block text-xs text-gray-500">Variant Name</label>
-                                        <input type="text" value={variant.name} onChange={(e) => handleVariantChange(variant.id, 'name', e.target.value)} placeholder="e.g., Small, Large" className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        <input type="text" value={variant.name} onChange={(e) => handleVariantChange(variant.id, 'name', e.target.value)} placeholder="e.g., Small, Large" className={`mt-1 block w-full border rounded-md p-2 shadow-sm dark:bg-gray-700 dark:text-white ${errors[`variants.${index}.name`] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
+                                        {errors[`variants.${index}.name`] && <p className="mt-1 text-xs text-red-500">{errors[`variants.${index}.name`]}</p>}
                                     </div>
                                     <div className="col-span-4">
                                         <label className="block text-xs text-gray-500">Price</label>
-                                        <input type="number" value={variant.price} onChange={(e) => handleVariantChange(variant.id, 'price', parseFloat(e.target.value) || 0)} className="mt-1 block w-full border border-gray-300 bg-white text-gray-900 rounded-md p-2 shadow-sm dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                                        <input type="number" value={variant.price} onChange={(e) => handleVariantChange(variant.id, 'price', parseFloat(e.target.value) || 0)} className={`mt-1 block w-full border rounded-md p-2 shadow-sm dark:bg-gray-700 dark:text-white ${errors[`variants.${index}.price`] ? 'border-red-500' : 'border-gray-300 dark:border-gray-600'}`} />
+                                        {errors[`variants.${index}.price`] && <p className="mt-1 text-xs text-red-500">{errors[`variants.${index}.price`]}</p>}
                                     </div>
                                     <div className="col-span-2 pt-5">
                                         {item.variants.length > 1 && (
@@ -285,7 +342,7 @@ const AdminMenuItemManagement: React.FC = () => {
                             </div>
                             <label className="flex items-center justify-between">
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Is Available</span>
-                                <input type="checkbox" name="is_available" checked={item.is_available} onChange={handleCheckboxChange} className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
+                                <input type="checkbox" name="is_active" checked={item.is_active} onChange={handleCheckboxChange} className="h-4 w-4 rounded border-gray-300 text-orange-600 focus:ring-orange-500" />
                             </label>
                             <label className="flex items-center justify-between">
                                 <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Is Featured</span>

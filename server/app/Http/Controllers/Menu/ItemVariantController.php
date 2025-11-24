@@ -34,7 +34,7 @@ class ItemVariantController extends Controller
             'menu_item_id' => 'required|exists:menu_items,id',
             'name' => 'required|string|max:100',
             'price' => 'required|numeric|min:0',
-            'is_available' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -75,7 +75,7 @@ class ItemVariantController extends Controller
             'menu_item_id' => 'sometimes|required|exists:menu_items,id',
             'name' => 'sometimes|required|string|max:100',
             'price' => 'sometimes|required|numeric|min:0',
-            'is_available' => 'boolean',
+            'is_active' => 'boolean',
         ]);
 
         if ($validator->fails()) {
@@ -115,14 +115,14 @@ class ItemVariantController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'is_available' => 'required|boolean',
+            'is_active' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $variant->update(['is_available' => $request->is_available]);
+        $variant->update(['is_active' => $request->is_active]);
 
         return response()->json($variant);
     }

@@ -79,7 +79,7 @@ CREATE TABLE `menu_items` (
   `description` TEXT NULL,
   -- NOTE: price column is REMOVED. Price is now in the item_variants table.
   `image_url` VARCHAR(255) NULL,
-  `is_available` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Master availability for the item',
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Master availability for the item',
   `is_featured` BOOLEAN NOT NULL DEFAULT FALSE,
   `created_at` TIMESTAMP NULL,
   `updated_at` TIMESTAMP NULL,
@@ -91,7 +91,7 @@ CREATE TABLE `item_variants` (
     `menu_item_id` BIGINT UNSIGNED NOT NULL,
     `name` VARCHAR(100) NOT NULL COMMENT 'e.g., Small, Medium, Large, 250ml',
     `price` DECIMAL(10, 2) NOT NULL,
-    `is_available` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Availability for this specific variant',
+    `is_active` BOOLEAN NOT NULL DEFAULT TRUE COMMENT 'Availability for this specific variant',
     `created_at` TIMESTAMP NULL,
     `updated_at` TIMESTAMP NULL,
     FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`) ON DELETE CASCADE

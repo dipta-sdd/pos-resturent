@@ -159,65 +159,65 @@ export const mockAddOns: AddOn[] = [
 ];
 
 export const mockItemVariants: ItemVariant[] = [
-  { id: 1, menu_item_id: 1, name: 'Regular', price: 6.99, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 2, menu_item_id: 2, name: 'Regular', price: 10.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 15, menu_item_id: 15, name: 'Regular', price: 5.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 16, menu_item_id: 16, name: 'Regular', price: 6.75, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 4, menu_item_id: 4, name: 'Full Portion', price: 17.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 20, menu_item_id: 4, name: 'Half Portion', price: 10.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 17, menu_item_id: 17, name: 'Regular', price: 21.00, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 22, menu_item_id: 17, name: 'Family Pack', price: 38.00, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 18, menu_item_id: 18, name: 'Regular', price: 13.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 3, menu_item_id: 3, name: 'Regular', price: 15.00, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 19, menu_item_id: 19, name: 'Regular', price: 4.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 6, menu_item_id: 6, name: 'Regular', price: 5.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 7, menu_item_id: 7, name: 'Regular', price: 6.00, is_available: false, created_at: new Date(), updated_at: new Date() },
-  { id: 8, menu_item_id: 8, name: 'Regular', price: 4.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 21, menu_item_id: 8, name: 'Large', price: 6.00, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 9, menu_item_id: 9, name: 'Regular', price: 3.50, is_available: true, created_at: new Date(), updated_at: new Date() },
-  { id: 10, menu_item_id: 10, name: 'Regular', price: 12.50, is_available: false, created_at: new Date(), updated_at: new Date() },
-  { id: 11, menu_item_id: 11, name: 'Regular', price: 3.50, is_available: false, created_at: new Date(), updated_at: new Date() },
-  { id: 12, menu_item_id: 12, name: 'Regular', price: 5.50, is_available: false, created_at: new Date(), updated_at: new Date() },
-  { id: 13, menu_item_id: 13, name: 'Regular', price: 42.00, is_available: false, created_at: new Date(), updated_at: new Date() },
-  { id: 14, menu_item_id: 14, name: 'Regular', price: 34.00, is_available: false, created_at: new Date(), updated_at: new Date() },
+  { id: 1, menu_item_id: 1, name: 'Regular', price: 6.99, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 2, menu_item_id: 2, name: 'Regular', price: 10.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 15, menu_item_id: 15, name: 'Regular', price: 5.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 16, menu_item_id: 16, name: 'Regular', price: 6.75, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 4, menu_item_id: 4, name: 'Full Portion', price: 17.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 20, menu_item_id: 4, name: 'Half Portion', price: 10.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 17, menu_item_id: 17, name: 'Regular', price: 21.00, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 22, menu_item_id: 17, name: 'Family Pack', price: 38.00, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 18, menu_item_id: 18, name: 'Regular', price: 13.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 3, menu_item_id: 3, name: 'Regular', price: 15.00, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 19, menu_item_id: 19, name: 'Regular', price: 4.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 6, menu_item_id: 6, name: 'Regular', price: 5.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 7, menu_item_id: 7, name: 'Regular', price: 6.00, is_active: false, created_at: new Date(), updated_at: new Date() },
+  { id: 8, menu_item_id: 8, name: 'Regular', price: 4.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 21, menu_item_id: 8, name: 'Large', price: 6.00, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 9, menu_item_id: 9, name: 'Regular', price: 3.50, is_active: true, created_at: new Date(), updated_at: new Date() },
+  { id: 10, menu_item_id: 10, name: 'Regular', price: 12.50, is_active: false, created_at: new Date(), updated_at: new Date() },
+  { id: 11, menu_item_id: 11, name: 'Regular', price: 3.50, is_active: false, created_at: new Date(), updated_at: new Date() },
+  { id: 12, menu_item_id: 12, name: 'Regular', price: 5.50, is_active: false, created_at: new Date(), updated_at: new Date() },
+  { id: 13, menu_item_id: 13, name: 'Regular', price: 42.00, is_active: false, created_at: new Date(), updated_at: new Date() },
+  { id: 14, menu_item_id: 14, name: 'Regular', price: 34.00, is_active: false, created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockMenuItems: MenuItem[] = [
   // Appetizers (category_id: 1)
-  { id: 1, category_id: 1, name: 'Vegetable Samosas', description: 'Crispy pastry filled with spiced potatoes and peas.', image_url: 'https://picsum.photos/seed/samosa/400/300', is_available: true, is_featured: false, add_ons: [mockAddOns[3]], variants: mockItemVariants.filter(v => v.menu_item_id === 1), created_at: new Date(), updated_at: new Date() },
-  { id: 2, category_id: 1, name: 'Chicken Tikka Skewers', description: 'Tender chicken pieces marinated in yogurt and spices, grilled in a tandoor.', image_url: 'https://picsum.photos/seed/chickentikka/400/300', is_available: true, is_featured: false, add_ons: [mockAddOns[3]], variants: mockItemVariants.filter(v => v.menu_item_id === 2), created_at: new Date(), updated_at: new Date() },
+  { id: 1, category_id: 1, name: 'Vegetable Samosas', description: 'Crispy pastry filled with spiced potatoes and peas.', image_url: 'https://picsum.photos/seed/samosa/400/300', is_active: true, is_featured: false, add_ons: [mockAddOns[3]], variants: mockItemVariants.filter(v => v.menu_item_id === 1), created_at: new Date(), updated_at: new Date() },
+  { id: 2, category_id: 1, name: 'Chicken Tikka Skewers', description: 'Tender chicken pieces marinated in yogurt and spices, grilled in a tandoor.', image_url: 'https://picsum.photos/seed/chickentikka/400/300', is_active: true, is_featured: false, add_ons: [mockAddOns[3]], variants: mockItemVariants.filter(v => v.menu_item_id === 2), created_at: new Date(), updated_at: new Date() },
   
   // Soups & Salads (category_id: 2)
-  { id: 15, category_id: 2, name: 'Lentil Soup (Dal Shorba)', description: 'A traditional and flavorful soup made from yellow lentils and spices.', image_url: 'https://picsum.photos/seed/dalsoup/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 15), created_at: new Date(), updated_at: new Date() },
-  { id: 16, category_id: 2, name: 'Kachumber Salad', description: 'A refreshing salad of chopped onions, tomatoes, cucumbers, and a lemon-coriander dressing.', image_url: 'https://picsum.photos/seed/salad/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 16), created_at: new Date(), updated_at: new Date() },
+  { id: 15, category_id: 2, name: 'Lentil Soup (Dal Shorba)', description: 'A traditional and flavorful soup made from yellow lentils and spices.', image_url: 'https://picsum.photos/seed/dalsoup/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 15), created_at: new Date(), updated_at: new Date() },
+  { id: 16, category_id: 2, name: 'Kachumber Salad', description: 'A refreshing salad of chopped onions, tomatoes, cucumbers, and a lemon-coriander dressing.', image_url: 'https://picsum.photos/seed/salad/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 16), created_at: new Date(), updated_at: new Date() },
   
   // Non-Vegetarian Mains (category_id: 8)
-  { id: 4, category_id: 8, name: 'Butter Chicken', description: 'Grilled chicken simmered in a rich, buttery tomato gravy. A classic favorite.', image_url: 'https://picsum.photos/seed/butterchicken/400/300', is_available: true, is_featured: true, add_ons: [mockAddOns[1]], variants: mockItemVariants.filter(v => v.menu_item_id === 4), created_at: new Date(), updated_at: new Date() },
-  { id: 17, category_id: 8, name: 'Lamb Biryani', description: 'Aromatic basmati rice cooked with tender lamb and fragrant spices.', image_url: 'https://picsum.photos/seed/biryani/400/300', is_available: true, is_featured: true, variants: mockItemVariants.filter(v => v.menu_item_id === 17), created_at: new Date(), updated_at: new Date() },
+  { id: 4, category_id: 8, name: 'Butter Chicken', description: 'Grilled chicken simmered in a rich, buttery tomato gravy. A classic favorite.', image_url: 'https://picsum.photos/seed/butterchicken/400/300', is_active: true, is_featured: true, add_ons: [mockAddOns[1]], variants: mockItemVariants.filter(v => v.menu_item_id === 4), created_at: new Date(), updated_at: new Date() },
+  { id: 17, category_id: 8, name: 'Lamb Biryani', description: 'Aromatic basmati rice cooked with tender lamb and fragrant spices.', image_url: 'https://picsum.photos/seed/biryani/400/300', is_active: true, is_featured: true, variants: mockItemVariants.filter(v => v.menu_item_id === 17), created_at: new Date(), updated_at: new Date() },
   
   // Vegetarian Mains (category_id: 7)
-  { id: 18, category_id: 7, name: 'Chana Masala', description: 'Hearty chickpea curry cooked with onions, tomatoes, and a blend of spices.', image_url: 'https://picsum.photos/seed/chana/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 18), created_at: new Date(), updated_at: new Date() },
-  { id: 3, category_id: 7, name: 'Paneer Butter Masala', description: 'Cottage cheese cubes in a creamy tomato and butter sauce.', image_url: 'https://picsum.photos/seed/paneer/400/300', is_available: true, is_featured: true, add_ons: [mockAddOns[0]], variants: mockItemVariants.filter(v => v.menu_item_id === 3), created_at: new Date(), updated_at: new Date() },
+  { id: 18, category_id: 7, name: 'Chana Masala', description: 'Hearty chickpea curry cooked with onions, tomatoes, and a blend of spices.', image_url: 'https://picsum.photos/seed/chana/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 18), created_at: new Date(), updated_at: new Date() },
+  { id: 3, category_id: 7, name: 'Paneer Butter Masala', description: 'Cottage cheese cubes in a creamy tomato and butter sauce.', image_url: 'https://picsum.photos/seed/paneer/400/300', is_active: true, is_featured: true, add_ons: [mockAddOns[0]], variants: mockItemVariants.filter(v => v.menu_item_id === 3), created_at: new Date(), updated_at: new Date() },
 
   // Breads & Rice (category_id: 4)
-  { id: 19, category_id: 4, name: 'Garlic Naan', description: 'Soft, fluffy flatbread baked in a tandoor oven with fresh garlic and cilantro.', image_url: 'https://picsum.photos/seed/naan/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 19), created_at: new Date(), updated_at: new Date() },
+  { id: 19, category_id: 4, name: 'Garlic Naan', description: 'Soft, fluffy flatbread baked in a tandoor oven with fresh garlic and cilantro.', image_url: 'https://picsum.photos/seed/naan/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 19), created_at: new Date(), updated_at: new Date() },
 
   // Desserts (category_id: 5)
-  { id: 6, category_id: 5, name: 'Gulab Jamun', description: 'Soft, deep-fried dough balls soaked in a sweet, fragrant syrup.', image_url: 'https://picsum.photos/seed/gulabjamun/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 6), created_at: new Date(), updated_at: new Date() },
-  { id: 7, category_id: 5, name: 'Ras Malai', description: 'Spongy cottage cheese patties soaked in thickened, sweet, saffron-flavored milk.', image_url: 'https://picsum.photos/seed/rasmalai/400/300', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 7), created_at: new Date(), updated_at: new Date() },
+  { id: 6, category_id: 5, name: 'Gulab Jamun', description: 'Soft, deep-fried dough balls soaked in a sweet, fragrant syrup.', image_url: 'https://picsum.photos/seed/gulabjamun/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 6), created_at: new Date(), updated_at: new Date() },
+  { id: 7, category_id: 5, name: 'Ras Malai', description: 'Spongy cottage cheese patties soaked in thickened, sweet, saffron-flavored milk.', image_url: 'https://picsum.photos/seed/rasmalai/400/300', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 7), created_at: new Date(), updated_at: new Date() },
   
   // Lassi & Shakes (category_id: 9)
-  { id: 8, category_id: 9, name: 'Mango Lassi', description: 'A refreshing yogurt-based drink blended with sweet mango pulp.', image_url: 'https://picsum.photos/seed/lassi/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 8), created_at: new Date(), updated_at: new Date() },
+  { id: 8, category_id: 9, name: 'Mango Lassi', description: 'A refreshing yogurt-based drink blended with sweet mango pulp.', image_url: 'https://picsum.photos/seed/lassi/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 8), created_at: new Date(), updated_at: new Date() },
 
   // Hot Beverages (category_id: 10)
-  { id: 9, category_id: 10, name: 'Masala Chai', description: 'Traditional Indian spiced tea brewed with milk and aromatic spices.', image_url: 'https://picsum.photos/seed/chai/400/300', is_available: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 9), created_at: new Date(), updated_at: new Date() },
+  { id: 9, category_id: 10, name: 'Masala Chai', description: 'Traditional Indian spiced tea brewed with milk and aromatic spices.', image_url: 'https://picsum.photos/seed/chai/400/300', is_active: true, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 9), created_at: new Date(), updated_at: new Date() },
   
   // Uncategorized / Disabled
-  { id: 10, category_id: 1, name: 'Spicy Tuna Roll', description: 'Fresh tuna with a spicy mayo sauce.', image_url: 'https://i.imgur.com/U8A9UfU.png', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 10), created_at: new Date(), updated_at: new Date() },
-  { id: 11, category_id: 1, name: 'Miso Soup', description: 'Traditional Japanese soup with tofu and seaweed.', image_url: 'https://i.imgur.com/9564Bpe.png', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 11), created_at: new Date(), updated_at: new Date() },
-  { id: 12, category_id: 1, name: 'Edamame', description: 'Steamed soybeans with sea salt.', image_url: 'https://i.imgur.com/A68A7QW.png', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 12), created_at: new Date(), updated_at: new Date() },
-  { id: 13, category_id: 3, name: 'Prime Ribeye Steak', description: '14oz steak with garlic mashed potatoes and asparagus.', image_url: 'https://picsum.photos/seed/ribeye/400/300', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 13), created_at: new Date(), updated_at: new Date() },
-  { id: 14, category_id: 4, name: 'Lobster Ravioli', description: 'House-made pasta filled with fresh lobster in a cream sauce.', image_url: 'https://picsum.photos/seed/ravioli/400/300', is_available: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 14), created_at: new Date(), updated_at: new Date() },
+  { id: 10, category_id: 1, name: 'Spicy Tuna Roll', description: 'Fresh tuna with a spicy mayo sauce.', image_url: 'https://i.imgur.com/U8A9UfU.png', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 10), created_at: new Date(), updated_at: new Date() },
+  { id: 11, category_id: 1, name: 'Miso Soup', description: 'Traditional Japanese soup with tofu and seaweed.', image_url: 'https://i.imgur.com/9564Bpe.png', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 11), created_at: new Date(), updated_at: new Date() },
+  { id: 12, category_id: 1, name: 'Edamame', description: 'Steamed soybeans with sea salt.', image_url: 'https://i.imgur.com/A68A7QW.png', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 12), created_at: new Date(), updated_at: new Date() },
+  { id: 13, category_id: 3, name: 'Prime Ribeye Steak', description: '14oz steak with garlic mashed potatoes and asparagus.', image_url: 'https://picsum.photos/seed/ribeye/400/300', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 13), created_at: new Date(), updated_at: new Date() },
+  { id: 14, category_id: 4, name: 'Lobster Ravioli', description: 'House-made pasta filled with fresh lobster in a cream sauce.', image_url: 'https://picsum.photos/seed/ravioli/400/300', is_active: false, is_featured: false, variants: mockItemVariants.filter(v => v.menu_item_id === 14), created_at: new Date(), updated_at: new Date() },
 ];
 
 export const mockTables: Table[] = [

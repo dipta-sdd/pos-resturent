@@ -165,7 +165,7 @@ CREATE TABLE `item_variants` (
   `name` VARCHAR(100) NOT NULL COMMENT 'Regular, Large, Spicy',
   `price` DECIMAL(10, 2) NOT NULL,
   `discount_price` DECIMAL(10, 2) NULL,
-  `is_available` BOOLEAN NOT NULL DEFAULT TRUE,
+  `is_active` BOOLEAN NOT NULL DEFAULT TRUE,
   FOREIGN KEY (`menu_item_id`) REFERENCES `menu_items`(`id`) ON DELETE CASCADE
 );
 

@@ -13,11 +13,33 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        $this->call([
+            RoleSeeder::class,
+            CategorySeeder::class,
+            AddOnSeeder::class,
+            MenuItemSeeder::class,
         ]);
+
+        $adminRole = \App\Models\Role::where('slug', 'admin')->first();
+        if ($adminRole) {
+            User::factory()->create([
+                'first_name' => 'Admin',
+                'last_name' => 'User',
+                'email' => 'admin@gmail.com',
+                'password' => bcrypt('Spider@2580'),
+                'role_id' => $adminRole->id,
+            ]);
+        }
+
+        $customerRole = \App\Models\Role::where('slug', 'customer')->first();
+        if ($customerRole) {
+            User::factory()->create([
+                'first_name' => 'Customer',
+                'last_name' => 'User',
+                'email' => 'ddas5160@gmail.com',
+                'password' => bcrypt('Spider@2580'),
+                'role_id' => $customerRole->id,
+            ]);
+        }
     }
 }

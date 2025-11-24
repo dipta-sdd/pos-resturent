@@ -89,9 +89,9 @@ Route::middleware(['log.api'])->group(function () {
 
         Route::prefix('menu')->middleware('permission:can_manage_products')->group(function () {
             Route::apiResource('categories', CategoryController::class);
-            Route::apiResource('menu-items', MenuItemController::class);
-            Route::patch('menu-items/{id}/status', [MenuItemController::class, 'updateStatus']);
-            Route::apiResource('menu-items/{menu_item_id}/variants', ItemVariantController::class);
+            Route::apiResource('items', MenuItemController::class);
+            Route::patch('items/{id}/status', [MenuItemController::class, 'updateStatus']);
+            Route::apiResource('items/{menu_item_id}/variants', ItemVariantController::class);
             Route::apiResource('add-ons', AddOnController::class);
         });
 

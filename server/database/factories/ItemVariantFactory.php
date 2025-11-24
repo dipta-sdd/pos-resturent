@@ -22,7 +22,7 @@ class ItemVariantFactory extends Factory
             'name' => fake()->word(),
             'price' => fake()->randomFloat(2, 5, 20),
             'discount_price' => 0,
-            'is_available' => true,
+            'is_active' => true,
         ];
     }
 }

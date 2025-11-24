@@ -238,7 +238,7 @@ export interface ItemVariant {
   menu_item_id: number;
   name: string; // e.g., "Small", "Large", "Regular"
   price: number;
-  is_available: boolean;
+  is_active: boolean;
   created_at: Date | null;
   updated_at: Date | null;
   // Relationship: Optional Parent MenuItem
@@ -254,7 +254,7 @@ export interface MenuItem {
   name: string;
   description: string | null;
   image_url: string | null;
-  is_available: boolean;
+  is_active: boolean;
   is_featured: boolean;
   created_at: Date | null;
   updated_at: Date | null;

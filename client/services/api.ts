@@ -4,7 +4,7 @@
 
 
 import axiosInstance from './axiosConfig';
-import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, LaravelPaginatedResponse, LaravelErrorResponse, NormalizedErrorResponse } from '../types';
+import { Promotion, PaymentMethod, Order, Reservation, LoginResponse, RegisterResponse, User, Category, AddOn, MenuItem, LaravelPaginatedResponse, LaravelErrorResponse, NormalizedErrorResponse } from '../types';
 import { mockUsers, mockCategories, mockMenuItems, mockOrders, mockTables, mockReservations, mockAddOns, mockCustomerPaymentMethods, mockNotifications, mockExpenseCategories, mockPayouts, mockAddresses, mockExpenses, mockItemVariants, mockPromotions, mockPaymentMethods } from '../data/mockData';
 
 const delay = (ms: number) => new Promise(res => setTimeout(res, ms));
@@ -42,23 +42,39 @@ export const api = {
     return mockMenuItems.filter(item => item.is_featured);
   },
   getMenuItems: async (categoryId?: number) => {
-    await delay(500);
-    if (categoryId) {
-      return mockMenuItems.filter(item => item.category_id === categoryId);
-    }
-    return mockMenuItems;
+    const params = categoryId ? { category_id: categoryId } : {};
+    const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params });
+    return response.data.data;
   },
   getMenuItemById: async (id: number) => {
-    await delay(200);
-    const item = mockMenuItems.find(item => item.id === id) || null;
-    if (item) {
-        // Simple mock for variants if they are not explicitly defined on the item
-        if (!item.variants || item.variants.length === 0) {
-            const variant = mockItemVariants.find(v => v.menu_item_id === id);
-            return { ...item, variants: variant ? [variant] : [] };
-        }
-    }
-    return item;
+    const response = await axiosInstance.get<MenuItem>(`/menu/items/${id}`);
+    return response.data;
+  },
+  createMenuItem: async (data: FormData) => {
+    const response = await axiosInstance.post<MenuItem>('/menu/items', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+  updateMenuItem: async (id: number, data: FormData) => {
+    // Laravel requires _method: PUT for FormData updates
+    data.append('_method', 'PUT');
+    const response = await axiosInstance.post<MenuItem>(`/menu/items/${id}`, data, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data;
+  },
+  deleteMenuItem: async (id: number) => {
+    const response = await axiosInstance.delete(`/menu/items/${id}`);
+    return response.data;
+  },
+  updateMenuItemStatus: async (id: number, isActive: boolean) => {
+    const response = await axiosInstance.patch<MenuItem>(`/menu/items/${id}/status`, { is_active: isActive });
+    return response.data;
   },
   
   // Categories

@@ -70,17 +70,15 @@ const LoginPage: React.FC = () => {
             toast.success('Login successful!');
         } catch (error: any) {
             console.error('Login error:', error);
-
+            if (error.response?.status === 401) {
+                setErrors({ email: 'Invalid email or password' });
+                toast.error('Invalid email or password');
+            }
             // Handle Laravel validation errors
-            if (error.response?.data) {
+            else if (error.response?.data) {
                 const backendErrors: LaravelErrorResponse = error.response.data;
                 setErrors(api.normalizeErrors(backendErrors));
                 toast.error('Please fix the validation errors');
-            }
-            // Handle authentication errors (401)
-            else if (error.response?.status === 401) {
-                setErrors({ email: 'Invalid email or password' });
-                toast.error('Invalid email or password');
             }
             // Handle other errors
             else {
