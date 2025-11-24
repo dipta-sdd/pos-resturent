@@ -53,7 +53,7 @@ export const api = {
   getMenuItems: async (categoryId?: number) => {
     const params = categoryId ? { category_id: categoryId } : {};
     const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params });
-    return response.data.data;
+    return response.data;
   },
   getMenuItemById: async (id: number) => {
     const response = await axiosInstance.get<MenuItem>(`/menu/items/${id}`);
@@ -88,8 +88,8 @@ export const api = {
   
   // Categories
   getCategories: async () => {
-    const response = await axiosInstance.get<LaravelPaginatedResponse<Category>>('/menu/categories');
-    return response.data.data;
+    const response = await axiosInstance.get<Category[]>('/menu/categories');
+    return response.data;
   },
   createCategory: async (data: Partial<Category>) => {
     const response = await axiosInstance.post<Category>('/menu/categories', data);
@@ -107,7 +107,7 @@ export const api = {
   // Add-ons
   getAddOns: async () => {
     const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons');
-    return response.data.data;
+    return response.data;
   },
   createAddOn: async (data: Partial<AddOn>) => {
     const response = await axiosInstance.post<AddOn>('/menu/add-ons', data);

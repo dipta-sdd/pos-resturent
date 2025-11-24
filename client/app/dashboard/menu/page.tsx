@@ -224,8 +224,8 @@ const AdminMenuManagement: React.FC = () => {
                 api.getMenuItems()
             ]);
             setCategories(categoriesData);
-            setAddOns(addOnsData);
-            setMenuItems(menuItemsData);
+            setAddOns(addOnsData.data);
+            setMenuItems(menuItemsData.data);
         } catch (error) {
             console.error('Error fetching data:', error);
             toast.error('Failed to load menu data');
@@ -252,17 +252,19 @@ const AdminMenuManagement: React.FC = () => {
         try {
             if ('id' in currentAddOn && currentAddOn.id) {
                 // Update existing add-on
-                await api.updateAddOn(currentAddOn.id, currentAddOn);
+                const updatedAddOn = await api.updateAddOn(currentAddOn.id, currentAddOn);
                 toast.success('Add-on updated successfully');
+
+                setAddOns((prev) => prev.map((item) => item.id === updatedAddOn.id ? updatedAddOn : item));
             } else {
                 // Create new add-on
-                await api.createAddOn(currentAddOn);
+                const newAddOn = await api.createAddOn(currentAddOn);
                 toast.success('Add-on created successfully');
+                setAddOns((prev) => [...prev, newAddOn]);
             }
 
             // Refresh add-ons
-            const updatedAddOns = await api.getAddOns();
-            setAddOns(updatedAddOns);
+
             closeAddOnModal();
         } catch (error: any) {
             console.error('Error saving add-on:', error);
@@ -286,8 +288,8 @@ const AdminMenuManagement: React.FC = () => {
                 await api.deleteAddOn(id);
                 toast.success('Add-on deleted successfully');
                 // Refresh add-ons
-                const updatedAddOns = await api.getAddOns();
-                setAddOns(updatedAddOns);
+                await api.getAddOns();
+                setAddOns((prev) => prev.filter((item) => item.id !== id));
             } catch (error) {
                 console.error('Error deleting add-on:', error);
                 toast.error('Failed to delete add-on. Please try again.');
@@ -531,7 +533,7 @@ const AdminMenuManagement: React.FC = () => {
                                     </Link>
                                 </td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{categories.find(c => c.id === item.category_id)?.name}</td>
-                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${item.variants?.[0]?.price.toFixed(2)}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${item.variants?.[0]?.price}</td>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${item.is_active ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'}`}>{item.is_active ? 'Yes' : 'No'}</span>
                                 </td>
