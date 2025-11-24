@@ -138,20 +138,53 @@ const AdminMenuManagement: React.FC = () => {
     // Menu Items Table State
     const [loadingItems, setLoadingItems] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalMenuItems, setTotalMenuItems] = useState(0);
+    const [menuItemsTotalPages, setMenuItemsTotalPages] = useState(1);
     const [sortConfig, setSortConfig] = useState<{ key: keyof MenuItem | 'price'; direction: 'ascending' | 'descending' } | null>({ key: 'name', direction: 'ascending' });
     const ITEMS_PER_PAGE = 10;
 
     // Addons table state
     const [addOnSearchTerm, setAddOnSearchTerm] = useState('');
+    const [debouncedAddOnSearchTerm, setDebouncedAddOnSearchTerm] = useState('');
     const [addOnCurrentPage, setAddOnCurrentPage] = useState(1);
+    const [totalAddOns, setTotalAddOns] = useState(0);
+    const [addOnTotalPages, setAddOnTotalPages] = useState(1);
     const [addOnSortConfig, setAddOnSortConfig] = useState<{ key: keyof AddOn; direction: 'ascending' | 'descending' } | null>({ key: 'name', direction: 'ascending' });
     const ADDONS_PER_PAGE = 10;
 
     useEffect(() => {
-        fetchData();
+        fetchInitialData();
     }, []);
+
+    // Debounce search terms
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedSearchTerm(searchTerm);
+            setCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [searchTerm]);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setDebouncedAddOnSearchTerm(addOnSearchTerm);
+            setAddOnCurrentPage(1); // Reset to page 1 on search
+        }, 500);
+        return () => clearTimeout(timer);
+    }, [addOnSearchTerm]);
+
+    // Fetch menu items when params change
+    useEffect(() => {
+        fetchMenuItems();
+    }, [currentPage, debouncedSearchTerm, categoryFilter]);
+
+    // Fetch add-ons when params change
+    useEffect(() => {
+        fetchAddOns();
+    }, [addOnCurrentPage, debouncedAddOnSearchTerm]);
 
     // Modal handlers
     const openCategoryModal = (category?: Category) => {
@@ -215,22 +248,51 @@ const AdminMenuManagement: React.FC = () => {
         }
     }
 
-    const fetchData = async () => {
+    const fetchInitialData = async () => {
         setLoadingItems(true);
         try {
-            const [categoriesData, addOnsData, menuItemsData] = await Promise.all([
-                api.getCategories(),
-                api.getAddOns(),
-                api.getMenuItems()
-            ]);
+            const categoriesData = await api.getCategories();
             setCategories(categoriesData);
-            setAddOns(addOnsData.data);
-            setMenuItems(menuItemsData.data);
+            // Initial fetch for items and addons is handled by useEffects
         } catch (error) {
-            console.error('Error fetching data:', error);
-            toast.error('Failed to load menu data');
+            console.error('Error fetching categories:', error);
+            toast.error('Failed to load categories');
         } finally {
             setLoadingItems(false);
+        }
+    };
+
+    const fetchMenuItems = async () => {
+        setLoadingItems(true);
+        try {
+            const response = await api.getMenuItems({
+                page: currentPage,
+                search: debouncedSearchTerm,
+                categoryId: categoryFilter
+            });
+            setMenuItems(response.data);
+            setTotalMenuItems(response.total);
+            setMenuItemsTotalPages(response.last_page);
+        } catch (error) {
+            console.error('Error fetching menu items:', error);
+            toast.error('Failed to load menu items');
+        } finally {
+            setLoadingItems(false);
+        }
+    };
+
+    const fetchAddOns = async () => {
+        try {
+            const response = await api.getAddOns({
+                page: addOnCurrentPage,
+                search: debouncedAddOnSearchTerm
+            });
+            setAddOns(response.data);
+            setTotalAddOns(response.total);
+            setAddOnTotalPages(response.last_page);
+        } catch (error) {
+            console.error('Error fetching add-ons:', error);
+            toast.error('Failed to load add-ons');
         }
     };
 
@@ -258,10 +320,13 @@ const AdminMenuManagement: React.FC = () => {
                 setAddOns((prev) => prev.map((item) => item.id === updatedAddOn.id ? updatedAddOn : item));
             } else {
                 // Create new add-on
-                const newAddOn = await api.createAddOn(currentAddOn);
+                await api.createAddOn(currentAddOn);
                 toast.success('Add-on created successfully');
-                setAddOns((prev) => [...prev, newAddOn]);
+                // Refresh will happen via fetchAddOns
             }
+
+            // Refresh add-ons
+            fetchAddOns();
 
             // Refresh add-ons
 
@@ -288,8 +353,8 @@ const AdminMenuManagement: React.FC = () => {
                 await api.deleteAddOn(id);
                 toast.success('Add-on deleted successfully');
                 // Refresh add-ons
-                await api.getAddOns();
-                setAddOns((prev) => prev.filter((item) => item.id !== id));
+                // Refresh add-ons
+                fetchAddOns();
             } catch (error) {
                 console.error('Error deleting add-on:', error);
                 toast.error('Failed to delete add-on. Please try again.');
@@ -313,7 +378,8 @@ const AdminMenuManagement: React.FC = () => {
             try {
                 await api.deleteMenuItem(id);
                 toast.success('Menu item deleted successfully');
-                fetchData();
+                toast.success('Menu item deleted successfully');
+                fetchMenuItems();
             } catch (error) {
                 console.error('Error deleting menu item:', error);
                 toast.error('Failed to delete menu item');
@@ -404,17 +470,12 @@ const AdminMenuManagement: React.FC = () => {
     }, [categories]);
 
     // Menu items table logic
-    const filteredItems = useMemo(() => {
-        return menuItems.filter(item => {
-            const searchLower = searchTerm.toLowerCase();
-            const nameMatch = item.name.toLowerCase().includes(searchLower);
-            const categoryMatch = categoryFilter ? item.category_id === parseInt(categoryFilter) : true;
-            return nameMatch && categoryMatch;
-        });
-    }, [menuItems, searchTerm, categoryFilter]);
+    // Server-side pagination is used, so we don't need to filter/sort/paginate locally for the main list
+    // However, we might want to sort the *current page* locally if the user clicks sort headers
+    // or we could implement server-side sorting. For now, let's sort the current page locally.
 
     const sortedItems = useMemo(() => {
-        let sortableItems = [...filteredItems];
+        let sortableItems = [...menuItems];
         if (sortConfig !== null) {
             sortableItems.sort((a, b) => {
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -427,12 +488,7 @@ const AdminMenuManagement: React.FC = () => {
             });
         }
         return sortableItems;
-    }, [filteredItems, sortConfig]);
-
-    const paginatedItems = useMemo(() => {
-        const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-        return sortedItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-    }, [sortedItems, currentPage]);
+    }, [menuItems, sortConfig]);
 
     const requestSort = (key: keyof MenuItem | 'price') => {
         let direction: 'ascending' | 'descending' = 'ascending';
@@ -447,12 +503,8 @@ const AdminMenuManagement: React.FC = () => {
     };
 
     // Addons table logic
-    const filteredAddOns = useMemo(() => {
-        return addOns.filter(addon => addon.name.toLowerCase().includes(addOnSearchTerm.toLowerCase()));
-    }, [addOns, addOnSearchTerm]);
-
     const sortedAddOns = useMemo(() => {
-        let sortableItems = [...filteredAddOns];
+        let sortableItems = [...addOns];
         if (addOnSortConfig !== null) {
             sortableItems.sort((a, b) => {
                 const aValue = a[addOnSortConfig.key];
@@ -467,12 +519,7 @@ const AdminMenuManagement: React.FC = () => {
             });
         }
         return sortableItems;
-    }, [filteredAddOns, addOnSortConfig]);
-
-    const paginatedAddOns = useMemo(() => {
-        const startIndex = (addOnCurrentPage - 1) * ADDONS_PER_PAGE;
-        return sortedAddOns.slice(startIndex, startIndex + ADDONS_PER_PAGE);
-    }, [sortedAddOns, addOnCurrentPage]);
+    }, [addOns, addOnSortConfig]);
 
     const requestAddOnSort = (key: keyof AddOn) => {
         let direction: 'ascending' | 'descending' = 'ascending';
@@ -499,7 +546,7 @@ const AdminMenuManagement: React.FC = () => {
                         <input type="text" placeholder="Search by item name..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="w-full p-2 pl-10 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400" />
                     </div>
                     <div>
-                        <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                        <select value={categoryFilter} onChange={e => { setCategoryFilter(e.target.value); setCurrentPage(1); }} className="w-full p-2 border border-gray-300 bg-white text-gray-900 rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                             <option value="">All Categories</option>
                             {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
                         </select>
@@ -524,7 +571,7 @@ const AdminMenuManagement: React.FC = () => {
                             Array.from({ length: 5 }).map((_, i) => (
                                 <tr key={i}><td className="px-6 py-4" colSpan={7}><div className="animate-pulse h-10 bg-gray-200 dark:bg-gray-700 rounded-md"></div></td></tr>
                             ))
-                        ) : paginatedItems.length > 0 ? paginatedItems.map(item => (
+                        ) : sortedItems.length > 0 ? sortedItems.map(item => (
                             <tr key={item.id}>
                                 <td className="px-6 py-4 whitespace-nowrap">
                                     <Link href={`/dashboard/menu/edit/${item.id}`} className="flex items-center group">
@@ -548,7 +595,7 @@ const AdminMenuManagement: React.FC = () => {
                             <tr><td colSpan={7} className="text-center py-10 text-gray-500 dark:text-gray-400">No menu items found.</td></tr>
                         )}
                     </tbody>
-                    <Pagination colSpan={7} currentPage={currentPage} totalPages={Math.ceil(sortedItems.length / ITEMS_PER_PAGE)} onPageChange={setCurrentPage} itemsPerPage={ITEMS_PER_PAGE} totalItems={sortedItems.length} />
+                    <Pagination colSpan={7} currentPage={currentPage} totalPages={menuItemsTotalPages} onPageChange={setCurrentPage} itemsPerPage={ITEMS_PER_PAGE} totalItems={totalMenuItems} />
                 </table>
             </div>
         </>
@@ -589,7 +636,7 @@ const AdminMenuManagement: React.FC = () => {
                         </tr>
                     </thead>
                     <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                        {paginatedAddOns.map(addOn => (
+                        {sortedAddOns.map(addOn => (
                             <tr key={addOn.id}>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{addOn.name}</td>
                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">${addOn.price}</td>
@@ -599,17 +646,17 @@ const AdminMenuManagement: React.FC = () => {
                                 </td>
                             </tr>
                         ))}
-                        {paginatedAddOns.length === 0 && (
+                        {sortedAddOns.length === 0 && (
                             <tr><td colSpan={3} className="text-center py-10 text-gray-500 dark:text-gray-400">No add-ons found.</td></tr>
                         )}
                     </tbody>
                     <Pagination
                         colSpan={3}
                         currentPage={addOnCurrentPage}
-                        totalPages={Math.ceil(sortedAddOns.length / ADDONS_PER_PAGE)}
+                        totalPages={addOnTotalPages}
                         onPageChange={setAddOnCurrentPage}
                         itemsPerPage={ADDONS_PER_PAGE}
-                        totalItems={sortedAddOns.length}
+                        totalItems={totalAddOns}
                     />
                 </table>
             </div>

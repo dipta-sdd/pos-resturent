@@ -12,9 +12,16 @@ class AddOnController extends Controller
     /**
      * Display a listing of add-ons.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $addOns = AddOn::paginate(10);
+        $query = AddOn::query();
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $addOns = $query->paginate(10);
         return response()->json($addOns);
     }
 

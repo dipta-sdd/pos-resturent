@@ -50,9 +50,13 @@ export const api = {
     return response.data;
   },
   // end public
-  getMenuItems: async (categoryId?: number) => {
-    const params = categoryId ? { category_id: categoryId } : {};
-    const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params });
+  getMenuItems: async (params: { categoryId?: number | string; page?: number; search?: string } = {}) => {
+    const queryParams: any = {};
+    if (params.categoryId && params.categoryId !== 'all') queryParams.category_id = params.categoryId;
+    if (params.page) queryParams.page = params.page;
+    if (params.search) queryParams.search = params.search;
+    
+    const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params: queryParams });
     return response.data;
   },
   getMenuItemById: async (id: number) => {
@@ -105,8 +109,12 @@ export const api = {
   },
   
   // Add-ons
-  getAddOns: async () => {
-    const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons');
+  getAddOns: async (params: { page?: number; search?: string } = {}) => {
+    const queryParams: any = {};
+    if (params.page) queryParams.page = params.page;
+    if (params.search) queryParams.search = params.search;
+
+    const response = await axiosInstance.get<LaravelPaginatedResponse<AddOn>>('/menu/add-ons', { params: queryParams });
     return response.data;
   },
   createAddOn: async (data: Partial<AddOn>) => {

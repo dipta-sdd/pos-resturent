@@ -11,9 +11,23 @@ use Illuminate\Support\Str;
 
 class MenuItemController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $menuItems = MenuItem::with(['category', 'variants'])->paginate(10);
+        $query = MenuItem::with(['category', 'variants']);
+
+        if ($request->has('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->has('category_id') && $request->category_id != 'all') {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $menuItems = $query->paginate(10);
         return response()->json($menuItems);
     }
 
