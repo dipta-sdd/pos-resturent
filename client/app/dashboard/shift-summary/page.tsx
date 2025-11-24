@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { DollarSign, CreditCard, HandCoins } from 'lucide-react';
 
 const StatCard = ({ title, value, icon: Icon }: { title: string; value: string; icon: React.ElementType }) => (

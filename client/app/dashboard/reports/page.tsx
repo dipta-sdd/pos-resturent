@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
-import { useTheme } from '../../../contexts/ThemeContext';
+import { useTheme } from '@/components//ThemeContext';
 import { mockMenuItems, mockOrders } from '../../../data/mockData';
 
 const salesData = [

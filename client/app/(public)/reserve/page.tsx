@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const MakeReservationPage: React.FC = () => {
     const breadcrumbs = [{ name: 'Reserve', path: '/reserve' }];

@@ -3,9 +3,9 @@
 import React, { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useSettings } from '../../contexts/SettingsContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Role } from '../../types';
 import {
     LayoutDashboard, User, Utensils, ClipboardList, BarChart2, Settings, ChevronLeft, ChevronRight, LogOut, Car, HandCoins, BookUser, History, Star, Wallet, Truck, UtensilsCrossed, FileText, Banknote, Users, Moon, Sun, Megaphone, Receipt, Menu, X, Tag, CreditCard

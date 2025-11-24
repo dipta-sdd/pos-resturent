@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
-import { useTheme } from '../../../contexts/ThemeContext';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useTheme } from '@/components//ThemeContext';
+import { useSettings } from '@/components//SettingsContext';
 import { Wallet } from 'lucide-react';
 
 const earningsData = [

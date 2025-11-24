@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
-import { useSettings } from '../../../contexts/SettingsContext';
-import { api } from '../../../services/api';
+import { useSettings } from '@/contexts/SettingsContext';
+import { api } from '@/services/api';
 import toast from 'react-hot-toast';
 import { LaravelErrorResponse } from '@/types';
 

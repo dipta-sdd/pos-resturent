@@ -3,8 +3,8 @@
 import React from 'react';
 import { DollarSign, ClipboardList, Users, Utensils } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useSettings } from '../../contexts/SettingsContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const data = [
     { name: 'Mon', Sales: 4000, Expenses: 2400 },

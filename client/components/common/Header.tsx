@@ -4,10 +4,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { Search, ShoppingCart, User, Menu, X, Moon, Sun, LayoutDashboard, ClipboardList, LogOut, MapPin, UserPlus, MonitorPlay } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import { useAuth } from '../../contexts/AuthContext';
-import { useTheme } from '../../contexts/ThemeContext';
-import { useSettings } from '../../contexts/SettingsContext';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useTheme } from '@/contexts/ThemeContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const Header: React.FC = () => {
   const { cartCount } = useCart();

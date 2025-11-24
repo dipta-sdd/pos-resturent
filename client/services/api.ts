@@ -38,9 +38,18 @@ export const api = {
 
   // Public
   getFeaturedMenuItems: async () => {
-    // await delay(300);
-    return mockMenuItems.filter(item => item.is_featured);
+    const response = await axiosInstance.get<MenuItem[]>('/public/featured-items');
+    return response.data;
   },
+  getPublicMenuItems: async () => {
+    const response = await axiosInstance.get<MenuItem[]>('/public/menu-items');
+    return response.data;
+  },
+  getPublicCategories: async () => {
+    const response = await axiosInstance.get<Category[]>('/public/categories');
+    return response.data;
+  },
+  // end public
   getMenuItems: async (categoryId?: number) => {
     const params = categoryId ? { category_id: categoryId } : {};
     const response = await axiosInstance.get<LaravelPaginatedResponse<MenuItem>>('/menu/items', { params });

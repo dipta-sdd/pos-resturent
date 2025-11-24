@@ -3,10 +3,10 @@
 
 import React, { useEffect } from 'react';
 // FIX: Split react-router-dom imports to resolve "no exported member" errors.
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
-import FloatingCart from '../components/common/FloatingCart';
-import { useSettings } from '../contexts/SettingsContext';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
+import FloatingCart from '@/components/common/FloatingCart';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const MainLayout = ({ children }: { children: React.ReactNode }) => {
   const { settings } = useSettings();

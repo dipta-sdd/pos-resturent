@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { MapPin, Phone, Mail } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
-import { useSettings } from '../../../contexts/SettingsContext';
+import Breadcrumb from '@/components/common/Breadcrumb';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const ContactInfoCard = ({ icon: Icon, title, value }: { icon: React.ElementType; title: string; value: string }) => (
     <div className="flex items-center gap-6">

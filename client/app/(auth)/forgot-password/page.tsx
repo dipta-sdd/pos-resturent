@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Mail } from 'lucide-react';
 import { z } from 'zod';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const FlavorFusionLogo = () => (
     <svg width="48" height="48" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" className="mx-auto">

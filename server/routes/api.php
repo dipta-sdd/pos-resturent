@@ -51,10 +51,13 @@ Route::middleware(['log.api'])->group(function () {
     Route::get('/notifications', [NotificationController::class, 'index'])->middleware('auth:api');
     Route::patch('/notifications/read', [NotificationController::class, 'markAsRead'])->middleware('auth:api');
 
+    
+
     Route::prefix('public')->group(function () {
         Route::get('settings', [PublicSettingsController::class, 'index']);
         Route::get('categories', [PublicCategoryController::class, 'index']);
         Route::get('menu-items', [PublicMenuItemController::class, 'index']);
+        Route::get('featured-items', [PublicMenuItemController::class, 'featuredItems']);
         Route::get('menu-items/{slug}', [PublicMenuItemController::class, 'show']);
         Route::get('payment-methods', [PublicPaymentMethodController::class, 'index']);
     });

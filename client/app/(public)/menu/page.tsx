@@ -4,13 +4,13 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Category, MenuItem, ItemVariant } from '../../../types';
 import { api } from '../../../services/api';
-import { useCart } from '../../../contexts/CartContext';
+import { useCart } from '@/contexts/CartContext';
 import {
     Plus, Soup, UtensilsCrossed, Cake, GlassWater, Wine, LucideIcon, Utensils, // Category Icons
     ArrowUpDown, ChevronDown, LayoutGrid, List, SlidersHorizontal, X, Search, ChevronRight
 } from 'lucide-react';
-import VariantSelectionModal from '../../../components/common/VariantSelectionModal';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import VariantSelectionModal from '@/components/common/VariantSelectionModal';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const categoryIcons: { [key: string]: LucideIcon } = {
     'Appetizers': Wine,
@@ -39,7 +39,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; view: 'grid' | 'list', onAddToCar
                     <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 flex-grow">{item.description}</p>
                     <div className="flex justify-between items-end mt-4 pt-4 border-t border-gray-100 dark:border-gray-700/50">
                         {/* FIX: Use price from variant */}
-                        <span className="text-2xl font-black text-gray-900 dark:text-gray-100">${variant.price.toFixed(2)}</span>
+                        <span className="text-2xl font-black text-gray-900 dark:text-gray-100">${variant.price}</span>
                         <button
                             onClick={() => onAddToCart(item)}
                             className="bg-orange-100 text-orange-600 rounded-full w-11 h-11 flex items-center justify-center hover:bg-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:hover:bg-orange-900/60 transition-colors"
@@ -56,7 +56,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; view: 'grid' | 'list', onAddToCar
     return (
         <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700/50 overflow-hidden flex flex-col group transition-shadow duration-300 hover:shadow-xl hover:border-gray-300 dark:hover:border-gray-600">
             <Link href={`/menu/${item.id}`} className="overflow-hidden relative block">
-                <img src={item.image_url || ''} alt={item.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                <img src={item.image_url || ''} alt={item.name} className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" />
             </Link>
             <div className="p-5 flex flex-col flex-grow">
                 <Link href={`/menu/${item.id}`}>
@@ -65,7 +65,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; view: 'grid' | 'list', onAddToCar
                 <p className="text-gray-500 dark:text-gray-400 text-sm mt-2 flex-grow">{item.description}</p>
                 <div className="flex justify-between items-end mt-4 pt-4 border-t border-gray-100 dark:border-gray-700/50">
                     {/* FIX: Use price from variant */}
-                    <span className="text-2xl font-black text-gray-900 dark:text-gray-100">${variant.price.toFixed(2)}</span>
+                    <span className="text-2xl font-black text-gray-900 dark:text-gray-100">${variant.price}</span>
                     <button
                         onClick={() => onAddToCart(item)}
                         className="bg-orange-100 text-orange-600 rounded-full w-11 h-11 flex items-center justify-center hover:bg-orange-200 dark:bg-orange-900/40 dark:text-orange-300 dark:hover:bg-orange-900/60 transition-colors"
@@ -239,11 +239,12 @@ const MenuPage: React.FC = () => {
             setLoading(true);
             try {
                 const [fetchedCategories, fetchedMenuItems] = await Promise.all([
-                    api.getCategories(),
-                    api.getMenuItems()
+                    api.getPublicCategories(),
+                    api.getPublicMenuItems()
                 ]);
                 setCategories(fetchedCategories);
                 setMenuItems(fetchedMenuItems);
+                console.log(fetchedMenuItems);
             } catch (error) {
                 console.error("Failed to fetch menu data", error);
             } finally {
@@ -276,11 +277,14 @@ const MenuPage: React.FC = () => {
                 const inPrice = price >= priceRange[0] && price <= priceRange[1];
 
                 const searchLower = searchTerm.toLowerCase();
-                const nameMatch = item.name.toLowerCase().includes(searchLower);
-                const descriptionMatch = item.description?.toLowerCase().includes(searchLower) ?? false;
-                const inSearch = searchTerm ? nameMatch || descriptionMatch : true;
-
-                return inCategory && inPrice && inSearch;
+                if (!searchTerm) {
+                    return inCategory && inPrice;
+                } else {
+                    const nameMatch = item.name.toLowerCase().includes(searchLower);
+                    const descriptionMatch = item.description?.toLowerCase().includes(searchLower) ?? false;
+                    const inSearch = searchTerm ? nameMatch || descriptionMatch : true;
+                    return inCategory && inPrice && inSearch;
+                }
             })
             .sort((a, b) => {
                 const priceA = a.variants?.[0]?.price ?? 0;
@@ -293,6 +297,8 @@ const MenuPage: React.FC = () => {
                 }
             });
     }, [menuItems, selectedCategory, priceRange, sortBy, categories, searchTerm]);
+
+    console.log(filteredAndSortedItems);
 
     const selectedCategoryName = categories.find(c => c.id === selectedCategory)?.name;
 

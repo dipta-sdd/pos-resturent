@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { ShoppingCart, X, Plus, Minus } from 'lucide-react';
-import { useCart } from '../../contexts/CartContext';
-import { useSettings } from '../../contexts/SettingsContext';
+import { useCart } from '@/contexts/CartContext';
+import { useSettings } from '@/contexts/SettingsContext';
 
 const FloatingCart: React.FC = () => {
     const { cartItems, cartCount, cartTotal, updateQuantity, removeItem } = useCart();

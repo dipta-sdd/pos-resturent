@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../../../services/api';
 import { Reservation } from '../../../types';
 import { Check, X, Search, ArrowUp, ArrowDown } from 'lucide-react';
-import Pagination from '../../../components/common/Pagination';
+import Pagination from '@/components/common/Pagination';
 
 const getStatusColor = (status: Reservation['status']) => {
     switch (status) {

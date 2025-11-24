@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { UtensilsCrossed, Truck, Users, Star, Quote, ChevronLeft, ChevronRight, MapPin, Phone, Clock, Plus } from 'lucide-react';
 import { MenuItem, ItemVariant } from '../../types';
 import { api } from '../../services/api';
-import { useSettings } from '../../contexts/SettingsContext';
-import { useCart } from '../../contexts/CartContext';
-import VariantSelectionModal from '../../components/common/VariantSelectionModal';
+import { useSettings } from '@/contexts/SettingsContext';
+import { useCart } from '@/contexts/CartContext';
+import VariantSelectionModal from '@/components/common/VariantSelectionModal';
 
 const slides = [
   {
@@ -38,7 +38,7 @@ const MenuItemCard: React.FC<{ item: MenuItem; onAddToCartClick: (item: MenuItem
         <img src={item.image_url || ''} alt={item.name} className="w-full aspect-square object-cover group-hover:scale-110 transition-transform duration-500" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
         <span className="absolute bottom-4 left-4 text-xl font-serif font-bold text-white tracking-wider">{item.name}</span>
-        <span className="absolute top-4 right-4 text-lg font-bold text-white bg-orange-500 rounded-full px-3 py-1">{settings.currencySymbol}{variant.price.toFixed(2)}</span>
+        <span className="absolute top-4 right-4 text-lg font-bold text-white bg-orange-500 rounded-full px-3 py-1">{settings.currencySymbol}{variant.price}</span>
       </Link>
       <div className="p-5">
         <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm h-10 overflow-hidden">{item.description}</p>
@@ -102,9 +102,12 @@ const HomePage: React.FC = () => {
 
   useEffect(() => {
     const fetchItems = async () => {
-      const items = await api.getMenuItems();
-      const sortedItems = items.sort((a, b) => (b.is_featured ? 1 : 0) - (a.is_featured ? 1 : 0));
-      setFeaturedItems(sortedItems.slice(0, 8));
+      try {
+        const items = await api.getFeaturedMenuItems();
+        setFeaturedItems(items.slice(0, 8));
+      } catch (error) {
+        console.error('Error fetching featured items:', error);
+      }
     };
     fetchItems();
   }, []);

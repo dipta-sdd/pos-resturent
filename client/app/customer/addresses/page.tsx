@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { Address } from '../../../types';
 import { Plus, Edit, Trash2, Home, Briefcase, MapPin } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 // FIX: Extracted props to an interface and used React.FC to solve typing issues with the `key` prop.
 interface AddressEditorProps {

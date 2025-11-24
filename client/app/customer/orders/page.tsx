@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { Order, OrderStatus as ApiOrderStatus } from '../../../types';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { api } from '../../../services/api';
 import { Search, ChevronLeft, ChevronRight, ClipboardList } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 type DisplayStatus = 'In Progress' | 'Completed' | 'Cancelled';
 const filterOptions: ('All' | DisplayStatus)[] = ['All', 'In Progress', 'Completed', 'Cancelled'];

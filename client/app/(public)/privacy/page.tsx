@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, ReactNode } from 'react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 import { ChevronDown } from 'lucide-react';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useSettings } from '@/components//SettingsContext';
 
 interface AccordionItemProps {
     title: string;

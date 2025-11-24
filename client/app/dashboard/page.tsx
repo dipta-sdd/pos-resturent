@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
-import AdminDashboard from '../../components/dashboard/AdminDashboard';
-import POSDashboard from '../../components/dashboard/POSDashboard';
-import RiderDashboard from '../../components/dashboard/RiderDashboard';
+import { useAuth } from '@/contexts/AuthContext';
+import AdminDashboard from '@/components/dashboard/AdminDashboard';
+import POSDashboard from '@/components/dashboard/POSDashboard';
+import RiderDashboard from '@/components/dashboard/RiderDashboard';
 
 const DashboardHomePage: React.FC = () => {
     const { permissions } = useAuth();

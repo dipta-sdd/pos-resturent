@@ -1,14 +1,14 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useCart } from '../../contexts/CartContext';
-import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { api } from '../../services/api';
-import { Address } from '../../types';
+import { api } from '@/services/api';
+import { Address } from '@/types';
 import { ArrowRight, Pencil, Plus, ShoppingCart, Lock, Banknote, CreditCard } from 'lucide-react';
-import Breadcrumb from '../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const OrderSummary: React.FC<{
     tipAmount: number;

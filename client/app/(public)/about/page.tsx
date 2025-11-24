@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ChefHat, Leaf, Users } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const AboutPage: React.FC = () => {
     const breadcrumbs = [{ name: 'About Us', path: '/about' }];

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { MenuItem, Category, AddOn } from '../../../types';
 import { api } from '../../../services/api';
 import { Plus, Edit, Trash2, GripVertical, Search, ArrowUp, ArrowDown } from 'lucide-react';
-import Pagination from '../../../components/common/Pagination';
+import Pagination from '@/components/common/Pagination';
 import toast from 'react-hot-toast';
 import { LaravelErrorResponse } from '@/types';
 

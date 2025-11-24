@@ -1,9 +1,9 @@
 
 import React from 'react';
 // FIX: Split react-router-dom imports to resolve "no exported member" errors.
-import Header from '../components/common/Header';
-import Footer from '../components/common/Footer';
-import FloatingCart from '../components/common/FloatingCart';
+import Header from '@/components/common/Header';
+import Footer from '@/components/common/Footer';
+import FloatingCart from '@/components/common/FloatingCart';
 
 const CustomerDashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (

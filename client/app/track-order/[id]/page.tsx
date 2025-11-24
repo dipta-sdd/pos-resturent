@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { Order, OrderStatus } from '../../../types';
 import { api } from '../../../services/api';
 import { ChefHat, Bike, Home, Check, Phone, Star } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 // New status configuration based on the design
 const statusSteps: OrderStatus[] = ['confirmed', 'preparing', 'out_for_delivery'];

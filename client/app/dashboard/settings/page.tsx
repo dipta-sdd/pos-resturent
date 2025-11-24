@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useSettings } from '@/components//SettingsContext';
 import { Settings } from '../../../types';
 import { CheckCircle } from 'lucide-react';
 

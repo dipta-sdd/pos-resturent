@@ -5,9 +5,9 @@ import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { Order, OrderStatus } from '../../../../types';
 import { api } from '../../../../services/api';
-import { useSettings } from '../../../../contexts/SettingsContext';
+import { useSettings } from '../@/contexts/SettingsContext';
 import { HelpCircle, Printer, CreditCard, Home, CheckCircle, XCircle, RefreshCw, Truck } from 'lucide-react';
-import Breadcrumb from '../../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const StatusBadge: React.FC<{ status: OrderStatus }> = ({ status }) => {
     let colorClasses, text, Icon;

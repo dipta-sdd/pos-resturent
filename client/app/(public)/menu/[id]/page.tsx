@@ -4,10 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { MenuItem, AddOn, ItemVariant } from '../../../../types';
 import { api } from '../../../../services/api';
-import { useCart } from '../../../../contexts/CartContext';
-import { useSettings } from '../../../../contexts/SettingsContext';
+import { useCart } from '../@/contexts/CartContext';
+import { useSettings } from '../@/contexts/SettingsContext';
 import { Plus, Minus, ShoppingCart } from 'lucide-react';
-import Breadcrumb from '../../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const MenuItemDetailPage: React.FC = () => {
     const params = useParams();
@@ -87,7 +87,7 @@ const MenuItemDetailPage: React.FC = () => {
                                             className={`px-4 py-2 border rounded-lg transition-colors ${selectedVariant?.id === variant.id ? 'bg-orange-500 text-white border-orange-500' : 'bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 hover:border-orange-400'}`}
                                         >
                                             <span className="font-medium">{variant.name}</span>
-                                            <span className="text-sm ml-2">{settings.currencySymbol}{variant.price.toFixed(2)}</span>
+                                            <span className="text-sm ml-2">{settings.currencySymbol}{variant.price}</span>
                                         </button>
                                     ))}
                                 </div>

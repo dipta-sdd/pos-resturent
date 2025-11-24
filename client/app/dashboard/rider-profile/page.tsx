@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { Upload } from 'lucide-react';
 
 const RiderProfilePage: React.FC = () => {

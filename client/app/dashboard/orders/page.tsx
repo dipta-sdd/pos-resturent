@@ -5,8 +5,8 @@ import Link from 'next/link';
 import { mockOrders } from '../../../data/mockData';
 import { Order } from '../../../types';
 import { Eye, Search, ArrowUp, ArrowDown } from 'lucide-react';
-import { useSettings } from '../../../contexts/SettingsContext';
-import Pagination from '../../../components/common/Pagination';
+import { useSettings } from '@/components//SettingsContext';
+import Pagination from '@/components/common/Pagination';
 
 const getStatusColor = (status: string) => {
     switch (status) {

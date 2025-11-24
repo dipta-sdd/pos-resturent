@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { Notification } from '../../../types';
 import { Bell, Tag, Truck } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const getIconForNotification = (title: string) => {
     if (title.toLowerCase().includes('order')) {

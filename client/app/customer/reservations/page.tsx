@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { api } from '../../../services/api';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { Reservation } from '../../../types';
 import { CalendarX } from 'lucide-react';
 import Link from 'next/link';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 // Status Badge Component
 const StatusBadge: React.FC<{ status: Reservation['status'] }> = ({ status }) => {
@@ -178,8 +178,8 @@ const ReservationHistoryPage: React.FC = () => {
                         <button
                             onClick={() => setActiveTab('upcoming')}
                             className={`${activeTab === 'upcoming'
-                                    ? 'border-orange-500 text-orange-600 dark:text-orange-400'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'
+                                ? 'border-orange-500 text-orange-600 dark:text-orange-400'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'
                                 } whitespace-nowrap py-4 px-1 border-b-2 font-semibold text-lg transition-colors`}
                         >
                             Upcoming
@@ -187,8 +187,8 @@ const ReservationHistoryPage: React.FC = () => {
                         <button
                             onClick={() => setActiveTab('past')}
                             className={`${activeTab === 'past'
-                                    ? 'border-orange-500 text-orange-600 dark:text-orange-400'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'
+                                ? 'border-orange-500 text-orange-600 dark:text-orange-400'
+                                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:border-gray-500'
                                 } whitespace-nowrap py-4 px-1 border-b-2 font-semibold text-lg transition-colors`}
                         >
                             Past

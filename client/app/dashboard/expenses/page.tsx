@@ -4,8 +4,8 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Plus, Search, ArrowUp, ArrowDown } from 'lucide-react';
 import { Expense, ExpenseCategory } from '../../../types';
 import { api } from '../../../services/api';
-import { useSettings } from '../../../contexts/SettingsContext';
-import Pagination from '../../../components/common/Pagination';
+import { useSettings } from '@/components//SettingsContext';
+import Pagination from '@/components/common/Pagination';
 
 type SortableKeys = keyof Expense | 'category_name';
 

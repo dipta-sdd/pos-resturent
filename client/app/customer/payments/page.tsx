@@ -2,10 +2,10 @@
 
 import React, { useState, useEffect } from 'react';
 import { api } from '../../../services/api';
-import { useAuth } from '../../../contexts/AuthContext';
+import { useAuth } from '@/components//AuthContext';
 import { CustomerPaymentMethod } from '../../../types';
 import { Plus, Edit, Trash2, Star, CreditCard } from 'lucide-react';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const ManagePaymentMethodsPage: React.FC = () => {
     const [paymentMethods, setPaymentMethods] = useState<CustomerPaymentMethod[]>([]);

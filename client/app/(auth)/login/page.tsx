@@ -3,8 +3,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '../../../contexts/AuthContext';
-import { useSettings } from '../../../contexts/SettingsContext';
+import { useAuth } from '@/contexts/AuthContext';
+import { useSettings } from '@/contexts/SettingsContext';
 import { Eye, EyeOff } from 'lucide-react';
 import { z } from 'zod';
 import toast from 'react-hot-toast';

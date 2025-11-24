@@ -20,6 +20,7 @@ class MenuItem extends Model
         'image_url',
         'is_active',
         'is_veg',
+        'is_featured',
         'created_by',
         'updated_by',
     ];
@@ -27,6 +28,7 @@ class MenuItem extends Model
     protected $casts = [
         'is_active' => 'boolean',
         'is_veg' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     public function category(): BelongsTo
@@ -34,7 +36,7 @@ class MenuItem extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function itemVariants(): HasMany
+    public function variants(): HasMany
     {
         return $this->hasMany(ItemVariant::class);
     }

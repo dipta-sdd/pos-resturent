@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from '../../contexts/AuthContext';
+import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { ClipboardList, Calendar, Settings, ShoppingBag, CalendarPlus } from 'lucide-react';
-import Breadcrumb from '../../components/common/Breadcrumb';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 const QuickLinkCard = ({ to, title, description, icon: Icon }: { to: string; title: string; description: string; icon: React.ElementType }) => (
     <Link href={to} className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-lg transition-shadow text-center flex flex-col items-center justify-start h-full border border-gray-200/50 dark:border-gray-700/50">

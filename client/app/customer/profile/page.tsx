@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { useAuth } from '../../../contexts/AuthContext';
-import Breadcrumb from '../../../components/common/Breadcrumb';
+import { useAuth } from '@/components//AuthContext';
+import Breadcrumb from '@/components/common/Breadcrumb';
 
 // Skeleton Loader Component
 const ProfileSettingsSkeleton: React.FC = () => (

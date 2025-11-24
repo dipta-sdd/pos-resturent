@@ -13,7 +13,7 @@ class MenuItemController extends Controller
 {
     public function index()
     {
-        $menuItems = MenuItem::with(['category', 'itemVariants'])->paginate(10);
+        $menuItems = MenuItem::with(['category', 'variants'])->paginate(10);
         return response()->json($menuItems);
     }
 
@@ -47,11 +47,11 @@ class MenuItemController extends Controller
 
                 // Create variants
                 foreach ($request->variants as $variantData) {
-                    $menuItem->itemVariants()->create($variantData);
+                    $menuItem->variants()->create($variantData);
                 }
 
                 // Load relationships for response
-                $menuItem->load(['category', 'itemVariants']);
+                $menuItem->load(['category', 'variants']);
 
                 return $menuItem;
             });
@@ -64,7 +64,7 @@ class MenuItemController extends Controller
 
     public function show($id)
     {
-        $menuItem = MenuItem::with(['category', 'itemVariants', 'addOns'])->find($id);
+        $menuItem = MenuItem::with(['category', 'variants', 'addOns'])->find($id);
 
         if (!$menuItem) {
             return response()->json(['message' => 'Menu Item not found'], 404);
